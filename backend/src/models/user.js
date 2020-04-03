@@ -7,25 +7,58 @@ const bcrypt = require('bcrypt');
 const UserSchema = new Schema ({
     name: {
         type: String,
-        required: true,
+        required: [true, "O nome é obrigatório"],
         trim: true,
     },
     email: {
         type: String,
-        required: true,
+        required: [true, "O Email é obrigatório"],
         trim: true,
         unique: true,
         lowercase: true
     },
     cpf: {
         type: String,
-        required: true,
+        required: [true, "O CPF é obrigatório"],
         trim: true,
         unique: true,
     },
+    adress: {
+        cep: {
+            type: String,
+            required: [true, "O CEP é obrigatório"],
+            trim: true
+        },
+        logradouro: {
+            type: String,
+            required: [true, "O Logradouro é obrigatório"],
+            trim: true
+        },
+        complemento: {
+            type: String,
+            trim: true
+        },
+        bairro: {
+            type: String,
+            required: [true, "O Bairro é obrigatório"],
+            trim: true
+        },
+        localidade: {
+            type: String,
+            required: [true, "A Cidade é obrigatória"],
+            trim: true
+        },
+        uf: {
+            type: String,
+            required: [true, "O UF é obrigatório"],
+            trim: true,
+            len: 2,
+            uppercase: true
+        }
+    },
     password: {
         type: String,
-        required: true,
+        required: [true, "A senha é obrigatória"],
         min: 8,
         select: false
     },

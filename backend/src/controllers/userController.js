@@ -2,6 +2,7 @@
 
 const mongoose = require('../database');
 const User = mongoose.model('User');
+const { validationResult } = require('express-validator');
 
 exports.getAll = async (req, res, next) => {
     try {
@@ -16,8 +17,13 @@ exports.getAll = async (req, res, next) => {
 };
 
 exports.post = async (req, res, next) => {
-    const { email, cpf } = req.body;
+    const {errors} = validationResult(req);
+    if(errors.length > 0) {
+        return res.status(400).send({message: errors})
+    }
 
+
+    const { email, cpf } = req.body;
     try {
         if (await User.findOne({ email }))
             return res.status(400).send({ error: 'E-mail is already registred'})
@@ -30,6 +36,12 @@ exports.post = async (req, res, next) => {
         user.cpf = req.body.cpf;
         user.email = req.body.email;
         user.password = req.body.password;
+        user.adress.cep = req.body.adress.cep;
+        user.adress.logradouro = req.body.adress.logradouro;
+        user.adress.complemento = req.body.adress.complemento;
+        user.adress.bairro = req.body.adress.bairro;
+        user.adress.localidade = req.body.adress.localidade;
+        user.adress.uf = req.body.adress.uf;
 
         user = await user.save();
 
@@ -47,7 +59,8 @@ exports.post = async (req, res, next) => {
 exports.delete = async (req, res, next) => {
     try {
         const id = req.params.id;
-        res.send(await User.findByIdAndDelete(id));
+        const user = await User.findByIdAndDelete(id);
+        res.send({ name: user.name });
     } catch (err) {
         return res.status(400).send({
             error: "Delete failed",
