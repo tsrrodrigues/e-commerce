@@ -14,7 +14,7 @@ exports.getAll = async (req, res, next) => {
 }
 
 exports.getOne = async (req, res, next) => {
-    const data = await repository.getOne(req.params.id);
+    const data = await repository.getOne(req);
     res.status(200).send(data);
 }
 
@@ -25,12 +25,12 @@ exports.register = async (req, res, next) => {
         return res.status(400).send({message: errors})
     }
 
-    const data = await repository.register(req.body);
+    const data = await repository.register(req);
     res.status(200).send(data);
 }
 
 exports.auth = async (req, res, next) => {
-    const data = await repository.auth(req.body);
+    const data = await repository.auth(req);
     res.status(200).send(data);
 }
 
@@ -52,6 +52,6 @@ exports.editActive = async (req, res, next) => {
 
 
 exports.delete = async (req, res, next) => {
-    const data = await repository.delete(req.params);
+    const data = await repository.delete(req);
     res.status(200).send(data);
 }

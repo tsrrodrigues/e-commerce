@@ -25,8 +25,9 @@ exports.getAll = async () => {
     }
 }
 
-exports.getOne = async (id) => {
+exports.getOne = async (data) => {
     try {
+        const id = data.params.id;
         const user = await User.findById(id, '_id name email cpf adress active');
         return { user };
     } catch (err) {
@@ -38,7 +39,7 @@ exports.getOne = async (id) => {
 }
 
 exports.register = async (data) => {
-    const { email, cpf } = data;
+    const { email, cpf } = data.body;
     try {
         if (await User.findOne({ email }))
             return { error: 'E-mail is already registred'}
@@ -47,16 +48,16 @@ exports.register = async (data) => {
 
         let user = new User();
 
-        user.name = data.name;
-        user.cpf = data.cpf;
-        user.email = data.email;
-        user.password = data.password;
-        user.adress.cep = data.adress.cep;
-        user.adress.logradouro = data.adress.logradouro;
-        user.adress.complemento = data.adress.complemento;
-        user.adress.bairro = data.adress.bairro;
-        user.adress.localidade = data.adress.localidade;
-        user.adress.uf = data.adress.uf;
+        user.name = data.body.name;
+        user.cpf = data.body.cpf;
+        user.email = data.body.email;
+        user.password = data.body.password;
+        user.adress.cep = data.body.adress.cep;
+        user.adress.logradouro = data.body.adress.logradouro;
+        user.adress.complemento = data.body.adress.complemento;
+        user.adress.bairro = data.body.adress.bairro;
+        user.adress.localidade = data.body.adress.localidade;
+        user.adress.uf = data.body.adress.uf;
 
         user = await user.save();
 
@@ -75,7 +76,7 @@ exports.register = async (data) => {
 }
 
 exports.auth = async (data) => {
-    const { email, password } = data;
+    const { email, password } = data.body;
 
     const user = await User.findOne({ email }).select('+password');
 
@@ -143,7 +144,7 @@ exports.editActive = async (data) => {
 
 exports.delete = async (data) => {
     try {
-        const id = data.id;
+        const id = data.params.id;
         const user = await User.findByIdAndDelete(id);
         return { name: user.name }
     } catch (err) {
