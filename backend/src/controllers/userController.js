@@ -3,6 +3,15 @@
 const mongoose = require('../database');
 const User = mongoose.model('User');
 const { validationResult } = require('express-validator');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const authConfig = require('../config/auth');
+
+function generateToken (params = {}) {
+    return jwt.sign(params, authConfig.secret, {
+        expiresIn: 86400
+    });
+}
 
 exports.getAll = async (req, res, next) => {
     try {
@@ -17,7 +26,7 @@ exports.getAll = async (req, res, next) => {
 };
 
 exports.post = async (req, res, next) => {
-    const {errors} = validationResult(req);
+    const { errors } = validationResult(req);
     if(errors.length > 0) {
         return res.status(400).send({message: errors})
     }
@@ -47,7 +56,10 @@ exports.post = async (req, res, next) => {
 
         user.password = undefined; 
 
-        return res.send({ user });
+        return res.send({
+            user,
+            token: generateToken({ id: user.id })
+        });
     } catch (err) {
         return res.status(400).send({
             error: "Registration failed",
@@ -67,4 +79,32 @@ exports.delete = async (req, res, next) => {
             value: err
         })
     }
+}
+
+exports.auth = async (req, res, next) => {
+    const { email, password } = req.body;
+
+    const user = await User.findOne({ email }).select('+password');
+
+    if (!user)
+        return res.status(400).send({error: "Usuario não encontrado"});
+    
+    if (!await bcrypt.compare(password, user.password))
+        return res.status(400).send({error: "Senha Inválida"});
+
+    user.password = undefined;
+    user.adress = undefined;
+
+    const token = jwt.sign({ id: user.id }, authConfig.secret, {
+        expiresIn: 86400
+    });
+
+    res.send({
+        user,
+        token: generateToken({ id: user.id })
+    });
+}
+
+exports.teste = async (req, res, next) => {
+    res.send({ ok: true, user: req.userId });
 }
