@@ -7,6 +7,7 @@ const registerUserMiddleware = require('../middlewares/registerUser');
 const authMiddleware = require('../middlewares/auth');
 
 router.get('/', userController.getAll);
+router.get('/clients', userController.getActives);
 router.get('/:id', userController.getOne);
 
 router.post('/', registerUserMiddleware, userController.register);

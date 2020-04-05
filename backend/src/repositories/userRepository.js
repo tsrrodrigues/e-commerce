@@ -38,6 +38,18 @@ exports.getOne = async (data) => {
     }
 }
 
+exports.getActives = async (data) => {
+    try {
+        const users = await User.find({active: true}, '_id name email cpf adress active');
+        return { users };
+    } catch (err) {
+        return {
+            error: "List Actives Users failed",
+            value: err
+        }
+    }
+}
+
 exports.register = async (data) => {
     const { email, cpf } = data.body;
     try {

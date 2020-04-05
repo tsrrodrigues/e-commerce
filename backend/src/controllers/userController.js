@@ -18,6 +18,11 @@ exports.getOne = async (req, res, next) => {
     res.status(200).send(data);
 }
 
+exports.getActives = async (req, res, next) => {
+    const data = await repository.getActives(req);
+    res.status(200).send(data);
+}
+
 
 exports.register = async (req, res, next) => {
     const { errors } = validationResult(req);
