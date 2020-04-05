@@ -25,6 +25,20 @@ exports.getOne = async (data) => {
     }
 }
 
+exports.getAvailables = async () => {
+    try {
+        const products =
+            (await Product.find({}, '_id name description quantity price createdAt'))
+            .filter((product) => product.quantity > 0);
+        return { products };
+    } catch (err) {
+        return {
+            error: "List Availables Products failed",
+            value: err
+        }
+    }
+}
+
 exports.register = async (data) => {
     const { name } = data.body;
     try {

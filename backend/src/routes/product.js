@@ -5,7 +5,8 @@ const productController = require('../controllers/productController');
 // Importando Middlewares
 const registerProductMiddleware = require('../middlewares/registerProduct');
 
-router.get('/', productController.getAll);
+router.get('/', productController.getAvailables);
+router.get('/admin', productController.getAll);
 router.get('/:id', productController.getOne);
 
 router.post('/', registerProductMiddleware, productController.register);
