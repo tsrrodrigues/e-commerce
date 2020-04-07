@@ -5,15 +5,15 @@ const productController = require('../controllers/productController');
 // Importando Middlewares
 const registerProductMiddleware = require('../middlewares/registerProduct');
 
-router.get('/', productController.getAvailables);
-router.get('/admin', productController.getAll);
-router.get('/:id', productController.getOne);
+router.get('/', productController.getAvailables); // Access Level = All
+router.get('/admin', authMiddleware, productController.getAll); // Access Level = 2
+router.get('/:id', productController.getOne); // Access Level = All
 
-router.post('/', registerProductMiddleware, productController.register);
+router.post('/', [authMiddleware, registerProductMiddleware], productController.register); // Access Level = 2
 
-router.put('/:id', registerProductMiddleware, productController.edit);
-router.patch('/:id', productController.editQuantity);
+router.put('/:id', [authMiddleware, registerProductMiddleware], productController.edit); // Access Level = 2
+router.patch('/:id', authMiddleware, productController.editQuantity); // Access Level = 2
 
-router.delete('/:id', productController.delete);
+router.delete('/:id', authMiddleware, productController.delete); // Access Level = 2
 
 module.exports = router;

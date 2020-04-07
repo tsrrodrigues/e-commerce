@@ -1,44 +1,8 @@
 const mongoose = require('mongoose');
 const Product = mongoose.model('Product');
 
-exports.getAll = async (data) => {
-    try {
-        // TAG
-        let params = {};
-        if (data.query.tag != undefined)
-            params = {tags: data.query.tag};
-        //SORT
-        let sort = "";
-        if (data.query.sort != undefined)
-            sort = data.query.sort;
-
-        const products =
-            await Product.find(params, '_id name description quantity price createdAt tags')
-            .sort(sort);
-        return { products };
-    } catch (err) {
-        return {
-            error: "List All Products failed",
-            value: err
-        }
-    }
-}
-
-exports.getOne = async (data) => {
-    try {
-        const product = await Product.findById(data.params.id, '_id name description quantity price createdAt tags');
-        return { product };
-    } catch (err) {
-        return {
-            error: "List One Products failed",
-            value: err
-        }
-    }
-}
-
 exports.getAvailables = async (data) => {
     try {
-
         // TAG
         let params = {};
         if (data.query.tag != undefined)
@@ -54,10 +18,39 @@ exports.getAvailables = async (data) => {
             .filter((product) => product.quantity > 0)
         return products;
     } catch (err) {
-        return {
-            error: "List Availables Products failed",
-            value: err
-        }
+        return { error: "List Availables Products failed" }
+    }
+}
+
+exports.getAll = async (data) => {
+    try {
+        if (data.userAccessLevel < 2)
+            return { error: "Unauthorized" }
+
+        // TAG
+        let params = {};
+        if (data.query.tag != undefined)
+            params = {tags: data.query.tag};
+        //SORT
+        let sort = "";
+        if (data.query.sort != undefined)
+            sort = data.query.sort;
+
+        const products =
+            await Product.find(params, '_id name description quantity price createdAt tags')
+            .sort(sort);
+        return products
+    } catch (err) {
+        return { error: "List All Products failed" }
+    }
+}
+
+exports.getOne = async (data) => {
+    try {
+        const product = await Product.findById(data.params.id, '_id name description quantity price createdAt tags');
+        return product
+    } catch (err) {
+        return { error: "List One Products failed" }
     }
 }
 
@@ -66,14 +59,14 @@ exports.getByTag = async (data) => {
         const products = 
         (await Product.find({tags: data.body.tags}, '_id name description quantity price createdAt tags'));
     } catch (err) {
-        return {
-            error: "List Products By tag failed",
-            value: err
-        }
+        return { error: "List Products By tag failed" }
     }
 }
 
 exports.register = async (data) => {
+    if (data.userAccessLevel < 2)
+            return { error: "Unauthorized" }
+
     const { name } = data.body;
     try {
         if (await Product.findOne({ name }))
@@ -89,20 +82,19 @@ exports.register = async (data) => {
 
         product = await product.save(); 
 
-        return { product }
+        return product
     } catch (err) {
-        return {
-            error: "Registration failed",
-            value: err
-        }
+        return { error: "Registration failed" }
     }
 }
 
 exports.edit = async (data) => {
+    if (data.userAccessLevel < 2)
+            return { error: "Unauthorized" }
+
     const { name } = data.body;
-    try {      
-        const id = data.params.id;
-        const product = await Product.findByIdAndUpdate(id, {
+    try {
+        const product = await Product.findByIdAndUpdate(data.params.id, {
             $set: {
                 name: data.body.name,
                 description: data.body.description,
@@ -111,40 +103,33 @@ exports.edit = async (data) => {
             }
         });
 
-        return {
-            id: product.id, 
-            message: "Produto editado com sucesso"
-        }
+        return { message: "Produto editado com sucesso" }
     } catch (err) {
-        return {
-            error: "Edit failed",
-            value: err
-        }
+        return { error: "Edit failed" }
     }
 }
 
 exports.editQuantity = async (data) => {
     try {
+        if (data.userAccessLevel < 2)
+            return { error: "Unauthorized" }
+
         const id = data.params.id;
         const quantity = data.query.quantity;
         await Product.findByIdAndUpdate(id, {quantity: quantity});
         return { message: "Quantidade atualizada com sucesso" };
     } catch (err) {
-        return {
-            error: "Edit failed",
-            value: err
-        }
+        return { error: "Edit failed" }
     }
 }
 
 exports.delete = async (data) => {
     try {
+        if (data.userAccessLevel < 2)
+            return { error: "Unauthorized" }
         const product = await Product.findByIdAndDelete(data.params.id);
-        return { product }
+        return product
     } catch (err) {
-        return {
-            error: "Delete failed",
-            value: err
-        }
+        return { error: "Delete failed" }
     }
 }
