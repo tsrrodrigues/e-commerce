@@ -21,7 +21,12 @@ const ProductSchema = new Schema ({
     quantity: {
         type: Number,
         required: [true, "A quantidade do produto no estoque é obrigatória"]
-    }
+    },
+    tags: [{
+        type: String,
+        required: [true, "É necessário adicionar ao menos uma categoria"],
+        trim: true
+    }]
 }, {timestamps: true});
 
 const Product = mongoose.model('Product', ProductSchema);

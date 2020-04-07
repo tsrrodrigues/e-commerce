@@ -7,7 +7,7 @@ const repository = require('../repositories/productRepository');
 
 
 exports.getAll = async (req, res, next) => {
-    const data = await repository.getAll();
+    const data = await repository.getAll(req);
     res.status(200).send(data);
 }
 
@@ -17,7 +17,12 @@ exports.getOne = async (req, res, next) => {
 }
 
 exports.getAvailables = async (req, res, next) => {
-    const data = await repository.getAvailables();
+    const data = await repository.getAvailables(req);
+    res.status(200).send(data);
+}
+
+exports.getByTag = async (req, res, next) => {
+    const data = await repository.getByTag(req);
     res.status(200).send(data);
 }
 

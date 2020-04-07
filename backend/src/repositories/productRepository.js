@@ -1,9 +1,12 @@
 const mongoose = require('mongoose');
 const Product = mongoose.model('Product');
 
-exports.getAll = async () => {
+exports.getAll = async (data) => {
     try {
-        const products = await Product.find({}, '_id name description quantity price createdAt');
+        let params = {};
+        if (data.query.tag != undefined)
+            params = {tags: data.query.tag};
+        const products = await Product.find(params, '_id name description quantity price createdAt tags');
         return { products };
     } catch (err) {
         return {
@@ -15,7 +18,7 @@ exports.getAll = async () => {
 
 exports.getOne = async (data) => {
     try {
-        const product = await Product.findById(data.params.id, '_id name description price quantity createdAt');
+        const product = await Product.findById(data.params.id, '_id name description quantity price createdAt tags');
         return { product };
     } catch (err) {
         return {
@@ -25,15 +28,30 @@ exports.getOne = async (data) => {
     }
 }
 
-exports.getAvailables = async () => {
+exports.getAvailables = async (data) => {
     try {
+        let params = {};
+        if (data.query.tag != undefined)
+            params = {tags: data.query.tag};
         const products =
-            (await Product.find({}, '_id name description quantity price createdAt'))
+            (await Product.find(params, '_id name description quantity price createdAt tags'))
             .filter((product) => product.quantity > 0);
         return { products };
     } catch (err) {
         return {
             error: "List Availables Products failed",
+            value: err
+        }
+    }
+}
+
+exports.getByTag = async (data) => {
+    try {
+        const products = 
+        (await Product.find({tags: data.body.tags}, '_id name description quantity price createdAt tags'));
+    } catch (err) {
+        return {
+            error: "List Products By tag failed",
             value: err
         }
     }
@@ -51,6 +69,7 @@ exports.register = async (data) => {
         product.description = data.body.description;
         product.price = data.body.price;
         product.quantity = data.body.quantity;
+        product.tags = data.body.tags;
 
         product = await product.save(); 
 
@@ -75,6 +94,7 @@ exports.edit = async (data) => {
                 name: data.body.name,
                 description: data.body.description,
                 price: data.body.price,
+                tags: data.body.tags
             }
         });
 
