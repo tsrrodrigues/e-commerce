@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const authConfig = require('../config/auth.json');
 
 module.exports = (req, res, next) => {
+    // TOKEN
     const authHeader = req.headers.authorization;
 
     if (!authHeader)
@@ -21,6 +22,7 @@ module.exports = (req, res, next) => {
         if(err) return res.status(401).send({ error: "Invalid token" });
     
         req.userId = decoded.id;
+        req.userAccessLevel = decoded.access_level;
         return next();
     });
 };

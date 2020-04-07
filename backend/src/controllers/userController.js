@@ -9,17 +9,17 @@ const repository = require('../repositories/userRepository');
 
 
 exports.getAll = async (req, res, next) => {
-    const data = await repository.getAll();
-    res.status(200).send(data);
-}
-
-exports.getOne = async (req, res, next) => {
-    const data = await repository.getOne(req);
+    const data = await repository.getAll(req);
     res.status(200).send(data);
 }
 
 exports.getActives = async (req, res, next) => {
     const data = await repository.getActives(req);
+    res.status(200).send(data);
+}
+
+exports.getOne = async (req, res, next) => {
+    const data = await repository.getOne(req);
     res.status(200).send(data);
 }
 

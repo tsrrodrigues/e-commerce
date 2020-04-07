@@ -6,16 +6,16 @@ const userController = require('../controllers/userController');
 const registerUserMiddleware = require('../middlewares/registerUser');
 const authMiddleware = require('../middlewares/auth');
 
-router.get('/', userController.getAll);
-router.get('/admin/clients', userController.getActives);
-router.get('/:id', userController.getOne);
+router.get('/', authMiddleware, userController.getAll); // Access Level = 3
+router.get('/admin/clients', authMiddleware, userController.getActives); // Access Level = 2
+router.get('/:id', authMiddleware, userController.getOne); // Access Level = 2
 
-router.post('/', registerUserMiddleware, userController.register);
-router.post('/authenticate', userController.auth);
+router.post('/', registerUserMiddleware, userController.register); // Access Level = All
+router.post('/authenticate', userController.auth); // Access Level = All
 
-router.put('/:id', [authMiddleware, registerUserMiddleware], userController.edit);
-router.patch('/:id', authMiddleware, userController.editActive);
+router.put('/:id', [authMiddleware, registerUserMiddleware], userController.edit); // Access Level = All
+router.patch('/:id', authMiddleware, userController.editActive); // Access Level = 3
 
-router.delete('/:id', userController.delete);
+router.delete('/:id', authMiddleware, userController.delete); // Access Level = 3
 
 module.exports = router;

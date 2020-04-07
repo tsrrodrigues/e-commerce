@@ -65,6 +65,12 @@ const UserSchema = new Schema ({
     active: {
         type: Boolean,
         default: false
+    },
+    access_level: {
+        type: Number,
+        default: 1,
+        min: 1,
+        max: 3
     }
 }, {timestamps: true});
 
