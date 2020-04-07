@@ -3,10 +3,18 @@ const Product = mongoose.model('Product');
 
 exports.getAll = async (data) => {
     try {
+        // TAG
         let params = {};
         if (data.query.tag != undefined)
             params = {tags: data.query.tag};
-        const products = await Product.find(params, '_id name description quantity price createdAt tags');
+        //SORT
+        let sort = "";
+        if (data.query.sort != undefined)
+            sort = data.query.sort;
+
+        const products =
+            await Product.find(params, '_id name description quantity price createdAt tags')
+            .sort(sort);
         return { products };
     } catch (err) {
         return {
@@ -30,13 +38,21 @@ exports.getOne = async (data) => {
 
 exports.getAvailables = async (data) => {
     try {
+
+        // TAG
         let params = {};
         if (data.query.tag != undefined)
             params = {tags: data.query.tag};
+        //SORT
+        let sort = "";
+        if (data.query.sort != undefined)
+            sort = data.query.sort;
+
         const products =
-            (await Product.find(params, '_id name description quantity price createdAt tags'))
-            .filter((product) => product.quantity > 0);
-        return { products };
+            (await Product.find(params, '_id name description quantity price createdAt tags')
+            .sort(sort))
+            .filter((product) => product.quantity > 0)
+        return products;
     } catch (err) {
         return {
             error: "List Availables Products failed",
@@ -84,11 +100,8 @@ exports.register = async (data) => {
 
 exports.edit = async (data) => {
     const { name } = data.body;
-    try {
-        if (await Product.findOne({ name }))
-            return { error: 'Name already registred'}
-        
-            const id = data.params.id;
+    try {      
+        const id = data.params.id;
         const product = await Product.findByIdAndUpdate(id, {
             $set: {
                 name: data.body.name,

@@ -25,7 +25,8 @@ const ProductSchema = new Schema ({
     tags: [{
         type: String,
         required: [true, "É necessário adicionar ao menos uma categoria"],
-        trim: true
+        trim: true,
+        lowercase: true
     }]
 }, {timestamps: true});
 
