@@ -6,7 +6,8 @@ const Schema = mongoose.Schema;
 const CartSchema = new Schema ({
   user: {
     type: Schema.Types.ObjectId,
-    ref: 'User'
+    ref: 'User',
+    default: '5e8e309792644039b8aedaeb' // user to hold existing carts without users sign
   },
 	total: { 
     type: Number,

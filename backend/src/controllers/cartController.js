@@ -4,8 +4,13 @@ const { validationResult } = require('express-validator');
 const repository = require('../repositories/cartRepository');
 
 
-exports.get = async (req, res, next) => {
-  const data = await repository.get(req);
+exports.getAll = async (req, res, next) => {
+  const data = await repository.getAll(req);
+  res.status(200).send(data);
+}
+
+exports.getOne = async (req, res, next) => {
+  const data = await repository.getOne(req);
   res.status(200).send(data);
 }
 
@@ -14,12 +19,17 @@ exports.create = async (req, res, next) => {
   res.status(200).send(data);
 }
 
-exports.addItem = async (req, res, next) => {
-  const data = await repository.addItem(req);
+exports.edit = async (req, res, next) => {
+  const data = await repository.edit(req);
   res.status(200).send(data);
 }
 
-exports.removeItem = async (req, res, next) => {
-  const data = await repository.removeItem(req);
+exports.assignUser = async (req, res, next) => {
+  const data = await repository.assignUser(req);
+  res.status(200).send(data);
+}
+
+exports.delete = async (req, res, next) => {
+  const data = await repository.delete(req);
   res.status(200).send(data);
 }

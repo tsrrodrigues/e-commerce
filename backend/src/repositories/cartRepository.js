@@ -2,71 +2,87 @@ const mongoose = require('mongoose');
 const Cart = mongoose.model('Cart');
 const Product = mongoose.model('Product');
 
-exports.get = async (data) => {
+exports.getAll = async (data) => {
   try {
-    const cart = await Cart.find({ user: data.userId });
+    if (data.userAccessLevel < 2)
+      return { error: "Unauthorized" }
+    const carts = await Cart.find();
+    return carts
+  } catch (err) {
+    return { error: "List Carts failed" }
+  }
+}
+
+exports.getOne = async (data) => {
+  try {
+    const cart = await Cart.findById(data.params.id);
     return cart
   } catch (err) {
-    return { error: "List Items on Cart failed" }
+    return { error: "List Cart failed" }
   }
 }
 
 exports.create = async (data) => {
   try {
     let cart = new Cart();
-
-    cart.user = data.userId;
-
     cart = await cart.save();
-
     return cart
   } catch (err) {
     return { error: "Create new Cart failed" }
   }
 }
 
-exports.addItem = async (data) => {
+exports.edit = async (data) => {
   try {
-    let cart = await Cart.findOne({ user: data.userId });
+    let cart = await Cart.findById(data.params.id);
     let qtd = data.query.qtd? data.query.qtd : 1
     
     let index = -1;
     for (let i = 0; i < cart.items.length; i++) {
-      if (data.params.id == cart.items[i].item) {
+      if (data.headers.product_id == cart.items[i].item) {
         index = i;
         break;
       }
     }
     if (index > -1) {
-      cart.items[index].quantity = qtd;
+      if (qtd == 0)
+        cart.items.splice(index, 1);
+      else
+        cart.items[index].quantity = qtd;
     }
     else {
-      const product = await Product.findById(data.params.id);
+      const product = await Product.findById(data.headers.product_id);
       cart.items.push({
         item: product.id,
         quantity: qtd,
         price: product.price
       });
     }
-
     cart = await cart.save();
     return cart
   } catch (err) {
-    return { error: "Add Item on Cart failed" }
+    return { error: "Edit Cart failed" }
   }
 }
 
-exports.removeItem = async (data) => {
+exports.assignUser = async (data) => {
   try {
-    let cart = await Cart.findOne({ user: data.userId });
-    for (let i = 0; i < cart.items.length; i++) {
-      if (data.params.id == cart.items[i].item) {
-        cart.items.splice(i, 1);
-      }
-    }
+    if (data.userAccessLevel !== 1)
+      return { message: "Unauthorized" }
+    let cart = await Cart.findById(data.params.id);
+    cart.user = data.userId;
     cart = await cart.save();
     return cart
   } catch (err) {
-    return { error: "Remove Item from Cart failed" }
+    return { error: "Assign User to Cart failed" }
+  }
+}
+
+exports.delete = async (data) => {
+  try {
+    const cart = await Cart.findByIdAndDelete(data.params.id);
+    return cart
+  } catch (err) {
+    return { error: "Delete Cart failed" }
   }
 }
