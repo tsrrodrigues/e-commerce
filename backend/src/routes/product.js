@@ -4,6 +4,7 @@ const productController = require('../controllers/productController');
 
 // Importando Middlewares
 const registerProductMiddleware = require('../middlewares/registerProduct');
+const authMiddleware = require('../middlewares/auth');
 
 router.get('/', productController.getAvailables); // Access Level = All
 router.get('/admin', authMiddleware, productController.getAll); // Access Level = 2
