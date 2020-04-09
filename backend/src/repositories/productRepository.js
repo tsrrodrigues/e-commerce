@@ -11,12 +11,15 @@ exports.getAvailables = async (data) => {
     let sort = ''
     if (data.query.sort) sort = data.query.sort
 
-    const products = (
+    let products = (
       await Product.find(
         params,
         '_id name description quantity price createdAt tags'
       ).sort(sort)
     ).filter((product) => product.quantity > 0)
+    products.map((prod) => {
+      prod.price /= 100
+    })
     return products
   } catch (err) {
     return { error: 'List Availables Products failed' }
@@ -38,6 +41,9 @@ exports.getAll = async (data) => {
       params,
       '_id name description quantity price createdAt tags'
     ).sort(sort)
+    products.map((prod) => {
+      prod.price /= 100
+    })
     return products
   } catch (err) {
     return { error: 'List All Products failed' }
@@ -46,10 +52,11 @@ exports.getAll = async (data) => {
 
 exports.getOne = async (data) => {
   try {
-    const product = await Product.findById(
+    let product = await Product.findById(
       data.params.id,
       '_id name description quantity price createdAt tags'
     )
+    product.price /= 100
     return product
   } catch (err) {
     return { error: 'List One Products failed' }
@@ -58,10 +65,13 @@ exports.getOne = async (data) => {
 
 exports.getByTag = async (data) => {
   try {
-    const products = await Product.find(
+    let products = await Product.find(
       { tags: data.body.tags },
       '_id name description quantity price createdAt tags'
     )
+    // products.map((prod) => {
+    //   prod.price /= 100
+    // })
     return products
   } catch (err) {
     return { error: 'List Products By tag failed' }
@@ -80,7 +90,7 @@ exports.register = async (data) => {
 
     product.name = data.body.name
     product.description = data.body.description
-    product.price = data.body.price
+    product.price = data.body.price * 100
     product.quantity = data.body.quantity
     product.tags = data.body.tags
 
@@ -100,7 +110,7 @@ exports.edit = async (data) => {
       $set: {
         name: data.body.name,
         description: data.body.description,
-        price: data.body.price,
+        price: data.body.price * 100,
         tags: data.body.tags,
       },
     })

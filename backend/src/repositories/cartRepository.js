@@ -36,18 +36,25 @@ exports.create = async () => {
 exports.edit = async (data) => {
   try {
     let cart = await Cart.findById(data.params.id)
-    const qtd = data.query.qtd ? data.query.qtd : 1
+    const qtd = data.query.qtd ? parseInt(data.query.qtd) : 1
 
     let index = -1
     for (let i = 0; i < cart.items.length; i += 1) {
-      if (data.headers.product_id === cart.items[i].item) {
+      if (data.headers.product_id == cart.items[i].item) {
         index = i
         break
       }
     }
     if (index > -1) {
-      if (qtd === 0) cart.items.splice(index, 1)
-      else cart.items[index].quantity = qtd
+      if (qtd === 0) {
+        cart.total -= cart.items[index].price * cart.items[index].quantity
+        cart.items.splice(index, 1)
+      }
+      else {
+        cart.total -= cart.items[index].price * cart.items[index].quantity;
+        cart.items[index].quantity = qtd
+        cart.total += cart.items[index].price * cart.items[index].quantity;
+      }
     } else {
       const product = await Product.findById(data.headers.product_id)
       cart.items.push({
@@ -55,6 +62,7 @@ exports.edit = async (data) => {
         quantity: qtd,
         price: product.price,
       })
+      cart.total += product.price * qtd
     }
     cart = await cart.save()
     return cart
