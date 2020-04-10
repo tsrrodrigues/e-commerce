@@ -1,5 +1,5 @@
 // Importando Repositórios
-const repository = require('../repositories/cartRepository')
+const repository = require('../repositories/order')
 
 exports.getAll = async (req, res, next) => {
   const data = await repository.getAll(req)
@@ -12,17 +12,7 @@ exports.getOne = async (req, res, next) => {
 }
 
 exports.create = async (req, res, next) => {
-  const data = await repository.create()
-  res.status(200).send(data)
-}
-
-exports.edit = async (req, res, next) => {
-  const data = await repository.edit(req)
-  res.status(200).send(data)
-}
-
-exports.assignUser = async (req, res, next) => {
-  const data = await repository.assignUser(req)
+  const data = await repository.create(req)
   res.status(200).send(data)
 }
 

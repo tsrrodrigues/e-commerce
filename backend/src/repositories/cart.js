@@ -24,7 +24,6 @@ exports.getOne = async (data) => {
 
 exports.create = async () => {
   try {
-    await Cart.findOneAndDelete({ user: '5e8e309792644039b8aedaeb' })
     let cart = new Cart()
     cart = await cart.save()
     return cart
@@ -68,18 +67,6 @@ exports.edit = async (data) => {
     return cart
   } catch (err) {
     return { error: 'Edit Cart failed' }
-  }
-}
-
-exports.assignUser = async (data) => {
-  try {
-    if (data.userAccessLevel !== 1) return { message: 'Unauthorized' }
-    let cart = await Cart.findById(data.params.id)
-    cart.user = data.userId
-    cart = await cart.save()
-    return cart
-  } catch (err) {
-    return { error: 'Assign User to Cart failed' }
   }
 }
 

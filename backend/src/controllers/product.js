@@ -1,7 +1,7 @@
 const { validationResult } = require('express-validator')
 
 // Importando Repositórios
-const repository = require('../repositories/productRepository')
+const repository = require('../repositories/product')
 
 exports.getAvailables = async (req, res, next) => {
   const data = await repository.getAvailables(req)

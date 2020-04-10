@@ -1,7 +1,7 @@
 const { validationResult } = require('express-validator')
 
 // Importando Repositórios
-const repository = require('../repositories/userRepository')
+const repository = require('../repositories/user')
 
 exports.getAll = async (req, res, next) => {
   const data = await repository.getAll(req)
