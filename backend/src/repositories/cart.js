@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+const mongoose = require('../database')
 
 const Cart = mongoose.model('Cart')
 const Product = mongoose.model('Product')
@@ -7,6 +7,12 @@ exports.getAll = async (data) => {
   try {
     if (data.userAccessLevel < 2) return { error: 'Unauthorized' }
     const carts = await Cart.find()
+    carts.map((cart) => {
+      cart.total /= 100
+      cart.items.map((item) => {
+        item.price /= 100
+      })
+    })
     return carts
   } catch (err) {
     return { error: 'List Carts failed' }
@@ -16,6 +22,10 @@ exports.getAll = async (data) => {
 exports.getOne = async (data) => {
   try {
     const cart = await Cart.findById(data.params.id)
+    cart.total /= 100
+    cart.items.map((item) => {
+      item.price /= 100
+    })
     return cart
   } catch (err) {
     return { error: 'List Cart failed' }
@@ -25,10 +35,11 @@ exports.getOne = async (data) => {
 exports.create = async () => {
   try {
     let cart = new Cart()
+    cart.total = parseInt(0)
     cart = await cart.save()
     return cart
   } catch (err) {
-    return { error: 'Create new Cart failed' }
+    return { error: 'Create new Cart failed', err }
   }
 }
 
@@ -64,6 +75,7 @@ exports.edit = async (data) => {
       cart.total += product.price * qtd
     }
     cart = await cart.save()
+    cart.total /= 100
     return cart
   } catch (err) {
     return { error: 'Edit Cart failed' }

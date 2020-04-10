@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+const mongoose = require('../database')
 
 const { Schema } = mongoose
 
@@ -20,8 +20,8 @@ const CartSchema = new Schema(
         },
         price: {
           type: Number,
-        },
-      },
+        }
+      }
     ],
   },
   { timestamps: true }

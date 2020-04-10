@@ -1,12 +1,16 @@
-const mongoose = require('mongoose')
+const mongoose = require('../database')
 
 const Product = mongoose.model('Product')
+const Tag = mongoose.model('Tag')
 
 exports.getAvailables = async (data) => {
   try {
     // TAG
     let params = {}
-    if (data.query.tag) params = { tags: data.query.tag }
+    if (data.query.tag) {
+      const tag = await Tag.findOne({ name: data.query.tag })
+      params = { tag: tag.id }
+    }
     // SORT
     let sort = ''
     if (data.query.sort) sort = data.query.sort
@@ -14,7 +18,7 @@ exports.getAvailables = async (data) => {
     let products = (
       await Product.find(
         params,
-        '_id name description quantity price createdAt tags'
+        '_id name description quantity price createdAt tag'
       ).sort(sort)
     ).filter((product) => product.quantity > 0)
     products.map((prod) => {
@@ -32,16 +36,20 @@ exports.getAll = async (data) => {
 
     // TAG
     let params = {}
-    if (data.query.tag) params = { tags: data.query.tag }
+    if (data.query.tag) {
+      const tag = await Tag.findOne({ name: data.query.tag })
+      params = { tag: tag.id }
+    }
     // SORT
     let sort = ''
     if (data.query.sort) sort = data.query.sort
 
-    const products = await Product.find(
+    let products = await Product.find(
       params,
-      '_id name description quantity price createdAt tags'
+      '_id name description quantity price createdAt tag'
     ).sort(sort)
-    products.map((prod) => {
+
+    products.map(async (prod) => {
       prod.price /= 100
     })
     return products
@@ -63,21 +71,6 @@ exports.getOne = async (data) => {
   }
 }
 
-exports.getByTag = async (data) => {
-  try {
-    let products = await Product.find(
-      { tags: data.body.tags },
-      '_id name description quantity price createdAt tags'
-    )
-    // products.map((prod) => {
-    //   prod.price /= 100
-    // })
-    return products
-  } catch (err) {
-    return { error: 'List Products By tag failed' }
-  }
-}
-
 exports.register = async (data) => {
   if (data.userAccessLevel < 2) return { error: 'Unauthorized' }
 
@@ -87,12 +80,14 @@ exports.register = async (data) => {
       return { error: 'Product already exists' }
 
     let product = new Product()
+    const tag = await Tag.findOne({ name: data.body.tag })
+
 
     product.name = data.body.name
     product.description = data.body.description
-    product.price = data.body.price * 100
+    product.price = parseInt(data.body.price * 100)
     product.quantity = data.body.quantity
-    product.tags = data.body.tags
+    product.tag = tag.id
 
     product = await product.save()
 
@@ -106,12 +101,13 @@ exports.edit = async (data) => {
   if (data.userAccessLevel < 2) return { error: 'Unauthorized' }
 
   try {
+    const tag = await Tag.findOne({ name: data.query.tag })
     await Product.findByIdAndUpdate(data.params.id, {
       $set: {
         name: data.body.name,
         description: data.body.description,
         price: data.body.price * 100,
-        tags: data.body.tags,
+        tags: tag.id,
       },
     })
 

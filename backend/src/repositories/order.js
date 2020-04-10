@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+const mongoose = require('../database')
 
 const Order = mongoose.model('Order')
 const User = mongoose.model('User')

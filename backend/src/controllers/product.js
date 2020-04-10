@@ -18,11 +18,6 @@ exports.getOne = async (req, res, next) => {
   res.status(200).send(data)
 }
 
-exports.getByTag = async (req, res, next) => {
-  const data = await repository.getByTag(req)
-  return res.status(200).send(data)
-}
-
 exports.register = async (req, res, next) => {
   const { errors } = validationResult(req)
   if (errors.length > 0) {

@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+const mongoose = require('../database')
 
 const { Schema } = mongoose
 
@@ -22,14 +22,11 @@ const ProductSchema = new Schema(
       type: Number,
       required: [true, 'A quantidade do produto no estoque é obrigatória'],
     },
-    tags: [
-      {
-        type: String,
-        required: [true, 'É necessário adicionar ao menos uma categoria'],
-        trim: true,
-        lowercase: true,
-      },
-    ],
+    tag: {
+      type: Schema.Types.ObjectId,
+      ref: 'Tag',
+      required: [true, 'É necessário adicionar ao menos uma categoria']
+    }
   },
   { timestamps: true }
 )
