@@ -2,7 +2,7 @@ var $ = require('jquery');
 window.$ = $;
 
 $(document).ready(function(){
-    $('[data-toggle="offcanvas"]').click(function(){
+    $("#nav-toggle").click(function(){
         $("#navigation").toggleClass("hidden-xs");
     });
- }); 
+ });

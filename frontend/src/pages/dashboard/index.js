@@ -1,20 +1,25 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+//import 'bootstrap/dist/css/bootstrap-theme.min.css';
+import '@fortawesome/fontawesome-free/css/all.min.css';
 import './styles.css';
+
+import logoImg from '../../assets/img/logo.png';
+import userImg from '../../assets/img/user-circle-solid.svg';
 
 export default function Dashboard() {
     return (
-        <section>
+        <section className="dashboard">
             <div className="container-fluid display-table">
                 <div className="row display-table-row">
-
                     
                     <div className="col-md-2 col-sm-1 col-xs-1 hidden-xs display-table-cell v-align box" id="navigation">
 
                         <div className="logo">
                             <Link to="#">
-                                <img src="assets/img/logo.png" alt="commerce_logo" title="Voltar para o site" className="img-logo"/>
+                                <img src={logoImg} alt="commerce_logo" title="Voltar para o site" className="img-logo"/>
                             </Link>
                         </div>
 
@@ -22,7 +27,7 @@ export default function Dashboard() {
                             <ul>
                                 <li className="active">
                                     <Link to="#">
-                                        <i className="fa fa-tachometer" aria-hidden="true"></i>
+                                        <i className="fa fa-tachometer-alt" aria-hidden="true"></i>
                                         <span className="hidden-xs">Painel</span>
                                     </Link>
                                 </li>
@@ -33,22 +38,26 @@ export default function Dashboard() {
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link to="#"><i className="fa fa-cubes" aria-hidden="true"></i>
+                                    <Link to="#">
+                                        <i className="fa fa-cubes" aria-hidden="true"></i>
                                         <span className="hidden-xs">Produtos</span>
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link to="#"><i className="fa fa-folder" aria-hidden="true"></i>
+                                    <Link to="#">
+                                        <i className="fa fa-folder" aria-hidden="true"></i>
                                         <span className="hidden-xs">Categorias</span>
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link to="#"><i className="fa fa-users" aria-hidden="true"></i>
+                                    <Link to="#">
+                                        <i className="fa fa-users" aria-hidden="true"></i>
                                         <span className="hidden-xs">Clientes</span>
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link to="#"><i className="fa fa-cog" aria-hidden="true"></i>
+                                    <Link to="#">
+                                        <i className="fa fa-cog" aria-hidden="true"></i>
                                         <span className="hidden-xs">Ajustes</span>
                                     </Link>
                                 </li>
@@ -56,17 +65,15 @@ export default function Dashboard() {
                         </div>
 
                     </div>
-                    
-
+                   
                     <div className="col-md-10 col-sm-11 display-table-cell v-align">
                         <div className="row">
-
                             
                             <header className="shadow">
                                 <div className="col-md-5">
                                     <nav className="navbar-default pull-left">
                                         <div className="navbar-header">
-                                            <button type="button" className="navbar-toggle collapsed" data-toggle="offcanvas" data-target="#side-menu" aria-expanded="false">
+                                            <button type="button" className="navbar-toggle collapsed" data-toggle="offcanvas" data-target="#navigation" id="nav-toggle" aria-expanded="false">
                                                 <span className="sr-only">Toggle navigation</span>
                                                 <span className="icon-bar"></span>
                                                 <span className="icon-bar"></span>
@@ -77,7 +84,7 @@ export default function Dashboard() {
                                     <div className="search hidden-xs hidden-sm">
                                         <form className="form-inline">
                                             <div className="form-group mb-2">
-                                            <label for="search" className="sr-only">Pesquisa</label>
+                                            <label className="sr-only">Pesquisa</label>
                                             <input type="text" className="form-control" name="search" placeholder="Pesquisa"/>
                                             </div>
                                             <button type="submit" className="btn btn-danger mb-2"><i className="fa fa-search" aria-hidden="true"></i></button>
@@ -89,10 +96,10 @@ export default function Dashboard() {
 
                                         <ul className="list-inline pull-right">
                                             <li className="hidden-xs">
-                                                <Link to="#" className="btn btn-danger" data-toggle="modal" data-target="#add_product">Add Produto</Link>
+                                                <Link to="#add_product" className="btn btn-danger" data-toggle="modal" data-target="#add_product">Add Produto</Link>
                                             </li>
                                             <li>
-                                                <Link to="#" className="btn btn-danger" data-toggle="modal" data-target="#add_mens">Add Aviso</Link>
+                                                <Link to="#add_mens" className="btn btn-danger" data-toggle="modal" data-target="#add_mens">Add Aviso</Link>
                                             </li>
                                             <li>
                                                 <Link to="#"><i className="fa fa-envelope" aria-hidden="true"></i></Link>
@@ -105,8 +112,9 @@ export default function Dashboard() {
                                             </li>
                                             <li className="dropdown">
                                                 <Link to="#" className="dropdown-toggle" data-toggle="dropdown">
-                                                    <img src="assets/img/user-circle-solid.svg" alt="user"/>
-                                                    <b className="caret"></b></Link>
+                                                    <img src={userImg} alt="user"/>
+                                                    <b className="caret"></b>
+                                                </Link>
                                                 <ul className="dropdown-menu">
                                                     <li>
                                                         <div className="navbar-content">
@@ -126,10 +134,8 @@ export default function Dashboard() {
                                     </div>
                                 </div>
                             </header>
-                            
-
+                           
                         </div>
-
                         
                         <div className="user-dashboard">
                             <h1>Olá, Person Silva</h1>
@@ -207,9 +213,7 @@ export default function Dashboard() {
                     </div>
                 </div>
             </div>
-            
 
-            
             <div id="add_mens" className="modal fade" role="dialog">
                 <div className="modal-dialog">
                     <div className="modal-content">

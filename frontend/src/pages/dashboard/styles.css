@@ -87,7 +87,7 @@ button:hover, .btn:hover {
 }
 .logo img {
 	padding: 1.5rem 1.5rem;
-	width: 100%;
+	width: auto;
 }
 .admin-bar a {
     color: #fff;
@@ -100,7 +100,7 @@ button:hover, .btn:hover {
 }
 .admin-bar a::after {
     border: 0;
-    font-family: 'FontAwesome';
+    font-family: 'Font Awesome 5 Free';
     font-weight: 900;
     content: '\f105';
     display: none;
@@ -206,7 +206,7 @@ header {
     position: absolute;
     top: 11px;
     width: 12px;
-    font-family: 'FontAwesome';
+    font-family: 'Font Awesome 5 Free';
 }
 .navbar-content > span {
     font-size: 13px;
@@ -287,7 +287,7 @@ header {
 }
 .card button::before {
     content: "\f107";
-    font-family: FontAwesome;
+    font-family: 'Font Awesome 5 Free';
     position: absolute;
     right: 12px;
     top: 12px;
@@ -389,7 +389,7 @@ button.secondary:hover {
 
 @media screen and (min-width: 992px) {
     .logo img {
-        max-width: 130px;
+        max-height: 85px;
         padding: 20px 0 20px;
     }
     .admin-bar a {

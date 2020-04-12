@@ -3,9 +3,7 @@ import Routes from './routes';
 
 global.jQuery = require('jquery');
 require('bootstrap/dist/js/bootstrap');
-require('./assets/js/script.js');
-
-require('bootstrap/dist/css/bootstrap.min.css');
+require('./assets/js/main');
 
 function App() {
   return (
