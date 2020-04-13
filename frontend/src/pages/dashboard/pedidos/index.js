@@ -2,15 +2,14 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-//import 'bootstrap/dist/css/bootstrap-theme.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import './styles.css';
+import '../styles.css';
 
-import logoImg from '../../assets/img/logo.png';
-import userImg from '../../assets/img/user-circle-solid.svg';
+import logoImg from '../../../assets/img/logo.png';
+import userImg from '../../../assets/img/user-circle-solid.svg';
 
-export default function Dashboard() {
-    document.title = "Painel";
+export default function DashOrders() {
+    document.title = "Pedidos";
     
     return (
         <section className="dashboard">
@@ -27,13 +26,13 @@ export default function Dashboard() {
 
                         <div className="admin-bar">
                             <ul>
-                                <li className="active">
+                                <li>
                                     <Link to="/">
                                         <i className="fa fa-tachometer-alt" aria-hidden="true"></i>
                                         <span className="hidden-xs">Painel</span>
                                     </Link>
                                 </li>
-                                <li>
+                                <li className="active">
                                     <Link to="pedidos">
                                         <i className="fa fa-cart-arrow-down" aria-hidden="true"></i>
                                         <span className="hidden-xs">Pedidos</span>
@@ -89,7 +88,7 @@ export default function Dashboard() {
                                             <label className="sr-only">Pesquisa</label>
                                             <input type="text" className="form-control" name="search" placeholder="Pesquisa"/>
                                             </div>
-                                            <button type="submit" className="btn btn-danger mb-2"><i className="fa fa-search" aria-hidden="true"></i></button>
+                                            <button type="submit" className="btn btn-danger mb-2"><i className="fa fa-search"></i></button>
                                         </form>
                                     </div>
                                 </div>
@@ -105,7 +104,7 @@ export default function Dashboard() {
                                             </li>
                                             <li>
                                                 <Link to="#" className="icon-info">
-                                                    <i className="fa fa-bell" aria-hidden="true"></i>
+                                                    <i className="fa fa-bell"></i>
                                                     <span className="label label-primary">3</span>
                                                 </Link>
                                             </li>
@@ -139,11 +138,11 @@ export default function Dashboard() {
                         <div className="user-dashboard">
                             <h1>Olá, Person Silva</h1>
                             <div className="row">
-                                <div className="col-md-5 col-sm-5 col-xs-12 gutter">
+                                <div className="col-lg-8 col-md-10 col-xs-12 gutter">
 
                                     <div className="card">
                                         <div className="card-header">
-                                            <h2>Pedidos</h2>
+                                            <h2>Pedidos Realizados</h2>
 
                                             <div className="btn-group">
                                                 <button className="btn btn-secondary btn-lg dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -157,25 +156,90 @@ export default function Dashboard() {
                                             </div>
                                         </div>
 
-                                    </div>
+                                        <div className="card-body">
+                                            <table className="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">Cliente</th>
+                                                        <th scope="col" className="hidden-xs">Preço</th>
+                                                        <th scope="col">Status</th>
+                                                        <th scope="col" className="hidden-xs">Data</th>
+                                                        <th scope="col"></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <th scope="row">Timóteo</th>
+                                                        <td className="hidden-xs">R$ 23,99</td>
+                                                        <td>Aguardando Pagamento</td>
+                                                        <td className="hidden-xs">13-04-2020</td>
+                                                        <td>
+                                                            <button type="button" className="btn btn-danger">
+                                                                <i id="icon" className="fa fa-search"></i>
+                                                                <span id="details">Detalhes</span>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row">Henrique</th>
+                                                        <td className="hidden-xs">R$ 49,99</td>
+                                                        <td>Aguardando Entrega</td>
+                                                        <td className="hidden-xs">10-04-2020</td>
+                                                        <td>
+                                                            <button type="button" className="btn btn-danger">
+                                                                <i id="icon" className="fa fa-search"></i>
+                                                                <span id="details">Detalhes</span>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row">Alana</th>
+                                                        <td className="hidden-xs">R$ 3,50</td>
+                                                        <td>Aguardando Entrega</td>
+                                                        <td className="hidden-xs">08-04-2020</td>
+                                                        <td>
+                                                            <button type="button" className="btn btn-danger">
+                                                                <i id="icon" className="fa fa-search"></i>
+                                                                <span id="details">Detalhes</span>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row">Catarina</th>
+                                                        <td className="hidden-xs">R$ 200,05</td>
+                                                        <td>Pedido Cancelado</td>
+                                                        <td className="hidden-xs">07-04-2020</td>
+                                                        <td>
+                                                            <button type="button" className="btn btn-danger">
+                                                                <i id="icon" className="fa fa-search"></i>
+                                                                <span id="details">Detalhes</span>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
 
-                                </div>
-                                <div className="col-md-7 col-sm-7 col-xs-12 gutter">
-
-                                    <div className="card">
-                                        <div className="card-header">
-                                            <h2>Aguardando entrega</h2>
-
-                                            <div className="btn-group">
-                                                <button className="btn btn-secondary btn-lg dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <span>Período:</span> Dia
-                                                </button>
-                                                <div className="dropdown-menu">
-                                                    <Link to="#">Dia</Link>
-                                                    <Link to="#">Mês</Link>
-                                                    <Link to="#">Ano</Link>
-                                                </div>
-                                            </div>
+                                        <div className="card-pagination">
+                                            <nav aria-label="Page navigation example">
+                                                <ul className="pagination">
+                                                    <li className="page-item">
+                                                        <Link className="page-link" to="#" aria-label="Previous">
+                                                            <span aria-hidden="true">«</span>
+                                                            <span className="sr-only">Previous</span>
+                                                        </Link>
+                                                    </li>
+                                                    <li className="page-item"><Link className="page-link" to="#">1</Link></li>
+                                                    <li className="page-item"><Link className="page-link" to="#">2</Link></li>
+                                                    <li className="page-item"><Link className="page-link" to="#">3</Link></li>
+                                                    <li className="page-item">
+                                                        <Link className="page-link" to="#" aria-label="Next">
+                                                            <span aria-hidden="true">»</span>
+                                                            <span className="sr-only">Next</span>
+                                                        </Link>
+                                                    </li>
+                                                </ul>
+                                            </nav>
                                         </div>
 
                                     </div>
@@ -190,7 +254,7 @@ export default function Dashboard() {
 
             </div>
 
-            
+
             <div id="add_product" className="modal fade" role="dialog">
                 <div className="modal-dialog">
                     <div className="modal-content">

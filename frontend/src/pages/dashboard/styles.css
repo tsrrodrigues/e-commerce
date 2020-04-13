@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Baloo+Thambi+2:400,600,700&display=swap');
 
-/* Main CSS */
+/* E-Commerce CSS */
 
 body {
     font-family: 'Baloo Thambi 2', cursive;
@@ -11,6 +11,10 @@ a:focus, a:hover, a {
     color: #000;
     outline: none;
     text-decoration: none;
+}
+
+div {
+    position: relative;
 }
 
 li, ul {
@@ -52,7 +56,16 @@ input {
 }
 
 .shadow {
-    box-shadow: 0 .15rem 1.75rem 0 rgba(58,59,69,.15);
+    box-shadow: 0 .15rem 1.75rem 0 rgba(0,0,0,.10);
+}
+
+.table > tbody > tr > td,
+.table > tbody > tr > th,
+.table > tfoot > tr > td,
+.table > tfoot > tr >th,
+.table > thead> tr > td,
+.table > thead > tr > th {
+    vertical-align: middle;
 }
 
 button, .btn {
@@ -68,6 +81,23 @@ button, .btn {
 }
 button:hover, .btn:hover {
     background-color: #e53935;
+}
+
+.pagination > li > a,
+.pagination > li > span {
+    border: 1px solid #dadee7;
+    padding: 10px 15px;
+    font-weight: 600;
+    color: #000;
+    text-decoration: none;
+}
+
+.pagination > li > a:focus,
+.pagination > li > a:hover,
+.pagination > li > span:focus,
+.pagination > li > span:hover {
+    color: #000;
+    background-color: #dadee7;
 }
 
 #navigation {
@@ -174,6 +204,7 @@ header {
     border: none;
     box-shadow: none;
     font-size: 14px;
+    margin-right: 5px;
     padding: 10px 10px;
     height: auto;
     width: 100%;
@@ -185,6 +216,7 @@ header {
 
 .header-top li {
     display: inline-block;
+    margin-left: 5px;
     text-align: center;
 }
 .header-top i {
@@ -201,12 +233,11 @@ header {
 }
 .header-top .btn::before {
     content: "\f067";
-    height: 12px;
-    left: 17px;
-    position: absolute;
-    top: 11px;
-    width: 12px;
     font-family: 'Font Awesome 5 Free';
+    font-size: 14px;
+    position: absolute;
+    top: 10px;
+    left: 20px;
 }
 .navbar-content > span {
     font-size: 13px;
@@ -273,25 +304,6 @@ header {
     padding: 15px;
     width: 100%;
 }
-.card button {
-    background-color: #fff;
-    border: 1px solid #dadee7;
-    border-radius: 100px;
-    font-size: 15px;
-    letter-spacing: 0.5px;
-    padding: 10px 32px 10px 16px;
-    color: #000;
-}
-.card button:hover {
-    background-color: #fff;
-}
-.card button::before {
-    content: "\f107";
-    font-family: 'Font Awesome 5 Free';
-    position: absolute;
-    right: 12px;
-    top: 12px;
-}
 .card .btn-group {
     float: right;
 }
@@ -303,22 +315,45 @@ header {
     margin: 0;
     padding: 9px 0 0;
 }
+.card-header {
+    display: inline-block;
+    width: 100%;
+}
+.card-header button {
+    background-color: #fff;
+    border: 1px solid #dadee7;
+    border-radius: 100px;
+    font-size: 15px;
+    letter-spacing: 0.5px;
+    padding: 10px 32px 10px 16px;
+    color: #000;
+}
+.card-header button:hover {
+    background-color: #dadee7;
+}
+.card-header button::before {
+    content: "\f107";
+    font-family: 'Font Awesome 5 Free';
+    position: absolute;
+    right: 12px;
+    top: 12px;
+}
 .btn.btn-secondary.btn-lg.dropdown-toggle > span {
     font-size: 15px;
     font-weight: 600;
     letter-spacing: 0.5px;
 }
-.card .dropdown-menu{
+.card .btn-group.open .dropdown-toggle, .btn.active, .btn:active {
+    background-color: #fff;
+    box-shadow: none;
+}
+.card .dropdown-menu {
     margin: 0px;
     padding: 0px;
     border: 0px;
     border-radius: 8px;
     width: 100%;
     color: #000;
-}
-.card .btn-group.open .dropdown-toggle, .btn.active, .btn:active {
-    background-color: #fff;
-    box-shadow: none;
 }
 .card .dropdown-menu > a {
     color: #000;
@@ -330,6 +365,22 @@ header {
 }
 .card .dropdown-menu > a:hover{
     color: #e53935;   
+}
+.card-body {
+    margin-top: 20px;
+}
+.card-body .table #icon {
+    display: block;
+}
+.card-body .table #details {
+    display: none;
+}
+.card-pagination {
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+.card-pagination ul {
+    margin: 0;
 }
 
 .modal-content {
@@ -384,7 +435,15 @@ button.secondary:hover {
 }
 
 @media screen and (min-width: 768px) {
-	
+    .logo img {
+        padding: 2rem;
+    }
+    .card-body .table #icon {
+        display: none;
+    }
+    .card-body .table #details {
+        display: block;
+    }
 }
 
 @media screen and (min-width: 992px) {
