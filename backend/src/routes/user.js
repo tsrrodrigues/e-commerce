@@ -7,8 +7,7 @@ const userController = require('../controllers/user')
 const registerUserMiddleware = require('../middlewares/registerUser')
 const authMiddleware = require('../middlewares/auth')
 
-router.get('/', authMiddleware, userController.getAll) // Access Level = 3
-router.get('/admin/clients', authMiddleware, userController.getActives) // Access Level = 2
+router.get('/', authMiddleware, userController.getAll) // Access Level = 2
 router.get('/:id', authMiddleware, userController.getOne) // Access Level = 2
 
 router.post('/', registerUserMiddleware, userController.register) // Access Level = All

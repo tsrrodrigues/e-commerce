@@ -14,24 +14,21 @@ function generateToken(params = {}) {
 
 exports.getAll = async (data) => {
   try {
-    if (data.userAccessLevel < 3) return { error: 'Unauthorized ' }
-    const users = await User.find({}, '_id name email cpf active access_level')
-    return users
-  } catch (err) {
-    return { error: 'List All Users failed' }
-  }
-}
+    if (data.userAccessLevel < 2) return { error: 'Unauthorized ' }
 
-exports.getActives = async (data) => {
-  try {
-    if (data.userAccessLevel < 2) return { error: 'Unauthorized' }
+    // TAG
+    let params = {}
+    if (data.query.active) {
+      params = { active: true }
+    }
+
     const users = await User.find(
-      { active: true },
+      params,
       '_id name email cpf adress active access_level'
     )
     return users
   } catch (err) {
-    return { error: 'List Actives Users failed' }
+    return { error: 'List All Users failed' }
   }
 }
 
@@ -122,7 +119,7 @@ exports.edit = async (data) => {
 
     const { id } = data.params
 
-    await User.findByIdAndUpdate(id, {
+    const user = await User.findByIdAndUpdate(id, {
       $set: {
         name: data.body.name,
         email: data.body.email,
@@ -132,7 +129,7 @@ exports.edit = async (data) => {
     })
 
     return {
-      message: 'Usuário editado com sucesso',
+      user,
       token: data.headers.authorization,
     }
   } catch (err) {

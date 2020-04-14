@@ -1,5 +1,7 @@
 const mongoose = require('../database')
 
+const tagController = require('../controllers/tag')
+
 const Product = mongoose.model('Product')
 const Tag = mongoose.model('Tag')
 
@@ -9,7 +11,7 @@ exports.getAvailables = async (data) => {
     let params = {}
     if (data.query.tag) {
       const tag = await Tag.findOne({ name: data.query.tag })
-      params = { tag: tag.id }
+      params = { tag: tag.name }
     }
     // SORT
     let sort = ''
@@ -38,7 +40,7 @@ exports.getAll = async (data) => {
     let params = {}
     if (data.query.tag) {
       const tag = await Tag.findOne({ name: data.query.tag })
-      params = { tag: tag.id }
+      params = { tag: tag.name }
     }
     // SORT
     let sort = ''
@@ -62,7 +64,7 @@ exports.getOne = async (data) => {
   try {
     let product = await Product.findById(
       data.params.id,
-      '_id name description quantity price createdAt tags'
+      '_id name description quantity price createdAt tag'
     )
     product.price /= 100
     return product
@@ -79,15 +81,20 @@ exports.register = async (data) => {
     if (await Product.findOne({ name }))
       return { error: 'Product already exists' }
 
-    let product = new Product()
-    const tag = await Tag.findOne({ name: data.body.tag })
+    const tagName = data.body.tag
+    if (!(await Tag.findOne({ tagName }))) {
+      let tag = new Tag()
+      tag.name = data.body.tag
+      tag = await tag.save()
+    }
 
+    let product = new Product()
 
     product.name = data.body.name
     product.description = data.body.description
     product.price = parseInt(data.body.price * 100)
     product.quantity = data.body.quantity
-    product.tag = tag.id
+    product.tag = data.body.tag
 
     product = await product.save()
 
@@ -101,17 +108,16 @@ exports.edit = async (data) => {
   if (data.userAccessLevel < 2) return { error: 'Unauthorized' }
 
   try {
-    const tag = await Tag.findOne({ name: data.query.tag })
-    await Product.findByIdAndUpdate(data.params.id, {
+    const product = await Product.findByIdAndUpdate(data.params.id, {
       $set: {
         name: data.body.name,
         description: data.body.description,
         price: data.body.price * 100,
-        tags: tag.id,
+        tag: data.body.tag,
       },
     })
 
-    return { message: 'Produto editado com sucesso' }
+    return product
   } catch (err) {
     return { error: 'Edit failed' }
   }

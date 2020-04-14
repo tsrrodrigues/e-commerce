@@ -8,11 +8,6 @@ exports.getAll = async (req, res, next) => {
   res.status(200).send(data)
 }
 
-exports.getActives = async (req, res, next) => {
-  const data = await repository.getActives(req)
-  res.status(200).send(data)
-}
-
 exports.getOne = async (req, res, next) => {
   const data = await repository.getOne(req)
   res.status(200).send(data)

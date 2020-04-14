@@ -5,7 +5,7 @@ const Tag = mongoose.model('Tag')
 exports.getAll = async (data) => {
   try {
     if (data.userAccessLevel < 2) return { error: 'Unauthorized' }
-    const tags = await Tag.find()
+    const tags = await Tag.find().sort('name')
     return tags
   } catch (err) {
     return { error: 'List Tags failed' }
