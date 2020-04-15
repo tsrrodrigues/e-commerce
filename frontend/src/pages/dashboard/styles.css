@@ -103,6 +103,7 @@ button:hover, .btn:hover {
 #navigation {
     background: #e53935;
     background: linear-gradient(60deg,#ef5350,#e53935);
+    display: none;
     padding: 0;
 }
 #navigation {
@@ -110,6 +111,12 @@ button:hover, .btn:hover {
     -moz-transition: all 0.5s ease;
     -o-transition: all 0.5s ease;
     transition: all 0.5s ease;
+}
+#navigation.collapse {
+    display: none;
+}
+#navigation.collapse.in {
+    display: table-cell;
 }
 
 .logo {
@@ -239,6 +246,22 @@ header {
     top: 10px;
     left: 20px;
 }
+.header-top .dropdown-menu {
+    border: medium none;
+    left: -85px;
+    padding: 17px;
+}
+.dropdown-menu.drop-link {
+    left: -60px;
+}
+.dropdown-menu.drop-link a {
+    font-weight: 600;
+    display: block;
+    padding: 9px 0;
+}
+.dropdown-menu.drop-link a:hover {
+    color: #e53935;
+}
 .navbar-content > span {
     font-size: 13px;
     font-weight: 700;
@@ -250,14 +273,6 @@ header {
 }
 .navbar-content .btn-profile::before {
     display: none;
-}
-.header-top .dropdown-toggle {
-    color: #000;
-}
-.header-top .dropdown-menu {
-    border: medium none;
-    left: -85px;
-    padding: 17px;
 }
 
 .icon-info {
@@ -435,6 +450,12 @@ button.secondary:hover {
 }
 
 @media screen and (min-width: 768px) {
+    #navigation {
+        display: table-cell;
+    }
+    #navigation.collapse {
+        display: table-cell;
+    }
     .logo img {
         padding: 2rem;
     }
