@@ -68,6 +68,17 @@ input {
     vertical-align: middle;
 }
 
+.form-control {
+    background-color: #f6f7fa;
+    border: none;
+    box-shadow: none;
+}
+.form-control:focus {
+    border-color: #e53935;
+    outline: 0;
+    box-shadow: none;
+}
+
 button, .btn {
     background-color: #ef5350;
     border: 0;
@@ -258,6 +269,7 @@ header {
     font-weight: 600;
     display: block;
     padding: 9px 0;
+    text-align: left;
 }
 .dropdown-menu.drop-link a:hover {
     color: #e53935;
@@ -311,6 +323,9 @@ header {
     font-weight: 500;
     margin: 0;
     padding: 21px 0;
+}
+.dash-comp {
+    margin-top: 30px;
 }
 .card {
     background-color: #fff;
@@ -442,6 +457,9 @@ header {
     padding: 10px 15px 26px;
     text-align: right;
 }
+.modal-footer button {
+    margin-left: 5px;
+}
 button.secondary {
     background: #000;
 }
@@ -458,6 +476,9 @@ button.secondary:hover {
     }
     .logo img {
         padding: 2rem;
+    }
+    .dash-comp {
+        margin-top: 0;
     }
     .card-body .table #icon {
         display: none;

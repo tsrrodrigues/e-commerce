@@ -10,9 +10,11 @@ import HeaderTop from '../../../pages/dashboard/content/HeaderTop';
 import ModalAddProduto from '../../../pages/dashboard/content/ModalAddProduto';
 import ModalAddAviso from '../../../pages/dashboard/content/ModalAddAviso';
 
-export default function DashOrders() {
-    document.title = "Pedidos";
-    
+import productImg from '../../../assets/img/cube-solid.svg';
+
+export default function DashProducts() {
+    document.title = "Produtos";
+
     return (
         <section className="dashboard">
             <div className="container-fluid display-table">
@@ -25,81 +27,79 @@ export default function DashOrders() {
                         <div className="user-dashboard">
                             <h1>Olá, Person Silva</h1>
                             <div className="row">
-                                <div className="col-lg-8 col-md-10 col-xs-12 dash-comp">
+                                <div className="col-lg-10 col-md-10 col-xs-12 dash-comp">
 
                                     <div className="card">
                                         <div className="card-header">
-                                            <h2>Pedidos Realizados</h2>
+                                            <h2>Produtos</h2>
 
-                                            <div className="btn-group">
-                                                <button className="btn btn-secondary btn-lg dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <span>Período:</span> Dia
-                                                </button>
-                                                <div className="dropdown-menu">
-                                                    <Link to="#">Dia</Link>
-                                                    <Link to="#">Mês</Link>
-                                                    <Link to="#">Ano</Link>
-                                                </div>
-                                            </div>
                                         </div>
 
                                         <div className="card-body">
                                             <table className="table">
                                                 <thead>
                                                     <tr>
-                                                        <th scope="col">Cliente</th>
-                                                        <th scope="col" className="hidden-xs">Valor</th>
-                                                        <th scope="col">Status</th>
-                                                        <th scope="col" className="hidden-xs">Data</th>
+                                                        <th scope="col"></th>
+                                                        <th scope="col">Nome</th>
+                                                        <th scope="col" className="hidden-xs">Preço</th>
+                                                        <th scope="col">Categorias</th>
                                                         <th scope="col"></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <tr>
-                                                        <th scope="row">Timóteo</th>
+                                                        <th scope="row">
+                                                            <img src={productImg} height="100" width="100" alt="produto"/>
+                                                        </th>
+                                                        <th scope="col">Produto 1</th>
                                                         <td className="hidden-xs">R$ 23,99</td>
-                                                        <td>Aguardando Pagamento</td>
-                                                        <td className="hidden-xs">13-04-2020</td>
+                                                        <td>Acessórios, Casa</td>
                                                         <td>
                                                             <button type="button" className="btn btn-danger">
-                                                                <i id="icon" className="fa fa-search"></i>
-                                                                <span id="details">Detalhes</span>
+                                                                <i id="icon" className="fa fa-pencil-alt"></i>
+                                                                <span id="details">Editar</span>
                                                             </button>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <th scope="row">Henrique</th>
+                                                        <th scope="row">
+                                                            <img src={productImg} height="100" width="100" alt="produto"/>
+                                                        </th>
+                                                        <th scope="col">Produto 2</th>
                                                         <td className="hidden-xs">R$ 49,99</td>
-                                                        <td>Aguardando Entrega</td>
-                                                        <td className="hidden-xs">10-04-2020</td>
+                                                        <td>Utilidades, Eletrônicos</td>
                                                         <td>
                                                             <button type="button" className="btn btn-danger">
-                                                                <i id="icon" className="fa fa-search"></i>
-                                                                <span id="details">Detalhes</span>
+                                                                <i id="icon" className="fa fa-pencil-alt"></i>
+                                                                <span id="details">Editar</span>
                                                             </button>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <th scope="row">Alana</th>
+                                                        <th scope="row">
+                                                            <img src={productImg} height="100" width="100" alt="produto"/>
+                                                        </th>
+                                                        <th scope="col">Produto 3</th>
                                                         <td className="hidden-xs">R$ 3,50</td>
-                                                        <td>Aguardando Entrega</td>
-                                                        <td className="hidden-xs">08-04-2020</td>
+                                                        <td>Alimentos, Frios</td>
                                                         <td>
                                                             <button type="button" className="btn btn-danger">
-                                                                <i id="icon" className="fa fa-search"></i>
-                                                                <span id="details">Detalhes</span>
+                                                                <i id="icon" className="fa fa-pencil-alt"></i>
+                                                                <span id="details">Editar</span>
                                                             </button>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <th scope="row">Catarina</th>
+                                                        <th scope="row">
+                                                            <img src={productImg} height="100" width="100" alt="produto"/>
+                                                        </th>
+                                                        <th scope="col">Produto 4</th>
                                                         <td className="hidden-xs">R$ 200,05</td>
-                                                        <td>Pedido Cancelado</td>
-                                                        <td className="hidden-xs">07-04-2020</td>
+                                                        <td>Casa, Cozinha</td>
                                                         <td>
                                                             <button type="button" className="btn btn-danger">
-                                                                <i id="icon" className="fa fa-search"></i>
-                                                                <span id="details">Detalhes</span>
+                                                                <i id="icon" className="fa fa-pencil-alt"></i>
+                                                                <span id="details">Editar</span>
                                                             </button>
                                                         </td>
                                                     </tr>

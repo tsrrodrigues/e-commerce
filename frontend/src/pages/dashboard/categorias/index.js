@@ -10,9 +10,9 @@ import HeaderTop from '../../../pages/dashboard/content/HeaderTop';
 import ModalAddProduto from '../../../pages/dashboard/content/ModalAddProduto';
 import ModalAddAviso from '../../../pages/dashboard/content/ModalAddAviso';
 
-export default function DashOrders() {
-    document.title = "Pedidos";
-    
+export default function DashCategories() {
+    document.title = "Categorias";
+
     return (
         <section className="dashboard">
             <div className="container-fluid display-table">
@@ -25,81 +25,66 @@ export default function DashOrders() {
                         <div className="user-dashboard">
                             <h1>Olá, Person Silva</h1>
                             <div className="row">
-                                <div className="col-lg-8 col-md-10 col-xs-12 dash-comp">
+                                <div className="col-md-7 col-sm-7 col-xs-12 dash-comp">
 
                                     <div className="card">
                                         <div className="card-header">
-                                            <h2>Pedidos Realizados</h2>
+                                            <h2>Categorias</h2>
 
-                                            <div className="btn-group">
-                                                <button className="btn btn-secondary btn-lg dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <span>Período:</span> Dia
-                                                </button>
-                                                <div className="dropdown-menu">
-                                                    <Link to="#">Dia</Link>
-                                                    <Link to="#">Mês</Link>
-                                                    <Link to="#">Ano</Link>
-                                                </div>
-                                            </div>
                                         </div>
 
                                         <div className="card-body">
                                             <table className="table">
                                                 <thead>
                                                     <tr>
-                                                        <th scope="col">Cliente</th>
-                                                        <th scope="col" className="hidden-xs">Valor</th>
-                                                        <th scope="col">Status</th>
-                                                        <th scope="col" className="hidden-xs">Data</th>
+                                                        <th scope="col">Categoria</th>
+                                                        <th scope="col" className="hidden-xs hidden-sm">Link</th>
+                                                        <th scope="col">Produtos</th>
                                                         <th scope="col"></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <tr>
-                                                        <th scope="row">Timóteo</th>
-                                                        <td className="hidden-xs">R$ 23,99</td>
-                                                        <td>Aguardando Pagamento</td>
-                                                        <td className="hidden-xs">13-04-2020</td>
+                                                        <th scope="row">Acessórios</th>
+                                                        <td className="hidden-xs hidden-sm">/acessorios</td>
+                                                        <td>6</td>
                                                         <td>
                                                             <button type="button" className="btn btn-danger">
-                                                                <i id="icon" className="fa fa-search"></i>
-                                                                <span id="details">Detalhes</span>
+                                                                <i id="icon" className="fa fa-pencil-alt"></i>
+                                                                <span id="details">Editar</span>
                                                             </button>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <th scope="row">Henrique</th>
-                                                        <td className="hidden-xs">R$ 49,99</td>
-                                                        <td>Aguardando Entrega</td>
-                                                        <td className="hidden-xs">10-04-2020</td>
+                                                        <th scope="row">Casa</th>
+                                                        <td className="hidden-xs hidden-sm">/casa</td>
+                                                        <td>2</td>
                                                         <td>
                                                             <button type="button" className="btn btn-danger">
-                                                                <i id="icon" className="fa fa-search"></i>
-                                                                <span id="details">Detalhes</span>
+                                                                <i id="icon" className="fa fa-pencil-alt"></i>
+                                                                <span id="details">Editar</span>
                                                             </button>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <th scope="row">Alana</th>
-                                                        <td className="hidden-xs">R$ 3,50</td>
-                                                        <td>Aguardando Entrega</td>
-                                                        <td className="hidden-xs">08-04-2020</td>
+                                                        <th scope="row">Eletrônicos</th>
+                                                        <td className="hidden-xs hidden-sm">/eletronicos</td>
+                                                        <td>2</td>
                                                         <td>
                                                             <button type="button" className="btn btn-danger">
-                                                                <i id="icon" className="fa fa-search"></i>
-                                                                <span id="details">Detalhes</span>
+                                                                <i id="icon" className="fa fa-pencil-alt"></i>
+                                                                <span id="details">Editar</span>
                                                             </button>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <th scope="row">Catarina</th>
-                                                        <td className="hidden-xs">R$ 200,05</td>
-                                                        <td>Pedido Cancelado</td>
-                                                        <td className="hidden-xs">07-04-2020</td>
+                                                        <th scope="row">Utilidades</th>
+                                                        <td className="hidden-xs hidden-sm">/utilidades</td>
+                                                        <td>10</td>
                                                         <td>
                                                             <button type="button" className="btn btn-danger">
-                                                                <i id="icon" className="fa fa-search"></i>
-                                                                <span id="details">Detalhes</span>
+                                                                <i id="icon" className="fa fa-pencil-alt"></i>
+                                                                <span id="details">Editar</span>
                                                             </button>
                                                         </td>
                                                     </tr>
@@ -127,6 +112,32 @@ export default function DashOrders() {
                                                     </li>
                                                 </ul>
                                             </nav>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div className="col-md-5 col-sm-5 col-xs-12 dash-comp">
+
+                                    <div className="card">
+                                        <div className="card-header">
+                                            <h2>Adicionar nova categoria</h2>
+                                        </div>
+
+                                        <div className="card-body">
+                                            <form>
+                                                <div className="form-group">
+                                                    <label>Nome</label>
+                                                    <input type="text" className="form-control" placeholder="Exemplo: Casa"/>
+                                                </div>
+                                                <div className="form-group">
+                                                    <label>Link</label>
+                                                    <input type="text" className="form-control" placeholder="Exemplo: /casa"/>
+                                                </div>
+
+                                                <button type="submit" className="btn btn-danger">Adicionar</button>
+                                            </form>
                                         </div>
 
                                     </div>

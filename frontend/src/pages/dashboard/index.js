@@ -25,7 +25,7 @@ export default function DashBoard() {
                         <div className="user-dashboard">
                             <h1>Olá, Person Silva</h1>
                             <div className="row">
-                                <div className="col-md-5 col-sm-5 col-xs-12 gutter">
+                                <div className="col-md-5 col-sm-5 col-xs-12 dash-comp">
 
                                     <div className="card">
                                         <div className="card-header">
@@ -46,7 +46,7 @@ export default function DashBoard() {
                                     </div>
 
                                 </div>
-                                <div className="col-md-7 col-sm-7 col-xs-12 gutter">
+                                <div className="col-md-7 col-sm-7 col-xs-12 dash-comp">
 
                                     <div className="card">
                                         <div className="card-header">

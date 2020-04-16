@@ -28,13 +28,13 @@ export default function SideBar() {
                         </Link>
                     </li>
                     <li>
-                        <Link to="#">
+                        <Link to="produtos">
                             <i className="fa fa-cubes" aria-hidden="true"></i>
                             <span className="hidden-xs">Produtos</span>
                         </Link>
                     </li>
                     <li>
-                        <Link to="#">
+                        <Link to="categorias">
                             <i className="fa fa-folder" aria-hidden="true"></i>
                             <span className="hidden-xs">Categorias</span>
                         </Link>
