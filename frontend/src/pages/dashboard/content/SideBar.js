@@ -40,7 +40,7 @@ export default function SideBar() {
                         </Link>
                     </li>
                     <li>
-                        <Link to="#">
+                        <Link to="clientes">
                             <i className="fa fa-users" aria-hidden="true"></i>
                             <span className="hidden-xs">Clientes</span>
                         </Link>
