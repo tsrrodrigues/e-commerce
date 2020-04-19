@@ -10,8 +10,8 @@ import HeaderTop from '../../../pages/dashboard/content/HeaderTop';
 import ModalAddProduto from '../../../pages/dashboard/content/ModalAddProduto';
 import ModalAddAviso from '../../../pages/dashboard/content/ModalAddAviso';
 
-export default function DashCategories() {
-    document.title = "Categorias";
+export default function DashCategoryEdit() {
+    document.title = "Editar: Categoria";
 
     return (
         <section className="dashboard">
@@ -25,11 +25,35 @@ export default function DashCategories() {
                         <div className="user-dashboard">
                             <h1>Olá, Person Silva</h1>
                             <div className="row">
-                                <div className="col-md-7 col-sm-7 col-xs-12">
+                                <div className="col-md-5 col-sm-4 col-xs-12">
 
                                     <div className="card">
                                         <div className="card-header">
-                                            <h2>Categorias</h2>
+                                            <h2>Editar categoria: Acessórios</h2>
+                                        </div>
+
+                                        <div className="card-body">
+                                            <form>
+                                                <div className="form-group">
+                                                    <label>Nome</label>
+                                                    <input type="text" className="form-control" placeholder="Acessórios"/>
+                                                </div>
+                                                <div className="form-group">
+                                                    <label>Link</label>
+                                                    <input type="text" className="form-control" placeholder="/acessorios"/>
+                                                </div>
+
+                                                <button type="submit" className="btn btn-danger">Salvar</button>
+                                            </form>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div className="col-md-7 col-sm-8 col-xs-12">
+                                    <div className="card">
+                                        <div className="card-header">
+                                            <h2>Produtos na categoria</h2>
 
                                         </div>
 
@@ -37,55 +61,50 @@ export default function DashCategories() {
                                             <table className="table">
                                                 <thead>
                                                     <tr>
-                                                        <th scope="col">Categoria</th>
-                                                        <th scope="col" className="hidden-xs hidden-sm">Link</th>
-                                                        <th scope="col">Produtos</th>
+                                                        <th scope="col">Produto</th>
+                                                        <th scope="col" className="hidden-xs">Outras Cat.</th>
                                                         <th scope="col"></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <tr>
-                                                        <th scope="row">Acessórios</th>
-                                                        <td className="hidden-xs hidden-sm">/acessorios</td>
-                                                        <td>6</td>
+                                                        <th scope="row">Produto 1</th>
+                                                        <td className="hidden-xs">0</td>
                                                         <td>
-                                                            <Link to="/categorias/1" className="btn btn-danger">
-                                                                <i id="icon" className="fa fa-pencil-alt"></i>
-                                                                <span id="details">Editar</span>
-                                                            </Link>
+                                                            <button type="button" className="btn btn-danger">
+                                                                <i id="icon" className="fa fa-trash-alt"></i>
+                                                                <span id="details">Remover</span>
+                                                            </button>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <th scope="row">Casa</th>
-                                                        <td className="hidden-xs hidden-sm">/casa</td>
-                                                        <td>2</td>
+                                                        <th scope="row">Produto 2</th>
+                                                        <td className="hidden-xs">4</td>
                                                         <td>
-                                                            <Link to="/categorias/1" className="btn btn-danger">
-                                                                <i id="icon" className="fa fa-pencil-alt"></i>
-                                                                <span id="details">Editar</span>
-                                                            </Link>
+                                                            <button type="button" className="btn btn-danger">
+                                                                <i id="icon" className="fa fa-trash-alt"></i>
+                                                                <span id="details">Remover</span>
+                                                            </button>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <th scope="row">Eletrônicos</th>
-                                                        <td className="hidden-xs hidden-sm">/eletronicos</td>
-                                                        <td>2</td>
+                                                        <th scope="row">Produto 3</th>
+                                                        <td className="hidden-xs">1</td>
                                                         <td>
-                                                            <Link to="/categorias/1" className="btn btn-danger">
-                                                                <i id="icon" className="fa fa-pencil-alt"></i>
-                                                                <span id="details">Editar</span>
-                                                            </Link>
+                                                            <button type="button" className="btn btn-danger">
+                                                                <i id="icon" className="fa fa-trash-alt"></i>
+                                                                <span id="details">Remover</span>
+                                                            </button>
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <th scope="row">Utilidades</th>
-                                                        <td className="hidden-xs hidden-sm">/utilidades</td>
-                                                        <td>10</td>
+                                                        <th scope="row">Produto 4</th>
+                                                        <td className="hidden-xs">2</td>
                                                         <td>
-                                                            <Link to="/categorias/1" className="btn btn-danger">
-                                                                <i id="icon" className="fa fa-pencil-alt"></i>
-                                                                <span id="details">Editar</span>
-                                                            </Link>
+                                                            <button type="button" className="btn btn-danger">
+                                                                <i id="icon" className="fa fa-trash-alt"></i>
+                                                                <span id="details">Remover</span>
+                                                            </button>
                                                         </td>
                                                     </tr>
                                                 </tbody>
@@ -113,33 +132,6 @@ export default function DashCategories() {
                                                 </ul>
                                             </nav>
                                         </div>
-
-                                    </div>
-
-                                </div>
-
-                                <div className="col-md-5 col-sm-5 col-xs-12">
-
-                                    <div className="card">
-                                        <div className="card-header">
-                                            <h2>Adicionar nova categoria</h2>
-                                        </div>
-
-                                        <div className="card-body">
-                                            <form>
-                                                <div className="form-group">
-                                                    <label>Nome</label>
-                                                    <input type="text" className="form-control" placeholder="Exemplo: Casa"/>
-                                                </div>
-                                                <div className="form-group">
-                                                    <label>Link</label>
-                                                    <input type="text" className="form-control" placeholder="Exemplo: /casa"/>
-                                                </div>
-
-                                                <button type="submit" className="btn btn-danger">Adicionar</button>
-                                            </form>
-                                        </div>
-
                                     </div>
 
                                 </div>
