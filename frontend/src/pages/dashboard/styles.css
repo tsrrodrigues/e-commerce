@@ -32,6 +32,13 @@ input {
     box-shadow: none;
 }
 
+h3 {
+    font-size: 20px;
+}
+h5 {
+    font-size: 16px;
+}
+
 /* Dashboard */
 .display-table {
     display: table;
@@ -324,13 +331,11 @@ header {
     margin: 0;
     padding: 21px 0;
 }
-.dash-comp {
-    margin-top: 30px;
-}
 .card {
     background-color: #fff;
     border: 1px solid #d4d9e3;
     display: inline-block;
+    margin-bottom: 30px;
     padding: 15px;
     width: 100%;
 }
@@ -476,9 +481,6 @@ button.secondary:hover {
     }
     .logo img {
         padding: 2rem;
-    }
-    .dash-comp {
-        margin-top: 0;
     }
     .card-body .table #icon {
         display: none;

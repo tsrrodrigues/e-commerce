@@ -22,31 +22,31 @@ export default function SideBar() {
                         </Link>
                     </li>
                     <li>
-                        <Link to="pedidos">
+                        <Link to="/pedidos">
                             <i className="fa fa-cart-arrow-down" aria-hidden="true"></i>
                             <span className="hidden-xs">Pedidos</span>
                         </Link>
                     </li>
                     <li>
-                        <Link to="produtos">
+                        <Link to="/produtos">
                             <i className="fa fa-cubes" aria-hidden="true"></i>
                             <span className="hidden-xs">Produtos</span>
                         </Link>
                     </li>
                     <li>
-                        <Link to="categorias">
+                        <Link to="/categorias">
                             <i className="fa fa-folder" aria-hidden="true"></i>
                             <span className="hidden-xs">Categorias</span>
                         </Link>
                     </li>
                     <li>
-                        <Link to="clientes">
+                        <Link to="/clientes">
                             <i className="fa fa-users" aria-hidden="true"></i>
                             <span className="hidden-xs">Clientes</span>
                         </Link>
                     </li>
                     <li>
-                        <Link to="#">
+                        <Link to="/ajustes">
                             <i className="fa fa-cog" aria-hidden="true"></i>
                             <span className="hidden-xs">Ajustes</span>
                         </Link>

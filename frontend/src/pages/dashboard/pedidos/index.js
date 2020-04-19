@@ -25,7 +25,7 @@ export default function DashOrders() {
                         <div className="user-dashboard">
                             <h1>Olá, Person Silva</h1>
                             <div className="row">
-                                <div className="col-lg-8 col-md-10 col-xs-12 dash-comp">
+                                <div className="col-lg-8 col-md-10 col-xs-12">
 
                                     <div className="card">
                                         <div className="card-header">
@@ -61,10 +61,10 @@ export default function DashOrders() {
                                                         <td>Aguardando Pagamento</td>
                                                         <td className="hidden-xs">13-04-2020</td>
                                                         <td>
-                                                            <button type="button" className="btn btn-danger">
+                                                            <Link to="/pedidos/detalhe" className="btn btn-danger">
                                                                 <i id="icon" className="fa fa-search"></i>
                                                                 <span id="details">Detalhes</span>
-                                                            </button>
+                                                            </Link>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -73,10 +73,10 @@ export default function DashOrders() {
                                                         <td>Aguardando Entrega</td>
                                                         <td className="hidden-xs">10-04-2020</td>
                                                         <td>
-                                                            <button type="button" className="btn btn-danger">
+                                                            <Link to="/pedidos/detalhe" className="btn btn-danger">
                                                                 <i id="icon" className="fa fa-search"></i>
                                                                 <span id="details">Detalhes</span>
-                                                            </button>
+                                                            </Link>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -85,10 +85,10 @@ export default function DashOrders() {
                                                         <td>Aguardando Entrega</td>
                                                         <td className="hidden-xs">08-04-2020</td>
                                                         <td>
-                                                            <button type="button" className="btn btn-danger">
+                                                            <Link to="/pedidos/detalhe" className="btn btn-danger">
                                                                 <i id="icon" className="fa fa-search"></i>
                                                                 <span id="details">Detalhes</span>
-                                                            </button>
+                                                            </Link>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -97,10 +97,10 @@ export default function DashOrders() {
                                                         <td>Pedido Cancelado</td>
                                                         <td className="hidden-xs">07-04-2020</td>
                                                         <td>
-                                                            <button type="button" className="btn btn-danger">
+                                                            <Link to="/pedidos/detalhe" className="btn btn-danger">
                                                                 <i id="icon" className="fa fa-search"></i>
                                                                 <span id="details">Detalhes</span>
-                                                            </button>
+                                                            </Link>
                                                         </td>
                                                     </tr>
                                                 </tbody>

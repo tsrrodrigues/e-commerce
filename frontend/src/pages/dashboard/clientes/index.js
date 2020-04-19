@@ -25,7 +25,7 @@ export default function DashClients() {
                         <div className="user-dashboard">
                             <h1>Olá, Person Silva</h1>
                             <div className="row">
-                                <div className="col-md-10 col-xs-12 dash-comp">
+                                <div className="col-md-10 col-xs-12">
 
                                     <div className="card">
                                         <div className="card-header">
