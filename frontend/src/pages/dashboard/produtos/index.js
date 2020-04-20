@@ -55,10 +55,10 @@ export default function DashProducts() {
                                                         <td className="hidden-xs">R$ 23,99</td>
                                                         <td>Acessórios, Casa</td>
                                                         <td>
-                                                            <button type="button" className="btn btn-danger">
+                                                            <Link to="/produtos/1" className="btn btn-danger">
                                                                 <i id="icon" className="fa fa-pencil-alt"></i>
                                                                 <span id="details">Editar</span>
-                                                            </button>
+                                                            </Link>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -69,10 +69,10 @@ export default function DashProducts() {
                                                         <td className="hidden-xs">R$ 49,99</td>
                                                         <td>Utilidades, Eletrônicos</td>
                                                         <td>
-                                                            <button type="button" className="btn btn-danger">
+                                                            <Link to="/produtos/1" className="btn btn-danger">
                                                                 <i id="icon" className="fa fa-pencil-alt"></i>
                                                                 <span id="details">Editar</span>
-                                                            </button>
+                                                            </Link>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -83,10 +83,10 @@ export default function DashProducts() {
                                                         <td className="hidden-xs">R$ 3,50</td>
                                                         <td>Alimentos, Frios</td>
                                                         <td>
-                                                            <button type="button" className="btn btn-danger">
+                                                            <Link to="/produtos/1" className="btn btn-danger">
                                                                 <i id="icon" className="fa fa-pencil-alt"></i>
                                                                 <span id="details">Editar</span>
-                                                            </button>
+                                                            </Link>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -97,10 +97,10 @@ export default function DashProducts() {
                                                         <td className="hidden-xs">R$ 200,05</td>
                                                         <td>Casa, Cozinha</td>
                                                         <td>
-                                                            <button type="button" className="btn btn-danger">
+                                                            <Link to="/produtos/1" className="btn btn-danger">
                                                                 <i id="icon" className="fa fa-pencil-alt"></i>
                                                                 <span id="details">Editar</span>
-                                                            </button>
+                                                            </Link>
                                                         </td>
                                                     </tr>
                                                 </tbody>

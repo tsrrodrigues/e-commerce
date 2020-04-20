@@ -51,10 +51,10 @@ export default function DashClients() {
                                                         <td>(61) 9999-9999</td>
                                                         <td className="hidden-xs">DF</td>
                                                         <td>
-                                                            <button type="button" className="btn btn-danger">
+                                                            <Link to="/clientes/1" className="btn btn-danger">
                                                                 <i id="icon" className="fa fa-search"></i>
                                                                 <span id="details">Detalhes</span>
-                                                            </button>
+                                                            </Link>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -63,10 +63,10 @@ export default function DashClients() {
                                                         <td>(11) 5555-5555</td>
                                                         <td className="hidden-xs">SP</td>
                                                         <td>
-                                                            <button type="button" className="btn btn-danger">
+                                                            <Link to="/clientes/1" className="btn btn-danger">
                                                                 <i id="icon" className="fa fa-search"></i>
                                                                 <span id="details">Detalhes</span>
-                                                            </button>
+                                                            </Link>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -75,10 +75,10 @@ export default function DashClients() {
                                                         <td>(51) 3330-3330</td>
                                                         <td className="hidden-xs">RS</td>
                                                         <td>
-                                                            <button type="button" className="btn btn-danger">
+                                                            <Link to="/clientes/1" className="btn btn-danger">
                                                                 <i id="icon" className="fa fa-search"></i>
                                                                 <span id="details">Detalhes</span>
-                                                            </button>
+                                                            </Link>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -87,10 +87,10 @@ export default function DashClients() {
                                                         <td>(21) 1111-1111</td>
                                                         <td className="hidden-xs">RJ</td>
                                                         <td>
-                                                            <button type="button" className="btn btn-danger">
+                                                            <Link to="/clientes/1" className="btn btn-danger">
                                                                 <i id="icon" className="fa fa-search"></i>
                                                                 <span id="details">Detalhes</span>
-                                                            </button>
+                                                            </Link>
                                                         </td>
                                                     </tr>
                                                 </tbody>
