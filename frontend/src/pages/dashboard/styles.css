@@ -417,6 +417,12 @@ header {
 .card-pagination ul {
     margin: 0;
 }
+.user-img {
+    border-radius: 50%;
+    max-width: 100px !important;
+    margin-bottom: 15px;
+    width: 100%;
+}
 
 .modal-content {
     border: 0;

@@ -5,10 +5,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import './styles.css';
 
-import SideBar from '../../pages/dashboard/content/SideBar';
-import HeaderTop from '../../pages/dashboard/content/HeaderTop';
-import ModalAddProduto from '../../pages/dashboard/content/ModalAddProduto';
-import ModalAddAviso from '../../pages/dashboard/content/ModalAddAviso';
+import SideBar from './content/SideBar';
+import HeaderTop from './content/HeaderTop';
+import ModalAddProduto from './content/ModalAddProduto';
+import ModalAddAviso from './content/ModalAddAviso';
 
 export default function DashBoard() {
     document.title = "Painel";

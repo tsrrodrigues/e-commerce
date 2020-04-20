@@ -64,7 +64,7 @@ export default function HeaderTop() {
                                             </p>
                                             <div className="divider">
                                             </div>
-                                            <Link to="#" className="btn btn-sm btn-danger btn-profile">Ver Perfil</Link>
+                                            <Link to="/user/1" className="btn btn-sm btn-danger btn-profile">Ver Perfil</Link>
                                         </div>
                                     </li>
                                 </ul>

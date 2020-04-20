@@ -9,6 +9,7 @@ import DashCategories from './pages/dashboard/categorias';
 import DashCategoryEdit from './pages/dashboard/categorias/edit'
 import DashClients from './pages/dashboard/clientes';
 import DashConfig from './pages/dashboard/ajustes';
+import DashUser from './pages/dashboard/user';
 
 export default function Routes() {
     return (
@@ -22,6 +23,7 @@ export default function Routes() {
                 <Route path="/categorias/1" component={DashCategoryEdit} />
                 <Route path="/clientes" component={DashClients} />
                 <Route path="/ajustes" component={DashConfig} />
+                <Route path="/user/1" component={DashUser} />
             </Switch>
         </BrowserRouter>
     );
