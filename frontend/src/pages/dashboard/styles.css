@@ -1,0 +1,519 @@
+@import url('https://fonts.googleapis.com/css?family=Baloo+Thambi+2:400,600,700&display=swap');
+
+/* E-Commerce CSS */
+
+body {
+    font-family: 'Baloo Thambi 2', cursive;
+    background: #f6f7fa;
+}
+
+a:focus, a:hover, a {
+    color: #000;
+    outline: none;
+    text-decoration: none;
+}
+
+div {
+    position: relative;
+}
+
+li, ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+img {
+    height: auto;
+    max-width: 100%;
+}
+
+input {
+    box-shadow: none;
+}
+
+textarea {
+    resize: vertical;
+}
+
+h3 {
+    font-size: 20px;
+}
+h5 {
+    font-size: 16px;
+}
+
+/* Dashboard */
+.display-table {
+    display: table;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.display-table-row {
+    display: table-row;
+    height: 100%;
+}
+
+.display-table-cell {
+    display: table-cell;
+    float: none;
+    height: 100%;
+}
+
+.v-align {
+    vertical-align: top;
+}
+
+.shadow {
+    box-shadow: 0 .15rem 1.75rem 0 rgba(0,0,0,.10);
+}
+
+.table > tbody > tr > td,
+.table > tbody > tr > th,
+.table > tfoot > tr > td,
+.table > tfoot > tr >th,
+.table > thead> tr > td,
+.table > thead > tr > th {
+    vertical-align: middle;
+}
+
+.form-control {
+    background-color: #f6f7fa;
+    border: none;
+    box-shadow: none;
+}
+.form-control:focus {
+    border-color: #e53935;
+    outline: 0;
+    box-shadow: none;
+}
+
+button, .btn {
+    background-color: #ef5350;
+    border: 0;
+    border-radius: 100px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 10px 30px;
+    position: relative;
+    line-height: 1.5;
+}
+button:hover, .btn:hover {
+    background-color: #e53935;
+}
+
+.pagination > li > a,
+.pagination > li > span {
+    border: 1px solid #dadee7;
+    padding: 10px 15px;
+    font-weight: 600;
+    color: #000;
+    text-decoration: none;
+}
+
+.pagination > li > a:focus,
+.pagination > li > a:hover,
+.pagination > li > span:focus,
+.pagination > li > span:hover {
+    color: #000;
+    background-color: #dadee7;
+}
+
+#navigation {
+    background: #e53935;
+    background: linear-gradient(60deg,#ef5350,#e53935);
+    display: none;
+    padding: 0;
+}
+#navigation {
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+#navigation.collapse {
+    display: none;
+}
+#navigation.collapse.in {
+    display: table-cell;
+}
+
+.logo {
+    text-align: center;
+}
+.logo img {
+	padding: 1.5rem 1.5rem;
+	width: auto;
+}
+.admin-bar a {
+    color: #fff;
+    display: block;
+    font-size: 17px;
+    font-weight: 500;
+	padding: 25px 20px;
+	text-align: center;
+    text-decoration: none;
+}
+.admin-bar a::after {
+    border: 0;
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    content: '\f105';
+    display: none;
+    float: right;
+    width: 1rem;
+    text-align: center;
+    vertical-align: 0;
+}
+.admin-bar li::after {
+    border-bottom: 1px solid rgba(255,255,255,.15);
+    content: "";
+    position: absolute;
+    height: 0;
+    width: 80%;
+    left: 10%;
+}
+.admin-bar a:hover {
+    background: rgba(255,255,255,.8);
+    color: #000;
+}
+
+.admin-bar .active a {
+    background: rgba(255,255,255,.8);
+    color: #000;
+}
+.admin-bar .active a::after {
+    display: none;
+}
+.admin-bar i {
+	font-size: 1.15em;
+    margin-right: 0;
+}
+.admin-bar .fa {
+	width: 1.25em;
+}
+
+header {
+    background-color: #fff;
+    display: inline-block !important;
+    line-height: 23px;
+    padding: 15px;
+    width: 100%;
+}
+header {
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+.navbar-default {
+    background-color: #fff;
+    border-color: #fff;
+}
+.navbar-toggle {
+    border: none;
+}
+.navbar-default .navbar-toggle:focus,
+.navbar-default .navbar-toggle:hover {
+    background-color: rgba(0, 0, 0, 0);
+}
+.navbar-default .navbar-toggle .icon-bar {
+    background-color: #333;
+}
+
+.search form {
+    margin-top: 5px;
+    margin-bottom: 0;
+}
+.search input {
+    background-color: #f6f7fa;
+    border: none;
+    box-shadow: none;
+    font-size: 14px;
+    margin-right: 5px;
+    padding: 10px 10px;
+    height: auto;
+    width: 100%;
+    color: #333;
+}
+.search button {
+    padding: 12px 25px;
+}
+
+.header-top li {
+    display: inline-block;
+    margin-left: 5px;
+    text-align: center;
+}
+.header-top i {
+    font-size: 18px;
+    color: #000;
+}
+.header-top img {
+    border-radius: 50%;
+    max-width: 48px !important;
+    width: 100%;
+}
+.header-top .btn {
+    padding: 10px 27px 10px 45px;
+}
+.header-top .btn::before {
+    content: "\f067";
+    font-family: 'Font Awesome 5 Free';
+    font-size: 14px;
+    position: absolute;
+    top: 10px;
+    left: 20px;
+}
+.header-top .dropdown-menu {
+    border: medium none;
+    left: -85px;
+    padding: 17px;
+}
+.dropdown-menu.drop-link {
+    left: -60px;
+}
+.dropdown-menu.drop-link a {
+    font-weight: 600;
+    display: block;
+    padding: 9px 0;
+    text-align: left;
+}
+.dropdown-menu.drop-link a:hover {
+    color: #e53935;
+}
+.navbar-content > span {
+    font-size: 13px;
+    font-weight: 700;
+}
+.navbar-content .btn-profile {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 15px;
+}
+.navbar-content .btn-profile::before {
+    display: none;
+}
+
+.icon-info {
+    position: relative;
+}
+.icon-info .label {
+    border: 2px solid #fff;
+    font-weight: 500;
+    padding: 3px 5px;
+    text-align: center;
+}
+.label-primary {
+    background-color: #e53935;
+}
+.label.label-primary {
+    border-radius: 50%;
+    font-size: 9px;
+    left: 8px;
+    position: absolute;
+    top: -9px;
+}
+
+.hidden-xs {
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+.user-dashboard {
+    padding: 0 20px;
+}
+.user-dashboard h1 {
+    color: #000;
+    font-size: 30px;
+    font-weight: 500;
+    margin: 0;
+    padding: 21px 0;
+}
+.card {
+    background-color: #fff;
+    border: 1px solid #d4d9e3;
+    display: inline-block;
+    margin-bottom: 30px;
+    padding: 15px;
+    width: 100%;
+}
+.card .btn-group {
+    float: right;
+}
+.card h2 {
+    color: #333;
+    float: left;
+    font-size: 21px;
+    font-weight: 600;
+    margin: 0;
+    padding: 9px 0 0;
+}
+.card-header {
+    display: inline-block;
+    width: 100%;
+}
+.card-header button {
+    background-color: #fff;
+    border: 1px solid #dadee7;
+    border-radius: 100px;
+    font-size: 15px;
+    letter-spacing: 0.5px;
+    padding: 10px 32px 10px 16px;
+    color: #000;
+}
+.card-header button:hover {
+    background-color: #dadee7;
+}
+.card-header button::before {
+    content: "\f107";
+    font-family: 'Font Awesome 5 Free';
+    position: absolute;
+    right: 12px;
+    top: 12px;
+}
+.btn.btn-secondary.btn-lg.dropdown-toggle > span {
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+.card .btn-group.open .dropdown-toggle, .btn.active, .btn:active {
+    background-color: #fff;
+    box-shadow: none;
+}
+.card .dropdown-menu {
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
+    border-radius: 8px;
+    width: 100%;
+    color: #000;
+}
+.card .dropdown-menu > a {
+    color: #000;
+    display: inline-block;
+    font-weight: 800;
+    padding: 9px 0;
+    text-align: center;
+    width: 100%;
+}
+.card .dropdown-menu > a:hover{
+    color: #e53935;   
+}
+.card-body {
+    margin-top: 20px;
+}
+.card-body .table #icon {
+    display: block;
+}
+.card-body .table #details {
+    display: none;
+}
+.card-pagination {
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+.card-pagination ul {
+    margin: 0;
+}
+.user-img {
+    border-radius: 50%;
+    max-width: 100px !important;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.modal-content {
+    border: 0;
+}
+.modal-header.login-header {
+    background-color: #e53935;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+.modal-header.login-header h4 {
+    color: #fff;
+}
+.modal-header .close {
+    margin-top: 2px;
+}
+.close, .close:focus, .close:hover {
+    color: #fff;;
+    opacity: 1;
+    text-shadow: none;
+}
+.modal-body input {
+    border: 1px solid #d4d9e3;
+    font-size: 14px;
+    font-weight: 300;
+    margin: 5px 0;
+    padding: 14px 10px;
+    width: 100%;
+    color: #333;
+}
+.modal-body textarea {
+    border: 1px solid #d4d9e3;
+    font-size: 14px;
+    font-weight: 300;
+    height: 200px;
+    margin-top: 5px;
+    padding: 9px 10px;
+    width: 100%;
+    color: #333;
+}
+.modal-footer {
+    border: 0 none;
+    padding: 10px 15px 26px;
+    text-align: right;
+}
+.modal-footer button {
+    margin-left: 5px;
+}
+button.secondary {
+    background: #000;
+}
+button.secondary:hover {
+    background: #333;
+}
+
+@media screen and (min-width: 768px) {
+    #navigation {
+        display: table-cell;
+    }
+    #navigation.collapse {
+        display: table-cell;
+    }
+    .logo img {
+        padding: 2rem;
+    }
+    .card-body .table #icon {
+        display: none;
+    }
+    .card-body .table #details {
+        display: block;
+    }
+}
+
+@media screen and (min-width: 992px) {
+    .logo img {
+        max-height: 85px;
+        padding: 20px 0 20px;
+    }
+    .admin-bar a {
+		text-align: left;
+    }
+    .admin-bar a::after {
+        display: block;
+    }
+    .admin-bar i {
+		margin-right: 15px;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+}
