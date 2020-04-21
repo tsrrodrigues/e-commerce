@@ -27,7 +27,12 @@ const ProductSchema = new Schema(
       required: [true, 'É necessário adicionar a categoria do produto'],
       trim: true,
       lowercase: true
-    }
+    },
+    image: {
+      type: String,
+      required: [true, 'A imagem do produto é obrigatória'],
+      trim: true,
+    },
   },
   { timestamps: true }
 )
