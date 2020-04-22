@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import api from '../../../services/api';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
@@ -11,6 +12,18 @@ import ModalAddProduto from '../content/ModalAddProduto';
 import ModalAddAviso from '../content/ModalAddAviso';
 
 export default function DashCategories() {
+    const [categories, setCategories] = useState([]);
+
+    useEffect(() => {
+        api.get('tag', {
+            headers: {
+                "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlOGNlMzRjZWQ0MzdjMDYzYTcwMjg4MyIsImFjY2Vzc19sZXZlbCI6MywiaWF0IjoxNTg2ODE5MzM4LCJleHAiOjE1ODY5MDU3Mzh9.bNKSPg1PnvqPSlJDhL7zHjrEt7vQyynRLEeRFWdBsRk",
+            }
+        }).then(response => {
+            setCategories(response.data);
+        })
+    });
+
     document.title = "Categorias";
 
     return (
@@ -44,6 +57,19 @@ export default function DashCategories() {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+                                                    {categories.map(category => (
+                                                        <tr key={category.id}>
+                                                            <th scope="row">Acessórios</th>
+                                                            <td className="hidden-xs hidden-sm">/acessorios</td>
+                                                            <td>6</td>
+                                                            <td>
+                                                                <Link to="/categorias/1" className="btn btn-danger">
+                                                                    <i id="icon" className="fa fa-pencil-alt"></i>
+                                                                    <span id="details">Editar</span>
+                                                                </Link>
+                                                            </td>
+                                                        </tr>
+                                                    ))}
                                                     <tr>
                                                         <th scope="row">Acessórios</th>
                                                         <td className="hidden-xs hidden-sm">/acessorios</td>
