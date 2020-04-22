@@ -14,7 +14,7 @@ function generateToken(params = {}) {
 
 exports.getAll = async (data) => {
   try {
-    if (data.userAccessLevel < 2) return { error: 'Unauthorized ' }
+    if (data.userAccessLevel < 2) return { error: 'Unauthorized' }
 
     // TAG
     let params = {}

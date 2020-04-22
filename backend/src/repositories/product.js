@@ -81,20 +81,23 @@ exports.register = async (data) => {
     if (await Product.findOne({ name }))
       return { error: 'Product already exists' }
 
-    const tagName = data.body.tag
-    if (!(await Tag.findOne({ tagName }))) {
-      let tag = new Tag()
-      tag.name = data.body.tag
-      tag = await tag.save()
-    }
-
     let product = new Product()
 
     product.name = data.body.name
     product.description = data.body.description
     product.price = parseInt(data.body.price * 100)
     product.quantity = data.body.quantity
-    product.tag = data.body.tag
+
+    const tagName = data.body.tag
+    if (await Tag.findOne({ name: tagName })) {
+      product.tag = data.body.tag
+    } else {
+      let tag = new Tag()
+      tag.name = data.body.tag
+      tag = await tag.save()
+      product.tag = data.body.tag
+    }
+    
 
     product = await product.save()
 
