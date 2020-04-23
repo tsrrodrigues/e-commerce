@@ -2,6 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 
 const app = express()
+const cors = require('cors')
 
 // Carregando os models
 const User = require('./models/user')
@@ -18,6 +19,7 @@ const cartRoute = require('./routes/cart')
 const orderRoute = require('./routes/order')
 const tagRoute = require('./routes/tag')
 
+app.use(cors())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
