@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import api from '../../../services/api';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
@@ -13,6 +14,7 @@ import ModalAddAviso from '../content/ModalAddAviso';
 import productImg from '../../../assets/img/cube-solid.svg';
 
 export default function DashProducts() {
+
     document.title = "Produtos";
 
     return (
