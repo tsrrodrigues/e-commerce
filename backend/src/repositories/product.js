@@ -23,20 +23,10 @@ exports.getAvailables = async (data) => {
         '_id name description quantity price createdAt tag'
       ).sort(sort)
     ).filter((product) => product.quantity > 0)
-    // products.map( (prod) => {
-    //   prod.price /= 100
-    //   let aux = new Product()
-    //   aux.name = prod.name
-    //   aux.description = prod.description
-    //   aux.price = prod.price
-    //   aux.quantity = prod.description
-    //   aux.tag = await Tag.findById(prod.tag)
-    //   Object.assign(prod, aux)
-    // })
-    
-    // for each (prod in products) {
-
-    // }
+    for (let index = 0; index < products.length; index++) {
+      products[index].price /= 100
+      products[index].tag = await Tag.findById(products[index].tag)
+    }
     return products
   } catch (err) {
     return { error: 'List Availables Products failed' }
@@ -62,9 +52,10 @@ exports.getAll = async (data) => {
       '_id name description quantity price createdAt tag'
     ).sort(sort)
 
-    products.map(async (prod) => {
-      prod.price /= 100
-    })
+    for (let index = 0; index < products.length; index++) {
+      products[index].price /= 100
+      products[index].tag = await Tag.findById(products[index].tag)
+    }
     return products
   } catch (err) {
     return { error: 'List All Products failed' }
@@ -78,13 +69,14 @@ exports.getOne = async (data) => {
       '_id name description quantity price createdAt tag'
     )
     product.price /= 100
+    product.tag = await Tag.findById(product.tag)
     return product
   } catch (err) {
     return { error: 'List One Products failed' }
   }
 }
 
-exports.register = async (data) => {
+exports.register = async (data) => {  
   if (data.userAccessLevel < 2) return { error: 'Unauthorized' }
 
   const { name } = data.body
@@ -104,10 +96,10 @@ exports.register = async (data) => {
     if (tag) {
       product.tag = tag.id
     } else {
-      let tag_aux = new Tag()
-      tag_aux.name = data.body.tag
-      tag_aux = await tag_aux.save()
-      product.tag = tag_aux.id
+      let new_tag = new Tag()
+      new_tag.name = data.body.tag
+      new_tag = await new_tag.save()
+      product.tag = new_tag.id
     }
 
     product = await product.save()
@@ -154,6 +146,8 @@ exports.delete = async (data) => {
   try {
     if (data.userAccessLevel < 2) return { error: 'Unauthorized' }
     const product = await Product.findByIdAndDelete(data.params.id)
+    product.price /= 100
+    product.tag = await Tag.findById(product.tag)
     return product
   } catch (err) {
     return { error: 'Delete failed' }
