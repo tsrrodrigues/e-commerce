@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import api from '../../../services/api';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -14,6 +14,22 @@ import ModalAddAviso from '../content/ModalAddAviso';
 import productImg from '../../../assets/img/cube-solid.svg';
 
 export default function DashProducts() {
+
+    const history = useHistory();
+
+    const [products, setProducts] = useState([]);
+
+    const token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlOTc0MTE5M2FmMTlhNmFkMTc0ODYyZSIsImFjY2Vzc19sZXZlbCI6MywiaWF0IjoxNTg3Njc5Nzk3LCJleHAiOjE1ODc3NjYxOTd9.4rhE08wZrd46sFIluahbv84vGiW7vAb4AhflBnX7Emo"
+
+    useEffect(() => {
+        api.get('/product/admin', {
+            headers: {
+                Authorization: token
+            }
+        }).then(response => {
+            setProducts(response.data);
+        })
+    });
 
     document.title = "Produtos";
 
@@ -49,62 +65,27 @@ export default function DashProducts() {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
-                                                        <th scope="row">
-                                                            <img src={productImg} height="100" width="100" alt="produto"/>
-                                                        </th>
-                                                        <th scope="col">Produto 1</th>
-                                                        <td className="hidden-xs">R$ 23,99</td>
-                                                        <td>Acessórios, Casa</td>
-                                                        <td>
-                                                            <Link to="/produtos/1" className="btn btn-danger">
-                                                                <i id="icon" className="fa fa-pencil-alt"></i>
-                                                                <span id="details">Editar</span>
-                                                            </Link>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th scope="row">
-                                                            <img src={productImg} height="100" width="100" alt="produto"/>
-                                                        </th>
-                                                        <th scope="col">Produto 2</th>
-                                                        <td className="hidden-xs">R$ 49,99</td>
-                                                        <td>Utilidades, Eletrônicos</td>
-                                                        <td>
-                                                            <Link to="/produtos/1" className="btn btn-danger">
-                                                                <i id="icon" className="fa fa-pencil-alt"></i>
-                                                                <span id="details">Editar</span>
-                                                            </Link>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th scope="row">
-                                                            <img src={productImg} height="100" width="100" alt="produto"/>
-                                                        </th>
-                                                        <th scope="col">Produto 3</th>
-                                                        <td className="hidden-xs">R$ 3,50</td>
-                                                        <td>Alimentos, Frios</td>
-                                                        <td>
-                                                            <Link to="/produtos/1" className="btn btn-danger">
-                                                                <i id="icon" className="fa fa-pencil-alt"></i>
-                                                                <span id="details">Editar</span>
-                                                            </Link>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th scope="row">
-                                                            <img src={productImg} height="100" width="100" alt="produto"/>
-                                                        </th>
-                                                        <th scope="col">Produto 4</th>
-                                                        <td className="hidden-xs">R$ 200,05</td>
-                                                        <td>Casa, Cozinha</td>
-                                                        <td>
-                                                            <Link to="/produtos/1" className="btn btn-danger">
-                                                                <i id="icon" className="fa fa-pencil-alt"></i>
-                                                                <span id="details">Editar</span>
-                                                            </Link>
-                                                        </td>
-                                                    </tr>
+                                                    {products.map(product => (
+                                                        <tr key={product._id}>
+                                                            <th scope="row">
+                                                                <img src={productImg} height="100" width="100" alt="produto"/>
+                                                            </th>
+                                                            <th scope="col">{product.name}</th>
+                                                            <td className="hidden-xs">R${product.price}</td>
+                                                            <td>{product.tag}</td>
+                                                            <td>
+                                                                <button
+                                                                    onClick={() => {               
+                                                                        history.push(`/produtos/${product._id}`)
+                                                                    }}
+                                                                    className="btn btn-danger"
+                                                                >
+                                                                    <i id="icon" className="fa fa-pencil-alt"></i>
+                                                                    <span id="details">Editar</span>
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                    ))}
                                                 </tbody>
                                             </table>
                                         </div>
