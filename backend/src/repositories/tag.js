@@ -12,6 +12,16 @@ exports.getAll = async (data) => {
   }
 }
 
+exports.getOne = async (data) => {
+  try {
+    if (data.userAccessLevel < 2) return { error: 'Unauthorized' }
+    const tag = await Tag.findById(data.params.id)
+    return tag
+  } catch (err) {
+    return { error: 'List Tag failed' }
+  }
+}
+
 exports.create = async (data) => {
   try {
     if (data.userAccessLevel < 2) return { error: 'Unauthorized' }
