@@ -11,7 +11,7 @@ exports.getAvailables = async (data) => {
     let params = {}
     if (data.query.tag) {
       const tag = await Tag.findOne({ name: data.query.tag })
-      params = { tag: tag.name }
+      params = { tag: tag.id }
     }
     // SORT
     let sort = ''
@@ -41,7 +41,7 @@ exports.getAll = async (data) => {
     let params = {}
     if (data.query.tag) {
       const tag = await Tag.findOne({ name: data.query.tag })
-      params = { tag: tag.name }
+      params = { tag: tag.id }
     }
     // SORT
     let sort = ''
