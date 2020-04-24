@@ -1,6 +1,8 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
+import LoginForm from './pages/dashboard/content/LoginForm';
+
 import DashBoard from './pages/dashboard';
 
 import DashOrders from './pages/dashboard/pedidos';
@@ -25,6 +27,8 @@ export default function Routes() {
             <Switch>
                 <Route path="/" exact component={DashBoard} />
 
+                <Route path="/login" component={LoginForm} />
+
                 <Route path="/pedidos" exact component={DashOrders} />
                 <Route path="/pedidos/detalhe" component={DashOrderDetail} />
 
@@ -32,14 +36,14 @@ export default function Routes() {
                 <Route path="/produtos/1" component={DashProductEdit} />
 
                 <Route path="/categorias" exact component={DashCategories} />
-                <Route path="/categorias/1" component={DashCategoryEdit} />
+                <Route path="/categorias/:id" component={DashCategoryEdit} />
 
                 <Route path="/clientes" exact component={DashClients} />
-                <Route path="/clientes/1" component={DashClientDetail} />
+                <Route path="/clientes/:id" component={DashClientDetail} />
 
                 <Route path="/ajustes" component={DashConfig} />
                 
-                <Route path="/user/1" component={DashUser} />
+                <Route path="/user/:id" component={DashUser} />
             </Switch>
         </BrowserRouter>
     );
