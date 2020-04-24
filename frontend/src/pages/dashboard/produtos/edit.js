@@ -18,11 +18,6 @@ export default function DashProductEdit(props) {
     const productId = props.match.params.id
     
     const [product, setProduct] = useState({})
-    const [name, setName] = useState('')
-    const [description, setDescription] = useState('')
-    const [tag] = useState('')
-    const [price, setPrice] = useState('')
-    const [quantity, setQuantity] = useState('')
     
     useEffect(() =>{
         api.get(`/product/${productId}`)
@@ -30,15 +25,21 @@ export default function DashProductEdit(props) {
             setProduct(response.data)
         })
     })
+    
+    const [name, setName] = useState('')
+    const [description, setDescription] = useState('')
+    const [tag] = useState('')
+    const [price, setPrice] = useState('')
+    const [quantity, setQuantity] = useState('')
 
     async function handleEditProduct (e) {
         e.preventDefault()
         const data = {
-            name: name,
-            description: description,
-            price: price,
-            quantity: quantity,
-            tag: tag
+            name: name? name : product.name,
+            description: description? description : product.description,
+            price: price? price : product.price,
+            quantity: quantity? quantity : product.quantity,
+            tag: tag? tag : product.tag
         }
 
         try {
@@ -81,19 +82,17 @@ export default function DashProductEdit(props) {
                                                 <div className="form-group">
                                                     <label>Título</label>
                                                     <input
-                                                        placeholder={product.name}
+                                                        defaultValue={product.name}
                                                         type="text"
                                                         className="form-control"
-                                                        value={name}
                                                         onChange={ e => setName(e.target.value)}
                                                     />
                                                 </div>
                                                 <div className="form-group">
                                                     <label>Descrição</label>
                                                     <textarea
-                                                        placeholder={product.description}
+                                                        defaultValue={product.description}
                                                         className="form-control"
-                                                        value={description}
                                                         onChange={e  => setDescription(e.target.value)} 
                                                     />
                                                 </div>
@@ -113,20 +112,18 @@ export default function DashProductEdit(props) {
                                                 <div className="form-group">
                                                     <label>Preço</label>
                                                     <input
-                                                        placeholder={product.price}
+                                                        defaultValue={product.price}
                                                         className="form-control"
                                                         type="value"
-                                                        value={price}
                                                         onChange = {e => setPrice(e.target.value)}
                                                     />
                                                 </div>
                                                 <div className="form-group">
                                                     <label>Estoque</label>
                                                     <input
-                                                        placeholder={product.quantity}
+                                                        defaultValue={product.quantity}
                                                         type="number"
                                                         className="form-control"
-                                                        value={quantity}
                                                         onChange = {e => setQuantity(e.target.value)}
                                                     />
                                                 </div>

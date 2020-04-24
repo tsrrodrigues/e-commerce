@@ -23,10 +23,9 @@ const ProductSchema = new Schema(
       required: [true, 'A quantidade do produto no estoque é obrigatória'],
     },
     tag: {
-      type: String,
+      type: Schema.Types.ObjectId,
+      ref: 'Tag',
       required: [true, 'É necessário adicionar a categoria do produto'],
-      trim: true,
-      lowercase: true
     }
   },
   { timestamps: true }

@@ -23,9 +23,20 @@ exports.getAvailables = async (data) => {
         '_id name description quantity price createdAt tag'
       ).sort(sort)
     ).filter((product) => product.quantity > 0)
-    products.map((prod) => {
-      prod.price /= 100
-    })
+    // products.map( (prod) => {
+    //   prod.price /= 100
+    //   let aux = new Product()
+    //   aux.name = prod.name
+    //   aux.description = prod.description
+    //   aux.price = prod.price
+    //   aux.quantity = prod.description
+    //   aux.tag = await Tag.findById(prod.tag)
+    //   Object.assign(prod, aux)
+    // })
+    
+    // for each (prod in products) {
+
+    // }
     return products
   } catch (err) {
     return { error: 'List Availables Products failed' }
@@ -88,16 +99,16 @@ exports.register = async (data) => {
     product.price = parseInt(data.body.price * 100)
     product.quantity = data.body.quantity
 
-    const tagName = data.body.tag
-    if (await Tag.findOne({ name: tagName })) {
-      product.tag = data.body.tag
-    } else {
-      let tag = new Tag()
-      tag.name = data.body.tag
-      tag = await tag.save()
-      product.tag = data.body.tag
-    }
     
+    const tag = await Tag.findOne({ name: data.body.tag })
+    if (tag) {
+      product.tag = tag.id
+    } else {
+      let tag_aux = new Tag()
+      tag_aux.name = data.body.tag
+      tag_aux = await tag_aux.save()
+      product.tag = tag_aux.id
+    }
 
     product = await product.save()
 

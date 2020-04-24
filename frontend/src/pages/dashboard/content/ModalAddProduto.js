@@ -3,7 +3,7 @@ import api from '../../../services/api';
 
 export default function ModalAddProduto() {
 
-    const token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlOTc0MTE5M2FmMTlhNmFkMTc0ODYyZSIsImFjY2Vzc19sZXZlbCI6MywiaWF0IjoxNTg3NTkyMDQ3LCJleHAiOjE1ODc2Nzg0NDd9.byHQGPEVrHmMhix46qpAvJr17frDRxMEkgVyXV_h7Nw"
+    const token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlOTc0MTE5M2FmMTlhNmFkMTc0ODYyZSIsImFjY2Vzc19sZXZlbCI6MywiaWF0IjoxNTg3NzU2MzIzLCJleHAiOjE1ODc4NDI3MjN9.7xlpbt3hE75_PTQQFora1RzYsTl3oCD1-_xXnEuVhxw"
 
     const [name, setName] = useState('');
     const [tag, setTag] = useState('');
@@ -30,7 +30,7 @@ export default function ModalAddProduto() {
                 }
             });
         } catch (err) {
-            alert("Erro ao Adicionar produto, tente novamente.");
+            alert("Erro ao Adicionar produto, tente novamente. " + err);
         }
     }
 
