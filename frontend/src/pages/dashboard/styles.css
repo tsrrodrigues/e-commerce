@@ -78,6 +78,9 @@ h5 {
 .table > thead > tr > th {
     vertical-align: middle;
 }
+.table .btn + .btn {
+    margin-left: 10px;
+}
 
 .form-control {
     background-color: #f6f7fa;
