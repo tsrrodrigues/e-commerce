@@ -78,9 +78,6 @@ h5 {
 .table > thead > tr > th {
     vertical-align: middle;
 }
-.table .btn + .btn {
-    margin-left: 10px;
-}
 
 .form-control {
     background-color: #f6f7fa;
@@ -106,6 +103,9 @@ button, .btn {
 }
 button:hover, .btn:hover {
     background-color: #e53935;
+}
+.btn + .btn {
+    margin-left: 10px;
 }
 
 .pagination > li > a,
@@ -474,14 +474,16 @@ header {
     padding: 10px 15px 26px;
     text-align: right;
 }
-.modal-footer button {
-    margin-left: 5px;
-}
-button.secondary {
+.btn-black {
     background: #000;
 }
-button.secondary:hover {
+.btn-black:hover {
     background: #333;
+    color: #fff;
+}
+.btn-black:focus {
+    background: #333;
+    color: #fff;
 }
 
 @media screen and (min-width: 768px) {

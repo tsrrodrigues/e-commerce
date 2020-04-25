@@ -16,7 +16,7 @@ export default function ModalAddProduto() {
                         <textarea placeholder="Descrição"></textarea>
                     </div>
                     <div className="modal-footer">
-                        <button type="button" className="secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="button" className="btn btn-black" data-dismiss="modal">Cancelar</button>
                         <button type="button" className="btn btn-danger" data-dismiss="modal">Salvar</button>
                     </div>
                 </div>
