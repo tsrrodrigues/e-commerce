@@ -76,7 +76,7 @@ export default function DashOrders() {
                                                         <tr key={order._id}>
                                                             <th scope="row">{order.user.name.first}</th>
                                                             <td className="hidden-xs">R$ {order.cart.total}</td>
-                                                            <td>Aguardando Entrega</td>
+                                                            <td>{order.status}</td>
                                                             <td className="hidden-xs">
                                                                 {
                                                                     order.createdAt.substring(8, 10) + "/" +

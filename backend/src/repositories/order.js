@@ -7,7 +7,15 @@ const Cart = mongoose.model('Cart')
 exports.getAll = async (data) => {
   try {
     if (data.userAccessLevel < 2) return { error: 'Unauthorized' }
-    const orders = await Order.find()
+    // Actives
+    let params = {}
+    if (data.query.s === "waitdeliver") {
+      params = { status: "Aguardando Entrega" }
+    }
+    else if (data.query.s === "fordeliver") {
+      params = { status: "Saiu para Entrega" }
+    }
+    const orders = await Order.find(params)
     for (let index = 0; index < orders.length; index++) {
       orders[index].user = await User.findById(orders[index].user)
       orders[index].cart = await Cart.findById(orders[index].cart)
