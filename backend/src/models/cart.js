@@ -20,9 +20,18 @@ const CartSchema = new Schema(
         },
         price: {
           type: Number,
+        },
+        name: {
+          type: String,
+          trim: true,
+          lowercase: true
         }
       }
     ],
+    order: {
+      type: Boolean,
+      default: false
+    }
   },
   { timestamps: true }
 )

@@ -1,5 +1,6 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import api from '../../../services/api';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
@@ -11,6 +12,22 @@ import ModalAddProduto from '../content/ModalAddProduto';
 import ModalAddAviso from '../content/ModalAddAviso';
 
 export default function DashOrders() {
+
+    const token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlOTc0MTE5M2FmMTlhNmFkMTc0ODYyZSIsImFjY2Vzc19sZXZlbCI6MywiaWF0IjoxNTg3NzU2MzIzLCJleHAiOjE1ODc4NDI3MjN9.7xlpbt3hE75_PTQQFora1RzYsTl3oCD1-_xXnEuVhxw"
+    const history = useHistory();
+
+    const [orders, setOrders] = useState([])
+
+    useEffect(() => {
+        api.get('/order', {
+            headers: {
+                Authorization: token
+            }
+        }).then(response => {
+            setOrders(response.data)
+        })
+    })
+
     document.title = "Pedidos";
     
     return (
@@ -55,54 +72,31 @@ export default function DashOrders() {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
-                                                        <th scope="row">Timóteo</th>
-                                                        <td className="hidden-xs">R$ 23,99</td>
-                                                        <td>Aguardando Pagamento</td>
-                                                        <td className="hidden-xs">13-04-2020</td>
-                                                        <td>
-                                                            <Link to="/pedidos/detalhe" className="btn btn-danger">
-                                                                <i id="icon" className="fa fa-search"></i>
-                                                                <span id="details">Detalhes</span>
-                                                            </Link>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th scope="row">Henrique</th>
-                                                        <td className="hidden-xs">R$ 49,99</td>
-                                                        <td>Aguardando Entrega</td>
-                                                        <td className="hidden-xs">10-04-2020</td>
-                                                        <td>
-                                                            <Link to="/pedidos/detalhe" className="btn btn-danger">
-                                                                <i id="icon" className="fa fa-search"></i>
-                                                                <span id="details">Detalhes</span>
-                                                            </Link>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th scope="row">Alana</th>
-                                                        <td className="hidden-xs">R$ 3,50</td>
-                                                        <td>Aguardando Entrega</td>
-                                                        <td className="hidden-xs">08-04-2020</td>
-                                                        <td>
-                                                            <Link to="/pedidos/detalhe" className="btn btn-danger">
-                                                                <i id="icon" className="fa fa-search"></i>
-                                                                <span id="details">Detalhes</span>
-                                                            </Link>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th scope="row">Catarina</th>
-                                                        <td className="hidden-xs">R$ 200,05</td>
-                                                        <td>Pedido Cancelado</td>
-                                                        <td className="hidden-xs">07-04-2020</td>
-                                                        <td>
-                                                            <Link to="/pedidos/detalhe" className="btn btn-danger">
-                                                                <i id="icon" className="fa fa-search"></i>
-                                                                <span id="details">Detalhes</span>
-                                                            </Link>
-                                                        </td>
-                                                    </tr>
+                                                    {orders.map(order => (
+                                                        <tr>
+                                                            <th scope="row">{order.user.name}</th>
+                                                            <td className="hidden-xs">R$ {order.cart.total}</td>
+                                                            <td>Aguardando Entrega</td>
+                                                            <td className="hidden-xs">
+                                                                {
+                                                                    order.createdAt.substring(8, 10) + "/" +
+                                                                    order.createdAt.substring(5, 7) + "/" +
+                                                                    order.createdAt.substring(0, 4)
+                                                                }
+                                                            </td>
+                                                            <td>
+                                                                <button 
+                                                                    onClick={() => {               
+                                                                        history.push(`/pedidos/${order._id}`)
+                                                                    }}
+                                                                    className="btn btn-danger"
+                                                                >
+                                                                    <i id="icon" className="fa fa-search"></i>
+                                                                    <span id="details">Detalhes</span>
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                    ))}
                                                 </tbody>
                                             </table>
                                         </div>

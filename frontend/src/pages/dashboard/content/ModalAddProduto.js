@@ -3,7 +3,7 @@ import api from '../../../services/api';
 
 export default function ModalAddProduto() {
 
-    const token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlOTc0MTE5M2FmMTlhNmFkMTc0ODYyZSIsImFjY2Vzc19sZXZlbCI6MywiaWF0IjoxNTg3NzU2MzIzLCJleHAiOjE1ODc4NDI3MjN9.7xlpbt3hE75_PTQQFora1RzYsTl3oCD1-_xXnEuVhxw"
+    const token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlOTc0MTE5M2FmMTlhNmFkMTc0ODYyZSIsImFjY2Vzc19sZXZlbCI6MywiaWF0IjoxNTg3NzY3MjU1LCJleHAiOjE1ODc4NTM2NTV9.54Km1ZrKeRtorTv2gpHfJNMiG6Zjy2Up3hxuzY8rOT4"
 
     const [name, setName] = useState('');
     const [tag, setTag] = useState('');

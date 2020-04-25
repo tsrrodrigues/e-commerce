@@ -19,7 +19,7 @@ export default function DashProducts() {
 
     const [products, setProducts] = useState([]);
 
-    const token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlOTc0MTE5M2FmMTlhNmFkMTc0ODYyZSIsImFjY2Vzc19sZXZlbCI6MywiaWF0IjoxNTg3Njc5Nzk3LCJleHAiOjE1ODc3NjYxOTd9.4rhE08wZrd46sFIluahbv84vGiW7vAb4AhflBnX7Emo"
+    const token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlOTc0MTE5M2FmMTlhNmFkMTc0ODYyZSIsImFjY2Vzc19sZXZlbCI6MywiaWF0IjoxNTg3NzY3MjU1LCJleHAiOjE1ODc4NTM2NTV9.54Km1ZrKeRtorTv2gpHfJNMiG6Zjy2Up3hxuzY8rOT4"
 
     useEffect(() => {
         api.get('/product/admin', {
@@ -72,7 +72,7 @@ export default function DashProducts() {
                                                             </th>
                                                             <th scope="col">{product.name}</th>
                                                             <td className="hidden-xs">R${product.price}</td>
-                                                            <td>{product.tag}</td>
+                                                            <td>{product.tag.name}</td>
                                                             <td>
                                                                 <button
                                                                     onClick={() => {               

@@ -71,10 +71,14 @@ exports.edit = async (data) => {
         item: product.id,
         quantity: qtd,
         price: product.price,
+        name: product.name
       })
       cart.total += product.price * qtd
     }
     cart = await cart.save()
+    cart.items.map((item) => {
+      item.price /= 100
+    })
     cart.total /= 100
     return cart
   } catch (err) {

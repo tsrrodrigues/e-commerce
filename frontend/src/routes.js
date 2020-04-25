@@ -26,7 +26,7 @@ export default function Routes() {
                 <Route path="/" exact component={DashBoard} />
 
                 <Route path="/pedidos" exact component={DashOrders} />
-                <Route path="/pedidos/detalhe" component={DashOrderDetail} />
+                <Route path="/pedidos/:id" component={DashOrderDetail} />
 
                 <Route path="/produtos" exact component={DashProducts} />
                 <Route path="/produtos/:id" component={DashProductEdit} />
