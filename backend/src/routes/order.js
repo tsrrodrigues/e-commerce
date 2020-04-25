@@ -13,6 +13,8 @@ router.get('/:id', orderController.getOne)
 
 router.post('/:id', orderController.create)
 
+router.patch('/:id', orderController.editStatus)
+
 router.delete('/:id', orderController.delete)
 
 module.exports = router

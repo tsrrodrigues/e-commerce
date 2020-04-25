@@ -56,6 +56,19 @@ exports.create = async (data) => {
   }
 }
 
+exports.editStatus = async (data) => {
+  try {
+    if (data.query.s) {
+      const status_message = data.query.s
+      const order = await Order.findByIdAndUpdate(data.params.id, {status: status_message})
+      return order
+    }
+    return {error: 'No status message found'}
+  } catch (err) {
+    return { error: 'Edit Status Order failed' }
+  }
+}
+
 exports.delete = async (data) => {
   try {
     const order = await Order.findByIdAndDelete(data.params.id)

@@ -18,6 +18,11 @@ const OrderSchema = new Schema(
       ref: 'Cart',
       required: true
     },
+    status: {
+      type: String,
+      trim: true,
+      default: "Aguardando Entrega"
+    },
     adress: {
       cep: {
         type: String,
