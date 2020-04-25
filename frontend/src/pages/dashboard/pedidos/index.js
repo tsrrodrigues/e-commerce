@@ -13,7 +13,7 @@ import ModalAddAviso from '../content/ModalAddAviso';
 
 export default function DashOrders() {
 
-    const token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlOTc0MTE5M2FmMTlhNmFkMTc0ODYyZSIsImFjY2Vzc19sZXZlbCI6MywiaWF0IjoxNTg3NzU2MzIzLCJleHAiOjE1ODc4NDI3MjN9.7xlpbt3hE75_PTQQFora1RzYsTl3oCD1-_xXnEuVhxw"
+    const token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlYTQ5NTgwNDgxNmMzMTY3ZGZiNzkxNyIsImFjY2Vzc19sZXZlbCI6MywiaWF0IjoxNTg3ODQ0NDgwLCJleHAiOjE1ODc5MzA4ODB9.AGGQD_P5TVCykejlCbKe9srOyAmPnj6NRpYFMAPY76Y"
     const history = useHistory();
 
     const [orders, setOrders] = useState([])
@@ -73,8 +73,8 @@ export default function DashOrders() {
                                                 </thead>
                                                 <tbody>
                                                     {orders.map(order => (
-                                                        <tr>
-                                                            <th scope="row">{order.user.name}</th>
+                                                        <tr key={order._id}>
+                                                            <th scope="row">{order.user.name.first}</th>
                                                             <td className="hidden-xs">R$ {order.cart.total}</td>
                                                             <td>Aguardando Entrega</td>
                                                             <td className="hidden-xs">

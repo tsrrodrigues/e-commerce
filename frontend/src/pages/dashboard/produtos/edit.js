@@ -12,7 +12,7 @@ import ModalAddProduto from '../content/ModalAddProduto';
 import ModalAddAviso from '../content/ModalAddAviso';
 
 export default function DashProductEdit(props) {
-    const token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlOTc0MTE5M2FmMTlhNmFkMTc0ODYyZSIsImFjY2Vzc19sZXZlbCI6MywiaWF0IjoxNTg3Njg1OTQzLCJleHAiOjE1ODc3NzIzNDN9.frkQ2FjbTNgnvTaG3H5bW4MqFx6M7CzjP5U52O4xm9s"
+    const token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlOTc0MTE5M2FmMTlhNmFkMTc0ODYyZSIsImFjY2Vzc19sZXZlbCI6MywiaWF0IjoxNTg3ODQyNjAzLCJleHAiOjE1ODc5MjkwMDN9.bir_nwV4Lbi2xURCnZWJ-_jpTIrogkQj8qYOyODubfY"
     const history = useHistory()
 
     const productId = props.match.params.id
@@ -106,7 +106,7 @@ export default function DashProductEdit(props) {
                                                 <div className="form-group">
                                                     <label>Categorias</label>
                                                     <select multiple className="form-control" title="Pressione Ctrl para selecionar mais de uma categoria">
-                                                        <option>{product.tag}</option>
+                                                        <option>{product.tag ? product.tag.name : null}</option>
                                                     </select>
                                                 </div>
                                                 <div className="form-group">

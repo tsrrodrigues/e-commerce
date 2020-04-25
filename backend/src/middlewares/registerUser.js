@@ -2,11 +2,17 @@ const { check } = require('express-validator')
 
 module.exports = [
   // Nome
-  check('name')
+  // First
+  check('name.first')
     .notEmpty()
-    .withMessage('O campo Nome deve ser preenchido')
-    .isLength({ min: 7 })
-    .withMessage('O campo Nome deve ter no mínimo 7 caracteres')
+    .withMessage('O campo Primeiro Nome deve ser preenchido')
+    .matches(/^[a-z ]+$/i)
+    .withMessage('O nome deve conter apenas letras'),
+  
+  // Last
+  check('name.last')
+    .notEmpty()
+    .withMessage('O campo Sobrenome deve ser preenchido')
     .matches(/^[a-z ]+$/i)
     .withMessage('O nome deve conter apenas letras'),
 
@@ -17,6 +23,13 @@ module.exports = [
   check('cpf')
     .isNumeric()
     .withMessage('O campo CPF deve conter apenas números'),
+
+  // Phone
+  check('phone')
+    .isNumeric()
+    .withMessage('O campo telefone deve conter apenas números.')
+    .isLength({ min:10, max:12 })
+    .withMessage('O campo telefone deve conter entre 10 e 12 caracteres.'),
 
   // Adress
   // CEP

@@ -12,7 +12,7 @@ import ModalAddAviso from '../content/ModalAddAviso';
 
 export default function DashOrderDetail(props) {
 
-    const token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlOTc0MTE5M2FmMTlhNmFkMTc0ODYyZSIsImFjY2Vzc19sZXZlbCI6MywiaWF0IjoxNTg3NzU2MzIzLCJleHAiOjE1ODc4NDI3MjN9.7xlpbt3hE75_PTQQFora1RzYsTl3oCD1-_xXnEuVhxw"
+    const token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlYTQ5MzU3Mzg4Njg0MTQwOTY1NDdiMyIsImFjY2Vzc19sZXZlbCI6MywiaWF0IjoxNTg3ODQzOTI3LCJleHAiOjE1ODc5MzAzMjd9.FEONP_Qw1bcavUm-OnZHnRyiz15RG8RjVcbttJJ7DXI"
 
     const orderId = props.match.params.id
     const [order, setOrder] = useState({})
@@ -59,7 +59,7 @@ export default function DashOrderDetail(props) {
                                         </div>
 
                                         <div className="card-body">
-                                            <h5><strong>Nome: </strong>{order.user ? order.user.name : null}</h5>
+                                            <h5><strong>Nome: </strong>{order.user ? order.user.name.first : null}</h5>
                                             <h5><strong>CPF: </strong>{order.user ? order.user.cpf : null}</h5>
                                             <h5><strong>Telefone: </strong>(61) 9999-9999</h5>
                                         </div>
@@ -82,10 +82,10 @@ export default function DashOrderDetail(props) {
                                                 </thead>
                                                 <tbody>
                                                     {order.cart ? order.cart.items.map( item => (
-                                                        <tr>
+                                                        <tr key={item._id}>
                                                             <th scope="row">{item.name}</th>
                                                             <td className="hidden-xs hidden-sm">R$ {item.price}</td>
-                                                            <td>1</td>
+                                                            <td>{item.quantity}</td>
                                                             <td className="hidden-xs">R$ {item.price*item.quantity}</td>
                                                         </tr>
                                                     )) : null}
@@ -93,7 +93,7 @@ export default function DashOrderDetail(props) {
                                             </table>
 
                                             <h5><strong>Custo de Entrega: </strong>R$ 10,00</h5>
-                                            <h5><strong>Valor Total: </strong>R$ 33,99</h5>
+                                            <h5><strong>Valor Total: </strong>R${order.cart ? order.cart.total : null}</h5>
                                         </div>
                                     </div>
 
