@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import api from '../../../services/api';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
@@ -11,8 +12,23 @@ import ModalAddAviso from '../content/ModalAddAviso';
 
 import userImg from '../../../assets/img/user-circle-solid.svg';
 
-export default function DashClientDetail() {
-    document.title = "Detalhes do cliente";
+export default function DashClientDetail (props) {
+    const token = localStorage.getItem("userToken")
+
+    const [client, setClient] = useState({ adress: {} })
+    const client_id = props.match.params.id;
+
+    useEffect(() => {
+        api.get(`user/${client_id}`, {
+            headers: {
+                Authorization: token,
+            }
+        }).then(response => {
+            setClient(response.data);
+        })
+    }, [client_id, token]);
+
+    document.title = `Detalhes do cliente: ${client.name}`;
     
     return (
         <section className="dashboard">
@@ -36,9 +52,9 @@ export default function DashClientDetail() {
                                         <div className="card-body">
                                             <img src={userImg} className="user-img" alt="foto"/>
 
-                                            <h5><strong>Nome: </strong>Cliente 1</h5>
-                                            <h5><strong>CPF: </strong>000.000.000-00</h5>
-                                            <h5><strong>Email: </strong>pessoa@email.com</h5>
+                                            <h5><strong>Nome: </strong>{client.name}</h5>
+                                            <h5><strong>CPF: </strong>{client.cpf}</h5>
+                                            <h5><strong>Email: </strong>{client.email}</h5>
                                             <h5><strong>Telefone: </strong>(61) 9999-9999</h5>
                                         </div>
                                     </div>
@@ -49,10 +65,12 @@ export default function DashClientDetail() {
                                         </div>
 
                                         <div className="card-body">
-                                            <h5><strong>Endereço: </strong>St. de Habitações Individuais Norte</h5>
-                                            <h5><strong>Bairro: </strong>Lago Norte</h5>
-                                            <h5><strong>Cidade: </strong>Brasília</h5>
-                                            <h5><strong>Estado: </strong>DF</h5>
+                                            <h5><strong>CEP: </strong>{client.adress.cep}</h5>
+                                            <h5><strong>Endereço: </strong>{client.adress.logradouro}</h5>
+                                            <h5><strong>Complemento: </strong>{client.adress.complemento}</h5>
+                                            <h5><strong>Bairro: </strong>{client.adress.bairro}</h5>
+                                            <h5><strong>Cidade: </strong>{client.adress.localidade}</h5>
+                                            <h5><strong>Estado: </strong>{client.adress.uf}</h5>
                                         </div>
                                     </div>
 

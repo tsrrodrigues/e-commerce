@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import api from '../../../services/api';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
@@ -10,8 +11,85 @@ import HeaderTop from '../content/HeaderTop';
 import ModalAddProduto from '../content/ModalAddProduto';
 import ModalAddAviso from '../content/ModalAddAviso';
 
-export default function DashCategoryEdit() {
-    document.title = "Editar: Categoria";
+export default function DashCategoryEdit (props) {
+    const cat_id = props.match.params.id;
+    
+    const [category, setCategory] = useState([]);
+    const [products, setProducts] = useState([]);
+    const [name, setName] = useState('');
+    
+    const token = localStorage.getItem('userToken');
+    
+    useEffect(() => {
+        api.get('tag', {
+            headers: {
+                Authorization: token,
+            }
+        }).then(response => {
+            setCategory(response.data.find(category => category._id === cat_id));
+
+            if (category.name !== undefined)  {
+                api.get(`product/admin?tag=${category.name}`, {
+                    headers: {
+                        Authorization: token,
+                    }
+                }).then(response => {
+                    setProducts(response.data);
+                })
+            }      
+        })
+        
+    }, [token, cat_id, category.name]);
+
+    async function handleEditCategory (e) {
+        e.preventDefault();
+
+        const data = {
+            name,
+        };
+
+        try {
+            await api.put(`tag/${cat_id}`, data, {
+                headers: {
+                    Authorization: token,
+                }
+            })
+        } catch (err) {
+            alert('Erro ao editar nome.');
+        }
+
+        setName('');
+    }
+
+    async function handleRemoveProduct (product) {
+        const name = product.name;
+        const description = product.description;
+        const price = product.price;
+        const quantity = product.quantity;
+        const tag = "";
+
+        const data = {
+            name,
+            description,
+            price,
+            quantity,
+            tag,
+        };
+
+        try {
+            await api.put(`product/${product._id}`, data, {
+                headers: {
+                    Authorization: token
+                }
+            })
+        } catch (err) {
+            alert('Erro ao remover produto da categoria.')
+        }
+
+        setProducts(products.filter(p =>  p._id !== product._id));
+    }
+
+    document.title = `Editar categoria: ${category.name}`;
 
     return (
         <section className="dashboard">
@@ -29,18 +107,15 @@ export default function DashCategoryEdit() {
 
                                     <div className="card">
                                         <div className="card-header">
-                                            <h2>Editar categoria: Acessórios</h2>
+                                            <h2>Editar categoria: {category.name}</h2>
+
                                         </div>
 
                                         <div className="card-body">
-                                            <form>
+                                            <form onSubmit={handleEditCategory}>
                                                 <div className="form-group">
                                                     <label>Nome</label>
-                                                    <input type="text" className="form-control" placeholder="Acessórios"/>
-                                                </div>
-                                                <div className="form-group">
-                                                    <label>Link</label>
-                                                    <input type="text" className="form-control" placeholder="/acessorios"/>
+                                                    <input value={name} onChange={e => setName(e.target.value)} type="text" className="form-control" placeholder={category.name} />
                                                 </div>
 
                                                 <button type="submit" className="btn btn-danger">Salvar</button>
@@ -67,46 +142,18 @@ export default function DashCategoryEdit() {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
-                                                        <th scope="row">Produto 1</th>
+                                                {products.map(product => (
+                                                    <tr key={product._id}>
+                                                        <th scope="row">{product.name}</th>
                                                         <td className="hidden-xs">0</td>
                                                         <td>
-                                                            <button type="button" className="btn btn-danger">
+                                                            <button onClick={() => handleRemoveProduct(product)} className="btn btn-danger" type="button">
                                                                 <i id="icon" className="fa fa-trash-alt"></i>
                                                                 <span id="details">Remover</span>
                                                             </button>
                                                         </td>
                                                     </tr>
-                                                    <tr>
-                                                        <th scope="row">Produto 2</th>
-                                                        <td className="hidden-xs">4</td>
-                                                        <td>
-                                                            <button type="button" className="btn btn-danger">
-                                                                <i id="icon" className="fa fa-trash-alt"></i>
-                                                                <span id="details">Remover</span>
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th scope="row">Produto 3</th>
-                                                        <td className="hidden-xs">1</td>
-                                                        <td>
-                                                            <button type="button" className="btn btn-danger">
-                                                                <i id="icon" className="fa fa-trash-alt"></i>
-                                                                <span id="details">Remover</span>
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th scope="row">Produto 4</th>
-                                                        <td className="hidden-xs">2</td>
-                                                        <td>
-                                                            <button type="button" className="btn btn-danger">
-                                                                <i id="icon" className="fa fa-trash-alt"></i>
-                                                                <span id="details">Remover</span>
-                                                            </button>
-                                                        </td>
-                                                    </tr>
+                                                ))}
                                                 </tbody>
                                             </table>
                                         </div>

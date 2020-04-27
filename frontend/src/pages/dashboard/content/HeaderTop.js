@@ -1,9 +1,36 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import api from '../../../services/api';
 
 import userImg from '../../../assets/img/user-circle-solid.svg';
 
 export default function HeaderTop() {
+    const [user, SetUser] = useState([]);
+
+    const user_id = localStorage.getItem('userID');
+    const token = localStorage.getItem('userToken');
+
+    const history = useHistory();
+
+    const handleLogout = useCallback(() => {
+        localStorage.clear();
+        history.push('/login');
+    }, [history])
+
+    useEffect(() => {
+        if (token === undefined) {
+            handleLogout();
+        }
+
+        api.get(`user/${user_id}`, {
+            headers: {
+                Authorization: token,
+            }
+        }).then(response => {
+            SetUser(response.data);
+        })
+    }, [user_id, token, handleLogout]);
+
     return (
         <div className="row">
                             
@@ -58,13 +85,17 @@ export default function HeaderTop() {
                                 <ul className="dropdown-menu">
                                     <li>
                                         <div className="navbar-content">
-                                            <span>Person S.</span>
+                                            <span>{user.name}</span>
                                             <p className="text-muted small">
-                                                person@email.com
+                                                {user.email}
+                                            </p>
+                                            <p className="text-muted small">
+                                                <Link to="#" onClick={handleLogout}>Sair</Link>
                                             </p>
                                             <div className="divider">
                                             </div>
-                                            <Link to="/user/1" className="btn btn-sm btn-danger btn-profile">Ver Perfil</Link>
+
+                                            <Link to={`/user/${user._id}`} className="btn btn-sm btn-danger btn-profile">Ver Perfil</Link>
                                         </div>
                                     </li>
                                 </ul>
