@@ -493,6 +493,9 @@ header {
     #navigation.collapse {
         display: table-cell;
     }
+    .admin-bar span {
+        display: block;
+    }
     .logo img {
         padding: 2rem;
     }
@@ -517,6 +520,9 @@ header {
     }
     .admin-bar i {
 		margin-right: 15px;
+    }
+    .admin-bar span {
+        display: inline;
     }
 }
 
