@@ -20,6 +20,8 @@ exports.register = async (req, res, next) => {
   }
 
   const data = await repository.register(req)
+  if (data.error)
+    return res.status(400).send(data)
   return res.status(200).send(data)
 }
 

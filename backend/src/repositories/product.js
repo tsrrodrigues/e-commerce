@@ -80,9 +80,9 @@ exports.register = async (data) => {
   if (data.userAccessLevel < 2) return { error: 'Unauthorized' }
 
   const { name } = data.body
+  if (await Product.findOne({ name }))
+    return { error: 'Product already exists' }
   try {
-    if (await Product.findOne({ name }))
-      return { error: 'Product already exists' }
 
     let product = new Product()
 
