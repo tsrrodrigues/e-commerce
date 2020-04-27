@@ -12,7 +12,7 @@ import ModalAddProduto from '../content/ModalAddProduto';
 import ModalAddAviso from '../content/ModalAddAviso';
 
 export default function DashProductEdit(props) {
-    const token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlOTc0MTE5M2FmMTlhNmFkMTc0ODYyZSIsImFjY2Vzc19sZXZlbCI6MywiaWF0IjoxNTg3ODQyNjAzLCJleHAiOjE1ODc5MjkwMDN9.bir_nwV4Lbi2xURCnZWJ-_jpTIrogkQj8qYOyODubfY"
+    const token = localStorage.getItem('userToken')
     const history = useHistory()
 
     const productId = props.match.params.id

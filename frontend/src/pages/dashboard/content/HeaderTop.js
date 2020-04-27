@@ -85,7 +85,7 @@ export default function HeaderTop() {
                                 <ul className="dropdown-menu">
                                     <li>
                                         <div className="navbar-content">
-                                            <span>{user.name}</span>
+                                            <span>{user.name ? user.name.first : null}</span>
                                             <p className="text-muted small">
                                                 {user.email}
                                             </p>
