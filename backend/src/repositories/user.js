@@ -24,7 +24,7 @@ exports.getAll = async (data) => {
 
     const users = await User.find(
       params,
-      '_id name email cpf adress active access_level'
+      '_id name email cpf adress active access_level phone'
     )
     return users
   } catch (err) {
@@ -37,7 +37,7 @@ exports.getOne = async (data) => {
     if (data.userAccessLevel < 2) return { error: 'Unauthorized' }
     const user = await User.findById(
       data.params.id,
-      '_id name email cpf adress active access_level'
+      '_id name email cpf adress active access_level phone'
     )
     return user
   } catch (err) {
@@ -55,9 +55,11 @@ exports.register = async (data) => {
 
     let user = new User()
 
-    user.name = data.body.name
+    user.name.first = data.body.name.first
+    user.name.last = data.body.name.last
     user.cpf = data.body.cpf
     user.email = data.body.email
+    user.phone = data.body.phone
     user.password = data.body.password
     user.adress.cep = data.body.adress.cep
     user.adress.logradouro = data.body.adress.logradouro
@@ -93,7 +95,6 @@ exports.auth = async (data) => {
       return { error: 'Senha Inválida' }
 
     user.password = undefined
-    user.adress = undefined
 
     jwt.sign(
       { id: user.id, access_level: user.access_level },
@@ -114,26 +115,34 @@ exports.auth = async (data) => {
 
 exports.edit = async (data) => {
   try {
-    const hash = await bcrypt.hash(data.body.password, 10)
-    data.body.password = hash
-
+    
     const { id } = data.params
-
-    const user = await User.findByIdAndUpdate(id, {
-      $set: {
-        name: data.body.name,
-        email: data.body.email,
-        adress: data.body.adress,
-        password: data.body.password,
-      },
-    })
+    
+    let params = {}
+    
+    if (data.body.name)
+    params.name = data.body.name
+    if (data.body.email)
+    params.email = data.body.email
+    if (data.body.cpf)
+    params.cpf = data.body.cpf
+    if (data.body.phone)
+    params.phone = data.body.phone
+    if (data.body.adress)
+    params.adress = data.body.adress
+    if (data.body.password) {
+      const hash = await bcrypt.hash(data.body.password, 10)
+      params.password = hash
+    }
+    
+    const user = await User.findByIdAndUpdate(id, params)
 
     return {
       user,
       token: data.headers.authorization,
     }
   } catch (err) {
-    return { error: 'Edit failed' }
+    return { error: 'Edit failed', err: err }
   }
 }
 

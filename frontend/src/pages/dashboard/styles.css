@@ -79,6 +79,12 @@ h5 {
     vertical-align: middle;
 }
 
+.form-inline label {
+    display: block;
+}
+.form-group .btn {
+    padding: 6px 12px;
+}
 .form-control {
     background-color: #f6f7fa;
     border: none;
@@ -504,6 +510,9 @@ header {
     }
     .card-body .table #details {
         display: block;
+    }
+    .card-body .form-inline .form-control {
+        max-width: 70%;
     }
 }
 

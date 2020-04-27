@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import api from '../../../services/api';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
@@ -9,7 +10,23 @@ import HeaderTop from '../content/HeaderTop';
 import ModalAddProduto from '../content/ModalAddProduto';
 import ModalAddAviso from '../content/ModalAddAviso';
 
-export default function DashOrderDetail() {
+export default function DashOrderDetail(props) {
+
+    const token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlYTQ5NTgwNDgxNmMzMTY3ZGZiNzkxNyIsImFjY2Vzc19sZXZlbCI6MywiaWF0IjoxNTg4MDEyNjk3LCJleHAiOjE1ODgwOTkwOTd9.1MeIv8sQpGPUHqH-uou6sf3BdyZNdfMLVkIerDto3JE"
+
+    const orderId = props.match.params.id
+    const [order, setOrder] = useState({})
+
+    useEffect(() => {
+        api.get(`/order/${orderId}`, {
+            headers: {
+                Authorization: token
+            }
+        }).then(response => {
+            setOrder(response.data)
+        })
+    })
+
     document.title = "Detalhes do pedido";
     
     return (
@@ -28,7 +45,7 @@ export default function DashOrderDetail() {
 
                                     <div className="card">
                                         <div className="card-header">
-                                            <h2>Pedido #0000001</h2>
+                                            <h2>Pedido #{orderId}</h2>
                                         </div>
 
                                         <div className="card-body">
@@ -43,8 +60,8 @@ export default function DashOrderDetail() {
                                         </div>
 
                                         <div className="card-body">
-                                            <h5><strong>Nome: </strong>Cliente 1</h5>
-                                            <h5><strong>CPF: </strong>000.000.000-00</h5>
+                                            <h5><strong>Nome: </strong>{order.user ? order.user.name.first : null}</h5>
+                                            <h5><strong>CPF: </strong>{order.user ? order.user.cpf : null}</h5>
                                             <h5><strong>Telefone: </strong>(61) 9999-9999</h5>
                                         </div>
                                     </div>
@@ -65,35 +82,19 @@ export default function DashOrderDetail() {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
-                                                        <th scope="row">Produto 1</th>
-                                                        <td className="hidden-xs hidden-sm">R$ 5,99</td>
-                                                        <td>1</td>
-                                                        <td className="hidden-xs">R$ 5,99</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th scope="row">Produto 2</th>
-                                                        <td className="hidden-xs hidden-sm">R$ 2,99</td>
-                                                        <td>2</td>
-                                                        <td className="hidden-xs">R$ 5,99</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th scope="row">Produto 3</th>
-                                                        <td className="hidden-xs hidden-sm">R$ 5,99</td>
-                                                        <td>1</td>
-                                                        <td className="hidden-xs">R$ 5,99</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th scope="row">Produto 4</th>
-                                                        <td className="hidden-xs hidden-sm">R$ 5,99</td>
-                                                        <td>1</td>
-                                                        <td className="hidden-xs">R$ 5,99</td>
-                                                    </tr>
+                                                    {order.cart ? order.cart.items.map( item => (
+                                                        <tr key={item._id}>
+                                                            <th scope="row">{item.name}</th>
+                                                            <td className="hidden-xs hidden-sm">R$ {item.price}</td>
+                                                            <td>{item.quantity}</td>
+                                                            <td className="hidden-xs">R$ {item.price*item.quantity}</td>
+                                                        </tr>
+                                                    )) : null}
                                                 </tbody>
                                             </table>
 
                                             <h5><strong>Custo de Entrega: </strong>R$ 10,00</h5>
-                                            <h5><strong>Valor Total: </strong>R$ 33,99</h5>
+                                            <h5><strong>Valor Total: </strong>R${order.cart ? order.cart.total : null}</h5>
                                         </div>
                                     </div>
 
@@ -103,10 +104,12 @@ export default function DashOrderDetail() {
                                         </div>
 
                                         <div className="card-body">
-                                            <h5><strong>Endereço: </strong>St. de Habitações Individuais Norte</h5>
-                                            <h5><strong>Bairro: </strong>Lago Norte</h5>
-                                            <h5><strong>Cidade: </strong>Brasília</h5>
-                                            <h5><strong>Estado: </strong>DF</h5>
+                                            <h5><strong>CEP: </strong>{order.adress ? order.adress.cep : null}</h5>
+                                            <h5><strong>Endereço: </strong>{order.adress ? order.adress.logradouro : null}</h5>
+                                            <h5><strong>Bairro: </strong>{order.adress ? order.adress.bairro : null}</h5>
+                                            <h5><strong>Complemento: </strong>{order.adress ? order.adress.complemento : null}</h5>
+                                            <h5><strong>Cidade: </strong>{order.adress ? order.adress.localidade : null}</h5>
+                                            <h5><strong>Estado: </strong>{order.adress ? order.adress.uf : null}</h5>
                                         </div>
                                     </div>
 

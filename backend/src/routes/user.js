@@ -13,11 +13,7 @@ router.get('/:id', authMiddleware, userController.getOne) // Access Level = 2
 router.post('/', registerUserMiddleware, userController.register) // Access Level = All
 router.post('/authenticate', userController.auth) // Access Level = All
 
-router.put(
-  '/:id',
-  [authMiddleware, registerUserMiddleware],
-  userController.edit
-) // Access Level = All
+router.put('/:id', authMiddleware, userController.edit) // Access Level = All
 router.patch('/:id', authMiddleware, userController.editActive) // Access Level = 3
 
 router.delete('/:id', authMiddleware, userController.delete) // Access Level = 3

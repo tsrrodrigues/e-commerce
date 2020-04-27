@@ -30,10 +30,10 @@ export default function Routes() {
                 <Route path="/login" component={LoginForm} />
 
                 <Route path="/pedidos" exact component={DashOrders} />
-                <Route path="/pedidos/detalhe" component={DashOrderDetail} />
+                <Route path="/pedidos/:id" component={DashOrderDetail} />
 
                 <Route path="/produtos" exact component={DashProducts} />
-                <Route path="/produtos/1" component={DashProductEdit} />
+                <Route path="/produtos/:id" component={DashProductEdit} />
 
                 <Route path="/categorias" exact component={DashCategories} />
                 <Route path="/categorias/:id" component={DashCategoryEdit} />

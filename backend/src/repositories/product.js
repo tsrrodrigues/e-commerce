@@ -11,7 +11,7 @@ exports.getAvailables = async (data) => {
     let params = {}
     if (data.query.tag) {
       const tag = await Tag.findOne({ name: data.query.tag })
-      params = { tag: tag.name }
+      params = { tag: tag.id }
     }
     // SORT
     let sort = ''
@@ -23,9 +23,10 @@ exports.getAvailables = async (data) => {
         '_id name description quantity price createdAt tag'
       ).sort(sort)
     ).filter((product) => product.quantity > 0)
-    products.map((prod) => {
-      prod.price /= 100
-    })
+    for (let index = 0; index < products.length; index++) {
+      products[index].price /= 100
+      products[index].tag = await Tag.findById(products[index].tag)
+    }
     return products
   } catch (err) {
     return { error: 'List Availables Products failed' }
@@ -40,7 +41,7 @@ exports.getAll = async (data) => {
     let params = {}
     if (data.query.tag) {
       const tag = await Tag.findOne({ name: data.query.tag })
-      params = { tag: tag.name }
+      params = { tag: tag.id }
     }
     // SORT
     let sort = ''
@@ -51,9 +52,10 @@ exports.getAll = async (data) => {
       '_id name description quantity price createdAt tag'
     ).sort(sort)
 
-    products.map(async (prod) => {
-      prod.price /= 100
-    })
+    for (let index = 0; index < products.length; index++) {
+      products[index].price /= 100
+      products[index].tag = await Tag.findById(products[index].tag)
+    }
     return products
   } catch (err) {
     return { error: 'List All Products failed' }
@@ -67,19 +69,20 @@ exports.getOne = async (data) => {
       '_id name description quantity price createdAt tag'
     )
     product.price /= 100
+    product.tag = await Tag.findById(product.tag)
     return product
   } catch (err) {
     return { error: 'List One Products failed' }
   }
 }
 
-exports.register = async (data) => {
+exports.register = async (data) => {  
   if (data.userAccessLevel < 2) return { error: 'Unauthorized' }
 
   const { name } = data.body
+  if (await Product.findOne({ name }))
+    return { error: 'Product already exists' }
   try {
-    if (await Product.findOne({ name }))
-      return { error: 'Product already exists' }
 
     let product = new Product()
 
@@ -88,16 +91,16 @@ exports.register = async (data) => {
     product.price = parseInt(data.body.price * 100)
     product.quantity = data.body.quantity
 
-    const tagName = data.body.tag
-    if (await Tag.findOne({ name: tagName })) {
-      product.tag = data.body.tag
-    } else {
-      let tag = new Tag()
-      tag.name = data.body.tag
-      tag = await tag.save()
-      product.tag = data.body.tag
-    }
     
+    const tag = await Tag.findOne({ name: data.body.tag })
+    if (tag) {
+      product.tag = tag.id
+    } else {
+      let new_tag = new Tag()
+      new_tag.name = data.body.tag
+      new_tag = await new_tag.save()
+      product.tag = new_tag.id
+    }
 
     product = await product.save()
 
@@ -143,6 +146,8 @@ exports.delete = async (data) => {
   try {
     if (data.userAccessLevel < 2) return { error: 'Unauthorized' }
     const product = await Product.findByIdAndDelete(data.params.id)
+    product.price /= 100
+    product.tag = await Tag.findById(product.tag)
     return product
   } catch (err) {
     return { error: 'Delete failed' }

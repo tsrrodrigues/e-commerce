@@ -6,9 +6,16 @@ const bcrypt = require('bcrypt')
 const UserSchema = new Schema(
   {
     name: {
-      type: String,
-      required: [true, 'O nome é obrigatório'],
-      trim: true,
+      first: {
+        type: String,
+        required: [true, 'O primeiro nome é obrigatório'],
+        trim: true,
+      },
+      last: {
+        type: String,
+        required: [true, 'O sobrenome é obrigatório'],
+        trim: true,
+      }
     },
     email: {
       type: String,
@@ -22,6 +29,11 @@ const UserSchema = new Schema(
       required: [true, 'O CPF é obrigatório'],
       trim: true,
       unique: true,
+    },
+    phone: {
+      type: String,
+      required: true,
+      trim: true,
     },
     adress: {
       cep: {

@@ -6,8 +6,15 @@ exports.getAll = async (req, res, next) => {
   res.status(200).send(data)
 }
 
+exports.getOne = async (req, res, next) => {
+  const data = await repository.getOne(req)
+  res.status(200).send(data)
+}
+
 exports.create = async (req, res, next) => {
   const data = await repository.create(req)
+  if (data.error)
+    return res.status(400).send(data)
   res.status(200).send(data)
 }
 
