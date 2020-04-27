@@ -1,4 +1,5 @@
 const mongoose = require('../database')
+const moment = require('moment')
 
 const Order = mongoose.model('Order')
 const User = mongoose.model('User')
@@ -13,12 +14,12 @@ exports.getAll = async (data) => {
       params = { status: "Aguardando Entrega" }
     }
     else if (data.query.s === "fordeliver") {
-      params = { status: "Saiu para Entrega" }
+      params = { status: "Para Entrega" }
     }
-    const orders = await Order.find(params)
+    const orders = await Order.find(params, 'adress status id user payment cart date')
     for (let index = 0; index < orders.length; index++) {
-      orders[index].user = await User.findById(orders[index].user)
-      orders[index].cart = await Cart.findById(orders[index].cart)
+      orders[index].user = await User.findById(orders[index].user, 'name id cpf email phone')
+      orders[index].cart = await Cart.findById(orders[index].cart, 'total items')
       for (let index2 = 0; index2 < orders[index].cart.items.length; index2++) {
         orders[index].cart.items[index2].price /= 100
       }
@@ -32,9 +33,9 @@ exports.getAll = async (data) => {
 
 exports.getOne = async (data) => {
   try {
-    const order = await Order.findById(data.params.id)
-    order.user = await User.findById(order.user)
-    order.cart = await Cart.findById(order.cart)
+    const order = await Order.findById(data.params.id, 'adress status id user payment cart date')
+    order.user = await User.findById(order.user, 'name id cpf email phone')
+    order.cart = await Cart.findById(order.cart, 'total items')
     for (let index = 0; index < order.cart.items.length; index++) {
       order.cart.items[index].price /= 100
     }
@@ -49,14 +50,18 @@ exports.create = async (data) => {
   try {
     let order = new Order()
     const user = await User.findById(data.userId)
+    
+    let date = moment().utcOffset(-180).format();
 
     order.user = data.userId
     order.payment = data.body.payment
     order.cart = data.params.id
-    order.adress = user.adress
+    order.adress = data.body.adress? data.body.adress : user.adress
+    order.date = date
     order = await order.save()
 
     await Cart.findByIdAndUpdate(data.params.id, {order: true})
+    await User.findByIdAndUpdate(data.userId, {active: true})
     
     return order
   } catch (err) {

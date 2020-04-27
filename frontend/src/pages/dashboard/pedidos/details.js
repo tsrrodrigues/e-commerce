@@ -12,7 +12,7 @@ import ModalAddAviso from '../content/ModalAddAviso';
 
 export default function DashOrderDetail(props) {
 
-    const token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlYTQ5MzU3Mzg4Njg0MTQwOTY1NDdiMyIsImFjY2Vzc19sZXZlbCI6MywiaWF0IjoxNTg3ODQzOTI3LCJleHAiOjE1ODc5MzAzMjd9.FEONP_Qw1bcavUm-OnZHnRyiz15RG8RjVcbttJJ7DXI"
+    const token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlYTQ5NTgwNDgxNmMzMTY3ZGZiNzkxNyIsImFjY2Vzc19sZXZlbCI6MywiaWF0IjoxNTg4MDEyNjk3LCJleHAiOjE1ODgwOTkwOTd9.1MeIv8sQpGPUHqH-uou6sf3BdyZNdfMLVkIerDto3JE"
 
     const orderId = props.match.params.id
     const [order, setOrder] = useState({})

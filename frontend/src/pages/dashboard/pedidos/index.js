@@ -13,7 +13,7 @@ import ModalAddAviso from '../content/ModalAddAviso';
 
 export default function DashOrders() {
 
-    const token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlYTQ5NTgwNDgxNmMzMTY3ZGZiNzkxNyIsImFjY2Vzc19sZXZlbCI6MywiaWF0IjoxNTg3ODQ0NDgwLCJleHAiOjE1ODc5MzA4ODB9.AGGQD_P5TVCykejlCbKe9srOyAmPnj6NRpYFMAPY76Y"
+    const token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlYTQ5NTgwNDgxNmMzMTY3ZGZiNzkxNyIsImFjY2Vzc19sZXZlbCI6MywiaWF0IjoxNTg4MDEyNjk3LCJleHAiOjE1ODgwOTkwOTd9.1MeIv8sQpGPUHqH-uou6sf3BdyZNdfMLVkIerDto3JE"
     const history = useHistory();
 
     const [orders, setOrders] = useState([])
@@ -79,9 +79,9 @@ export default function DashOrders() {
                                                             <td>{order.status}</td>
                                                             <td className="hidden-xs">
                                                                 {
-                                                                    order.createdAt.substring(8, 10) + "/" +
-                                                                    order.createdAt.substring(5, 7) + "/" +
-                                                                    order.createdAt.substring(0, 4)
+                                                                    order.date.substring(8, 10) + "/" +
+                                                                    order.date.substring(5, 7) + "/" +
+                                                                    order.date.substring(0, 4)
                                                                 }
                                                             </td>
                                                             <td>

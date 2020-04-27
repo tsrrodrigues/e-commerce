@@ -19,7 +19,7 @@ export default function DashProducts() {
 
     const [products, setProducts] = useState([]);
 
-    const token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlOTc0MTE5M2FmMTlhNmFkMTc0ODYyZSIsImFjY2Vzc19sZXZlbCI6MywiaWF0IjoxNTg3NzY3MjU1LCJleHAiOjE1ODc4NTM2NTV9.54Km1ZrKeRtorTv2gpHfJNMiG6Zjy2Up3hxuzY8rOT4"
+    const token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlYTQ5NTgwNDgxNmMzMTY3ZGZiNzkxNyIsImFjY2Vzc19sZXZlbCI6MywiaWF0IjoxNTg4MDEyNjk3LCJleHAiOjE1ODgwOTkwOTd9.1MeIv8sQpGPUHqH-uou6sf3BdyZNdfMLVkIerDto3JE"
 
     useEffect(() => {
         api.get('/product/admin', {

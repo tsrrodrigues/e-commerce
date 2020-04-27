@@ -13,7 +13,7 @@ import ModalAddAviso from './content/ModalAddAviso';
 
 export default function DashBoard() {
 
-    const token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlYTQ5MzU3Mzg4Njg0MTQwOTY1NDdiMyIsImFjY2Vzc19sZXZlbCI6MywiaWF0IjoxNTg3ODQzOTI3LCJleHAiOjE1ODc5MzAzMjd9.FEONP_Qw1bcavUm-OnZHnRyiz15RG8RjVcbttJJ7DXI"
+    const token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlYTQ5NTgwNDgxNmMzMTY3ZGZiNzkxNyIsImFjY2Vzc19sZXZlbCI6MywiaWF0IjoxNTg4MDEyNjk3LCJleHAiOjE1ODgwOTkwOTd9.1MeIv8sQpGPUHqH-uou6sf3BdyZNdfMLVkIerDto3JE"
     const history = useHistory();
 
     document.title = "Painel";
@@ -79,39 +79,28 @@ export default function DashBoard() {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                        <tr>
-                                                            <th scope="row">Alana</th>
-                                                            <td className="hidden-xs">R$ 20,49</td>
-                                                            <td>10:14 20/04</td>
+                                                    {waitDeliverOrders.map(order => (
+                                                        <tr key={order._id}>
+                                                            <th scope="row">{order.user.name.first}</th>
+                                                            <td className="hidden-xs">R$ {order.cart.total}</td>
+                                                            <td> {
+                                                                order.date.substring(11, 16) + " - " +
+                                                                order.date.substring(8, 10) + "/" +
+                                                                order.date.substring(5, 7)
+                                                            } </td>
                                                             <td>
-                                                                <Link to={`/pedidos/1`} className="btn btn-danger">
-                                                                    <i id="icon" className="fa fa-search"></i>
-                                                                    <span id="details">Detalhes</span>
-                                                                </Link>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th scope="row">Elton</th>
-                                                            <td className="hidden-xs">R$ 30,35</td>
-                                                            <td>10:15 20/04</td>
-                                                            <td>
-                                                                <button className="btn btn-danger">
-                                                                    <i id="icon" className="fa fa-search"></i>
-                                                                    <span id="details">Detalhes</span>
-                                                                </button>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th scope="row">Catarina</th>
-                                                            <td className="hidden-xs">R$ 240,66</td>
-                                                            <td>10:16 20/04</td>
-                                                            <td>
-                                                                <button className="btn btn-danger">
+                                                                <button 
+                                                                    onClick={() => {               
+                                                                        history.push(`/pedidos/${order._id}`)
+                                                                    }}
+                                                                    className="btn btn-danger"
+                                                                >
                                                                     <i id="icon" className="fa fa-search"></i>
                                                                     <span id="details">Detalhes</span>
                                                                 </button>
                                                             </td>
                                                         </tr>
+                                                    ))}
                                                 </tbody>
                                             </table>
                                         </div>
@@ -147,17 +136,28 @@ export default function DashBoard() {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                        <tr>
-                                                            <th scope="row">Henrique</th>
-                                                            <td className="hidden-xs">R$ 130,10</td>
-                                                            <td>18:40 26/04</td>
+                                                    {forDeliverOrders.map(order => (
+                                                        <tr key={order._id}>
+                                                            <th scope="row">{order.user.name.first}</th>
+                                                            <td className="hidden-xs">R$ {order.cart.total}</td>
+                                                            <td> {
+                                                                order.date.substring(11, 16) + " - " +
+                                                                order.date.substring(8, 10) + "/" +
+                                                                order.date.substring(5, 7)
+                                                            } </td>
                                                             <td>
-                                                                <button className="btn btn-danger">
+                                                                <button 
+                                                                    onClick={() => {               
+                                                                        history.push(`/pedidos/${order._id}`)
+                                                                    }}
+                                                                    className="btn btn-danger"
+                                                                >
                                                                     <i id="icon" className="fa fa-search"></i>
                                                                     <span id="details">Detalhes</span>
                                                                 </button>
                                                             </td>
                                                         </tr>
+                                                    ))}
                                                 </tbody>
                                             </table>
                                         </div>

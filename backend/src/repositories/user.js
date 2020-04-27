@@ -115,27 +115,34 @@ exports.auth = async (data) => {
 
 exports.edit = async (data) => {
   try {
-    const hash = await bcrypt.hash(data.body.password, 10)
-    data.body.password = hash
-
+    
     const { id } = data.params
-
-    const user = await User.findByIdAndUpdate(id, {
-      $set: {
-        name: data.body.name,
-        email: data.body.email,
-        adress: data.body.adress,
-        password: data.body.password,
-        phone: data.body.phone
-      },
-    })
+    
+    let params = {}
+    
+    if (data.body.name)
+    params.name = data.body.name
+    if (data.body.email)
+    params.email = data.body.email
+    if (data.body.cpf)
+    params.cpf = data.body.cpf
+    if (data.body.phone)
+    params.phone = data.body.phone
+    if (data.body.adress)
+    params.adress = data.body.adress
+    if (data.body.password) {
+      const hash = await bcrypt.hash(data.body.password, 10)
+      params.password = hash
+    }
+    
+    const user = await User.findByIdAndUpdate(id, params)
 
     return {
       user,
       token: data.headers.authorization,
     }
   } catch (err) {
-    return { error: 'Edit failed' }
+    return { error: 'Edit failed', err: err }
   }
 }
 

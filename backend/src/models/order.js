@@ -23,6 +23,10 @@ const OrderSchema = new Schema(
       trim: true,
       default: "Aguardando Entrega"
     },
+    date: {
+      type: String,
+      trim: true
+    },
     adress: {
       cep: {
         type: String,
