@@ -13,16 +13,54 @@ import ModalAddAviso from '../content/ModalAddAviso';
 
 export default function DashCategories() {
     const [categories, setCategories] = useState([]);
+    const [name, setName] = useState('');
+    
+    const token = localStorage.getItem('userToken');
 
     useEffect(() => {
         api.get('tag', {
             headers: {
-                "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlOGNlMzRjZWQ0MzdjMDYzYTcwMjg4MyIsImFjY2Vzc19sZXZlbCI6MywiaWF0IjoxNTg2ODE5MzM4LCJleHAiOjE1ODY5MDU3Mzh9.bNKSPg1PnvqPSlJDhL7zHjrEt7vQyynRLEeRFWdBsRk",
+                Authorization: token,
             }
         }).then(response => {
             setCategories(response.data);
         })
-    });
+        
+    }, [token, name]);
+
+    async function handleAddCategory(e) {
+        e.preventDefault();
+        
+        const data = {
+           name, 
+        };
+
+        try {
+            await api.post("tag", data, {
+                headers: {
+                    Authorization: token,
+                }
+            });
+        } catch (err) {
+            alert('Erro ao adicionar categoria.');
+        }
+
+        setName('');
+    }
+
+    async function handleDeleteCategory(id) {
+        try {
+            await api.delete(`tag/${id}`, {
+                headers: {
+                    Authorization: token,
+                }
+            });
+        } catch (err) {
+            alert('Erro ao deletar categoria, tente novamente.');
+        }
+
+        setCategories(categories.filter(category => category._id !== id));
+    }
 
     document.title = "Categorias";
 
@@ -38,7 +76,29 @@ export default function DashCategories() {
                         <div className="user-dashboard">
                             <h1>Olá, Person Silva</h1>
                             <div className="row">
-                                <div className="col-md-7 col-sm-7 col-xs-12">
+                                <div className="col-lg-5 col-md-4 col-sm-4 col-xs-12">
+
+                                    <div className="card">
+                                        <div className="card-header">
+                                            <h2>Adicionar nova categoria</h2>
+                                        </div>
+
+                                        <div className="card-body">
+                                            <form onSubmit={handleAddCategory}>
+                                                <div className="form-group">
+                                                    <label>Nome</label>
+                                                    <input value={name} onChange={e => setName(e.target.value)} type="text" className="form-control" placeholder="Exemplo: Casa"/>
+                                                </div>
+
+                                                <button className="btn btn-danger" type="submit">Adicionar</button>
+                                            </form>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div className="col-lg-7 col-md-8 col-sm-8 col-xs-12">
 
                                     <div className="card">
                                         <div className="card-header">
@@ -51,69 +111,28 @@ export default function DashCategories() {
                                                 <thead>
                                                     <tr>
                                                         <th scope="col">Categoria</th>
-                                                        <th scope="col" className="hidden-xs hidden-sm">Link</th>
-                                                        <th scope="col">Produtos</th>
+                                                        <th scope="col" className="hidden-xs hidden-sm">Produtos</th>
                                                         <th scope="col"></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     {categories.map(category => (
-                                                        <tr key={category.id}>
-                                                            <th scope="row">Acessórios</th>
-                                                            <td className="hidden-xs hidden-sm">/acessorios</td>
-                                                            <td>6</td>
+                                                        <tr key={category._id}>
+                                                            <th scope="row">{category.name}</th>
+                                                            <td className="hidden-xs hidden-sm">1</td>
                                                             <td>
-                                                                <Link to="/categorias/1" className="btn btn-danger">
+                                                                <Link to={`/categorias/${category._id}`} className="btn btn-danger">
                                                                     <i id="icon" className="fa fa-pencil-alt"></i>
                                                                     <span id="details">Editar</span>
                                                                 </Link>
+
+                                                                <button onClick={() => handleDeleteCategory(category._id)} className="btn btn-danger" type="button">
+                                                                    <i id="icon" className="fa fa-trash-alt"></i>
+                                                                    <span id="details">Apagar</span>
+                                                                </button>
                                                             </td>
                                                         </tr>
                                                     ))}
-                                                    <tr>
-                                                        <th scope="row">Acessórios</th>
-                                                        <td className="hidden-xs hidden-sm">/acessorios</td>
-                                                        <td>6</td>
-                                                        <td>
-                                                            <Link to="/categorias/1" className="btn btn-danger">
-                                                                <i id="icon" className="fa fa-pencil-alt"></i>
-                                                                <span id="details">Editar</span>
-                                                            </Link>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th scope="row">Casa</th>
-                                                        <td className="hidden-xs hidden-sm">/casa</td>
-                                                        <td>2</td>
-                                                        <td>
-                                                            <Link to="/categorias/1" className="btn btn-danger">
-                                                                <i id="icon" className="fa fa-pencil-alt"></i>
-                                                                <span id="details">Editar</span>
-                                                            </Link>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th scope="row">Eletrônicos</th>
-                                                        <td className="hidden-xs hidden-sm">/eletronicos</td>
-                                                        <td>2</td>
-                                                        <td>
-                                                            <Link to="/categorias/1" className="btn btn-danger">
-                                                                <i id="icon" className="fa fa-pencil-alt"></i>
-                                                                <span id="details">Editar</span>
-                                                            </Link>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th scope="row">Utilidades</th>
-                                                        <td className="hidden-xs hidden-sm">/utilidades</td>
-                                                        <td>10</td>
-                                                        <td>
-                                                            <Link to="/categorias/1" className="btn btn-danger">
-                                                                <i id="icon" className="fa fa-pencil-alt"></i>
-                                                                <span id="details">Editar</span>
-                                                            </Link>
-                                                        </td>
-                                                    </tr>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -138,32 +157,6 @@ export default function DashCategories() {
                                                     </li>
                                                 </ul>
                                             </nav>
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-                                <div className="col-md-5 col-sm-5 col-xs-12">
-
-                                    <div className="card">
-                                        <div className="card-header">
-                                            <h2>Adicionar nova categoria</h2>
-                                        </div>
-
-                                        <div className="card-body">
-                                            <form>
-                                                <div className="form-group">
-                                                    <label>Nome</label>
-                                                    <input type="text" className="form-control" placeholder="Exemplo: Casa"/>
-                                                </div>
-                                                <div className="form-group">
-                                                    <label>Link</label>
-                                                    <input type="text" className="form-control" placeholder="Exemplo: /casa"/>
-                                                </div>
-
-                                                <button type="submit" className="btn btn-danger">Adicionar</button>
-                                            </form>
                                         </div>
 
                                     </div>

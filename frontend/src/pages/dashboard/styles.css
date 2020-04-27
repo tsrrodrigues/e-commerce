@@ -110,6 +110,9 @@ button, .btn {
 button:hover, .btn:hover {
     background-color: #e53935;
 }
+.btn + .btn {
+    margin-left: 10px;
+}
 
 .pagination > li > a,
 .pagination > li > span {
@@ -477,14 +480,16 @@ header {
     padding: 10px 15px 26px;
     text-align: right;
 }
-.modal-footer button {
-    margin-left: 5px;
-}
-button.secondary {
+.btn-black {
     background: #000;
 }
-button.secondary:hover {
+.btn-black:hover {
     background: #333;
+    color: #fff;
+}
+.btn-black:focus {
+    background: #333;
+    color: #fff;
 }
 
 @media screen and (min-width: 768px) {
@@ -493,6 +498,9 @@ button.secondary:hover {
     }
     #navigation.collapse {
         display: table-cell;
+    }
+    .admin-bar span {
+        display: block;
     }
     .logo img {
         padding: 2rem;
@@ -521,6 +529,9 @@ button.secondary:hover {
     }
     .admin-bar i {
 		margin-right: 15px;
+    }
+    .admin-bar span {
+        display: inline;
     }
 }
 

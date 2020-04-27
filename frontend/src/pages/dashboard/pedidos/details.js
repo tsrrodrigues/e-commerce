@@ -49,6 +49,7 @@ export default function DashOrderDetail(props) {
                                         </div>
 
                                         <div className="card-body">
+                                            <button type="button" className="btn btn-danger">Saiu para Entrega</button>
                                             <button type="button" className="btn btn-danger">Confirmar Entrega</button>
                                         </div>
                                     </div>
