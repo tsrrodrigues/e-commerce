@@ -15,32 +15,37 @@ export default function DashCategoryEdit (props) {
 
     const user_name = localStorage.getItem('userDisplayName')
     const token = localStorage.getItem('userToken')
-    const cat_id = props.match.params.id
     
-    const [category, setCategory] = useState([])
+    const [category, setCategory] = useState({})
+    const cat_id = props.match.params.id
     const [products, setProducts] = useState([])
+    
     const [name, setName] = useState('')
+    const [cat_edited, setCatEdited] = useState(0)
     
     useEffect(() => {
-        api.get('tag', {
+        api.get(`tag/${cat_id}`, {
             headers: {
                 Authorization: token,
             }
         }).then(response => {
-            setCategory(response.data.find(category => category._id === cat_id))
-
-            if (category.name !== undefined)  {
-                api.get(`product/admin?tag=${category.name}`, {
-                    headers: {
-                        Authorization: token,
-                    }
-                }).then(response => {
-                    setProducts(response.data)
-                })
-            }      
+            setCategory(response.data)
         })
         
-    }, [token, cat_id, category.name]);
+    }, [token, cat_id, cat_edited]);
+
+    useEffect(() => {
+        if (category.name) {
+            api.get(`product/admin?tag=${category.name}`, {
+                headers: {
+                    Authorization: token,
+                }
+            }).then(response => {
+                setProducts(response.data)
+            })
+        }
+        
+    }, [token, category.name]);
 
     async function handleEditCategory (e) {
         e.preventDefault();
@@ -55,26 +60,23 @@ export default function DashCategoryEdit (props) {
                     Authorization: token,
                 }
             })
-        } catch (err) {
-            alert('Erro ao editar nome.');
-        }
 
-        setName('')
+            setName('')
+            setCatEdited(cat_edited + 1)
+            
+        } catch (err) {
+            alert('Erro ao editar nome. ' + err);
+        }
     }
 
     async function handleRemoveProduct (product) {
-        const name = product.name;
-        const description = product.description;
-        const price = product.price;
-        const quantity = product.quantity;
-        const tag = "";
 
         const data = {
-            name,
-            description,
-            price,
-            quantity,
-            tag,
+            name : product.name,
+            description : product.description,
+            price : product.price,
+            quantity : product.quantity,
+            tag: undefined,
         };
 
         try {
@@ -83,11 +85,12 @@ export default function DashCategoryEdit (props) {
                     Authorization: token
                 }
             })
-        } catch (err) {
-            alert('Erro ao remover produto da categoria.')
-        }
 
-        setProducts(products.filter(p =>  p._id !== product._id))
+            setProducts(products.filter(p =>  p._id !== product._id))
+
+        } catch (err) {
+            alert('Erro ao remover produto da categoria.');
+        }
     }
 
     document.title = `Editar categoria: ${category.name}`;

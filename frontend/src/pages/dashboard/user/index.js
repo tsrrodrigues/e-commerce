@@ -70,8 +70,6 @@ export default function DashUser () {
             password,
         };
 
-        console.log(data)
-
         try {
             await api.put(`user/${user_id}`, data, {
                 headers: {
@@ -84,7 +82,7 @@ export default function DashUser () {
             const lastname = lastfull[lastfull.length - 1]
 
             localStorage.setItem('userDisplayName', `${firstname} ${lastname}`)
-            setUserName(`${firstname} ${lastname}`)
+            setUserName(localStorage.getItem('userDisplayName'))
 
         } catch (err) {
             alert('Não foi possível atualizar o usuário. ' + err);
@@ -166,13 +164,12 @@ export default function DashUser () {
                                                     />
                                                 </div>
                                                 <div className="form-group">
-                                                    <label>Senha (confirme ou troque a senha)</label>
+                                                    <label>Senha</label>
                                                     <input 
                                                         type="password" 
                                                         defaultValue={password} 
                                                         onChange={e => setPassword(e.target.value)} 
-                                                        className="form-control" 
-                                                        required
+                                                        className="form-control"
                                                     />
                                                 </div>
 

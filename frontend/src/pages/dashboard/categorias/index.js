@@ -17,7 +17,10 @@ export default function DashCategories() {
     const token = localStorage.getItem('userToken')
 
     const [categories, setCategories] = useState([])
+    const [products, setProducts] = useState([])
+    
     const [name, setName] = useState('')
+    const [cat_edited, setCatEdited] = useState(0)
 
     useEffect(() => {
         api.get('tag', {
@@ -28,9 +31,27 @@ export default function DashCategories() {
             setCategories(response.data)
         })
         
-    }, [token, name]);
+    }, [token, cat_edited]);
 
-    async function handleAddCategory(e) {
+    useEffect(() => {
+        api.get('/product/admin', {
+            headers: {
+                Authorization: token,
+            }
+        }).then(response => {
+            setProducts(response.data)
+        })
+        
+    }, [token]);
+
+    function countProductsCategory (cat_id) {
+        const category = products.filter(product => product.tag._id === cat_id)
+        const count = category.length
+        
+        return count;
+    }
+
+    async function handleAddCategory (e) {
         e.preventDefault();
         
         const data = {
@@ -44,14 +65,15 @@ export default function DashCategories() {
                 }
             })
 
-        } catch (err) {
-            alert('Erro ao adicionar categoria.');
-        }
+            setName('')
+            setCatEdited(cat_edited + 1)
 
-        setName('')
+        } catch (err) {
+            alert('Erro ao adicionar categoria. ' + err);
+        }
     }
 
-    async function handleDeleteCategory(id) {
+    async function handleDeleteCategory (id) {
         try {
             await api.delete(`tag/${id}`, {
                 headers: {
@@ -59,11 +81,11 @@ export default function DashCategories() {
                 }
             })
 
-        } catch (err) {
-            alert('Erro ao deletar categoria, tente novamente.');
-        }
+            setCategories(categories.filter(category => category._id !== id))
 
-        setCategories(categories.filter(category => category._id !== id))
+        } catch (err) {
+            alert('Erro ao deletar categoria, tente novamente. ' + err);
+        }
     }
 
     document.title = "Categorias";
@@ -123,7 +145,7 @@ export default function DashCategories() {
                                                     {categories.map(category => (
                                                         <tr key={category._id}>
                                                             <th scope="row">{category.name}</th>
-                                                            <td className="hidden-xs hidden-sm">1</td>
+                                                            <td className="hidden-xs hidden-sm">{countProductsCategory(category._id)}</td>
                                                             <td>
                                                                 <Link to={`/categorias/${category._id}`} className="btn btn-danger">
                                                                     <i id="icon" className="fa fa-pencil-alt"></i>
