@@ -10,8 +10,9 @@ import HeaderTop from '../content/HeaderTop';
 import ModalAddProduto from '../content/ModalAddProduto';
 import ModalAddAviso from '../content/ModalAddAviso';
 
-export default function DashOrderDetail(props) {
+export default function DashOrderDetail (props) {
 
+    const user_name = localStorage.getItem('userDisplayName')
     const token = localStorage.getItem('userToken')
 
     const orderId = props.match.params.id
@@ -25,9 +26,9 @@ export default function DashOrderDetail(props) {
         }).then(response => {
             setOrder(response.data)
         })
-    })
+    }, [token, orderId]);
 
-    document.title = "Detalhes do pedido";
+    document.title = `Detalhes do pedido: ${orderId}`;
     
     return (
         <section className="dashboard">
@@ -39,7 +40,7 @@ export default function DashOrderDetail(props) {
                         <HeaderTop />
                         
                         <div className="user-dashboard">
-                            <h1>Olá, Person Silva</h1>
+                            <h1>Olá, {user_name}</h1>
                             <div className="row">
                                 <div className="col-md-10 col-xs-12">
 

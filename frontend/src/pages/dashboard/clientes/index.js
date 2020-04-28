@@ -12,6 +12,8 @@ import ModalAddProduto from '../content/ModalAddProduto';
 import ModalAddAviso from '../content/ModalAddAviso';
 
 export default function DashClients () {
+
+    const user_name = localStorage.getItem('userDisplayName')
     const token = localStorage.getItem('userToken')
 
     const [clients, setClients] = useState([])
@@ -23,7 +25,7 @@ export default function DashClients () {
                 Authorization: token,
             }
         }).then(response => {
-            setClients(response.data.filter(client => client.access_level === level));
+            setClients(response.data.filter(client => client.access_level === level))
         })
 
     }, [token, level]);
@@ -40,7 +42,7 @@ export default function DashClients () {
                         <HeaderTop />
                         
                         <div className="user-dashboard">
-                            <h1>Olá, Person Silva</h1>
+                            <h1>Olá, {user_name}</h1>
                             <div className="row">
                                 <div className="col-md-10 col-xs-12">
 
@@ -74,9 +76,9 @@ export default function DashClients () {
                                                 <tbody>
                                                     {clients.map(client => (
                                                         <tr key={client._id}>
-                                                            <th scope="row">{client.name}</th>
+                                                            <th scope="row">{client.name.first}</th>
                                                             <td className="hidden-xs hidden-sm">{client.email}</td>
-                                                            <td>(61) 9999-9999</td>
+                                                            <td>{client.phone}</td>
                                                             <td className="hidden-xs">{client.adress.uf}</td>
                                                             <td>
                                                                 <Link to={`/clientes/${client._id}`} className="btn btn-danger">

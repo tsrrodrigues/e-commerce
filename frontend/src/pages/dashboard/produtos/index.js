@@ -13,13 +13,13 @@ import ModalAddAviso from '../content/ModalAddAviso';
 
 import productImg from '../../../assets/img/cube-solid.svg';
 
-export default function DashProducts() {
+export default function DashProducts () {
 
-    const history = useHistory();
-
-    const [products, setProducts] = useState([]);
-
+    const user_name = localStorage.getItem('userDisplayName')
     const token = localStorage.getItem('userToken')
+
+    const [products, setProducts] = useState([])
+    const history = useHistory()
 
     useEffect(() => {
         api.get('/product/admin', {
@@ -29,7 +29,8 @@ export default function DashProducts() {
         }).then(response => {
             setProducts(response.data);
         })
-    });
+
+    }, [token]);
 
     document.title = "Produtos";
 
@@ -43,7 +44,7 @@ export default function DashProducts() {
                         <HeaderTop />
                         
                         <div className="user-dashboard">
-                            <h1>Olá, Person Silva</h1>
+                            <h1>Olá, {user_name}</h1>
                             <div className="row">
                                 <div className="col-lg-10 col-md-10 col-xs-12">
 

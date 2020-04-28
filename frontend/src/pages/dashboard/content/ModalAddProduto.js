@@ -3,24 +3,24 @@ import api from '../../../services/api';
 
 import $ from 'jquery';
 
-export default function ModalAddProduto() {
+export default function ModalAddProduto () {
 
     const token = localStorage.getItem('userToken')
 
-    const [name, setName] = useState('');
-    const [tag, setTag] = useState('');
-    const [price, setPrice] = useState('');
-    const [description, setDescription] = useState('');
-    const [quantity, setQuantity] = useState('');
+    const [name, setName] = useState('')
+    const [tag, setTag] = useState('')
+    const [price, setPrice] = useState('')
+    const [description, setDescription] = useState('')
+    const [quantity, setQuantity] = useState('')
 
     function closeProductModal () {
         $('#add_product').modal('hide');
 
-        setName('');
-        setTag('');
-        setPrice('');
-        setDescription('');
-        setQuantity('');  
+        setName('')
+        setTag('')
+        setPrice('')
+        setDescription('')
+        setQuantity('')
     }
     
     async function handleAddProduct (e) {
@@ -37,8 +37,7 @@ export default function ModalAddProduto() {
         try {
             await api.post('product', data, {
                 headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": token
+                    Authorization: token,
                 }
             });
 
@@ -98,7 +97,7 @@ export default function ModalAddProduto() {
                             />
                         </div>
                         <div className="modal-footer">
-                            <button onClick={closeProductModal} type="button" className="secondary">Cancelar</button>
+                            <button onClick={closeProductModal} type="button" className="btn btn-black">Cancelar</button>
                             <button type="submit" className="btn btn-danger">Salvar</button>
                         </div>
                     </form>

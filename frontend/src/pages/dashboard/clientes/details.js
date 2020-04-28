@@ -13,10 +13,12 @@ import ModalAddAviso from '../content/ModalAddAviso';
 import userImg from '../../../assets/img/user-circle-solid.svg';
 
 export default function DashClientDetail (props) {
+
+    const user_name = localStorage.getItem('userDisplayName')
     const token = localStorage.getItem("userToken")
 
-    const [client, setClient] = useState({ adress: {} })
-    const client_id = props.match.params.id;
+    const [client, setClient] = useState({ name: {}, adress: {} })
+    const client_id = props.match.params.id
 
     useEffect(() => {
         api.get(`user/${client_id}`, {
@@ -24,11 +26,12 @@ export default function DashClientDetail (props) {
                 Authorization: token,
             }
         }).then(response => {
-            setClient(response.data);
+            setClient(response.data)
         })
+
     }, [client_id, token]);
 
-    document.title = `Detalhes do cliente: ${client.name}`;
+    document.title = `Detalhes do cliente: ${client.name.first} ${client.name.last}`;
     
     return (
         <section className="dashboard">
@@ -40,7 +43,7 @@ export default function DashClientDetail (props) {
                         <HeaderTop />
                         
                         <div className="user-dashboard">
-                            <h1>Olá, Person Silva</h1>
+                            <h1>Olá, {user_name}</h1>
                             <div className="row">
                                 <div className="col-md-8 col-sm-10 col-xs-12">
 
@@ -52,10 +55,10 @@ export default function DashClientDetail (props) {
                                         <div className="card-body">
                                             <img src={userImg} className="user-img" alt="foto"/>
 
-                                            <h5><strong>Nome: </strong>{client.name}</h5>
+                                            <h5><strong>Nome: </strong>{client.name.first} {client.name.last}</h5>
                                             <h5><strong>CPF: </strong>{client.cpf}</h5>
                                             <h5><strong>Email: </strong>{client.email}</h5>
-                                            <h5><strong>Telefone: </strong>(61) 9999-9999</h5>
+                                            <h5><strong>Telefone: </strong>{client.phone}</h5>
                                         </div>
                                     </div>
 

@@ -9,7 +9,9 @@ import HeaderTop from '../content/HeaderTop';
 import ModalAddProduto from '../content/ModalAddProduto';
 import ModalAddAviso from '../content/ModalAddAviso';
 
-export default function DashConfig() {
+export default function DashConfig () {
+    const user_name = localStorage.getItem('userDisplayName')
+
     document.title = "Ajustes";
 
     return (
@@ -22,7 +24,7 @@ export default function DashConfig() {
                         <HeaderTop />
                         
                         <div className="user-dashboard">
-                            <h1>Olá, Person Silva</h1>
+                            <h1>Olá, {user_name}</h1>
                             <div className="row">
                                 <div className="col-md-10 col-sm-11 col-xs-12">
 

@@ -11,20 +11,22 @@ import HeaderTop from '../content/HeaderTop';
 import ModalAddProduto from '../content/ModalAddProduto';
 import ModalAddAviso from '../content/ModalAddAviso';
 
-export default function DashProductEdit(props) {
-    const token = localStorage.getItem('userToken')
-    const history = useHistory()
-
-    const productId = props.match.params.id
+export default function DashProductEdit (props) {
     
+    const user_name = localStorage.getItem('userDisplayName')
+    const token = localStorage.getItem('userToken')
+
     const [product, setProduct] = useState({ tag: {} })
+    const productId = props.match.params.id
+    const history = useHistory()
     
     useEffect(() =>{
         api.get(`/product/${productId}`)
-        .then(response => {
-            setProduct(response.data)
-        })
-    }, [productId])
+            .then(response => {
+                setProduct(response.data)
+            })
+
+    }, [productId]);
     
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
@@ -47,22 +49,23 @@ export default function DashProductEdit(props) {
     }
 
     async function handleEditProduct (e) {
-        e.preventDefault()
+        e.preventDefault();
+
         const data = {
             name: name? name : product.name,
             description: description? description : product.description,
             price: price? price : product.price,
             quantity: quantity? quantity : product.quantity,
             tag: tag? tag : product.tag
-        }
+        };
 
         try {
             await api.put(`product/${productId}`, data, {
                 headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": token
+                    Authorization: token,
                 }
-            });
+            })
+
             history.push('/produtos')
         } catch (err) {
             alert("Erro ao editar produto, tente novamente. "+err);
@@ -81,7 +84,7 @@ export default function DashProductEdit(props) {
                         <HeaderTop />
                         
                         <div className="user-dashboard">
-                            <h1>Olá, Person Silva</h1>
+                            <h1>Olá, {user_name}</h1>
                             <div className="row">
                                 <div className="col-md-8 col-sm-10 col-xs-12">
 

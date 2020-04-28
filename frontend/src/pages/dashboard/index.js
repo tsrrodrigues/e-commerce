@@ -11,24 +11,22 @@ import HeaderTop from './content/HeaderTop';
 import ModalAddProduto from './content/ModalAddProduto';
 import ModalAddAviso from './content/ModalAddAviso';
 
-export default function DashBoard() {
+export default function DashBoard () {
 
+    const user_name = localStorage.getItem('userDisplayName')
     const token = localStorage.getItem('userToken')
 
-    const history = useHistory();
-
-    document.title = "Painel";
-
-    const [waitDeliverOrders, setWaitDeliverOrders] = useState([]);
-    const [forDeliverOrders, setForDeliverOrders] = useState([]);
+    const [waitDeliverOrders, setWaitDeliverOrders] = useState([])
+    const [forDeliverOrders, setForDeliverOrders] = useState([])
+    const history = useHistory()
 
     useEffect(() => {
         api.get('/order?s=waitdeliver', {
             headers: {
-                Authorization: token
+                Authorization: token,
             }
         }).then(response => {
-            setWaitDeliverOrders(response.data);
+            setWaitDeliverOrders(response.data)
         })
 
         api.get('/order?s=fordeliver', {
@@ -36,9 +34,12 @@ export default function DashBoard() {
                 Authorization: token
             }
         }).then(response => {
-            setForDeliverOrders(response.data);
+            setForDeliverOrders(response.data)
         })
+
     }, [token]);
+
+    document.title = "Painel";
     
     return (
         <section className="dashboard">
@@ -50,7 +51,7 @@ export default function DashBoard() {
                         <HeaderTop />
                         
                         <div className="user-dashboard">
-                            <h1>Olá, Person Silva</h1>
+                            <h1>Olá, {user_name}</h1>
                             <div className="row">
                                 <div className="col-md-6 col-sm-10 col-xs-12">
 

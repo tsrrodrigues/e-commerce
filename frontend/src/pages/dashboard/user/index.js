@@ -12,29 +12,49 @@ import ModalAddAviso from '../content/ModalAddAviso';
 
 import userImg from '../../../assets/img/user-circle-solid.svg';
 
-export default function DashUser() {
+export default function DashUser () {
+
+    const [user_name, setUserName] = useState(localStorage.getItem('userDisplayName'))
     const user_id = localStorage.getItem('userID')
     const token = localStorage.getItem('userToken')
 
-    const [user, SetUser] = useState({ adress: {} })
+    const [user, setUser] = useState({ name: {}, adress: {} })
 
-    const [name, SetName] = useState('')
-    const [email, SetEmail] = useState('')
-    const [cpf, SetCpf] = useState('')
-    const [password, SetPassword] = useState('')
+    useEffect(() => {
+        api.get(`user/${user_id}`, {
+            headers: {
+                Authorization: token,
+            }
+        }).then(response => {
+            setUser(response.data)
+        })
+        
+    }, [user_id, token]);
 
-    const [cep, SetCep] = useState('')
-    const [logradouro, SetLogradouro] = useState('')
-    const [complemento, SetComplemento] = useState('')
-    const [bairro, SetBairro] = useState('')
-    const [localidade, SetLocalidade] = useState('')
-    const [uf, SetUf] = useState('')
+    const [firstName, setFirstName] = useState('')
+    const [lastName, setLastName] = useState('')
+    const [email, setEmail] = useState('')
+    const [cpf, setCpf] = useState('')
+    const [password, setPassword] = useState('')
+    const [phone, setPhone] = useState('')
 
-    async function handleUserEdit(e) {
+    const [cep, setCep] = useState('')
+    const [logradouro, setLogradouro] = useState('')
+    const [complemento, setComplemento] = useState('')
+    const [bairro, setBairro] = useState('')
+    const [localidade, setLocalidade] = useState('')
+    const [uf, setUf] = useState('')
+
+    async function handleUserEdit (e) {
         e.preventDefault();
         
         const data = {
-            name: name? name : user.name,
+            name: {
+                first: firstName? firstName : user.name.first,
+                last: lastName? lastName : user.name.last,
+            },
+
+            phone: phone? phone : user.phone,
             cpf: cpf? cpf : user.cpf,
             email: email? email : user.email,
 
@@ -50,28 +70,28 @@ export default function DashUser() {
             password,
         };
 
+        console.log(data)
+
         try {
             await api.put(`user/${user_id}`, data, {
                 headers: {
                     Authorization: token,
                 }
             })
+
+            const firstname = data.name.first
+            const lastfull = data.name.last.split(' ')
+            const lastname = lastfull[lastfull.length - 1]
+
+            localStorage.setItem('userDisplayName', `${firstname} ${lastname}`)
+            setUserName(`${firstname} ${lastname}`)
+
         } catch (err) {
             alert('Não foi possível atualizar o usuário. ' + err);
         }
     }
 
-    useEffect(() => {
-        api.get(`user/${user_id}`, {
-            headers: {
-                Authorization: token,
-            }
-        }).then(response => {
-            SetUser(response.data);
-        })
-    }, [user_id, token, user.name]);
-
-    document.title = `Perfil de Usuário: ${user.name}`;
+    document.title = `Perfil de Usuário: ${user_name}`;
 
     return (
         <section className="dashboard">
@@ -83,7 +103,7 @@ export default function DashUser() {
                         <HeaderTop />
                         
                         <div className="user-dashboard">
-                            <h1>Olá, Person Silva</h1>
+                            <h1>Olá, {user_name}</h1>
                             <div className="row">
                                 <div className="col-md-8 col-sm-10 col-xs-12">
 
@@ -105,9 +125,10 @@ export default function DashUser() {
                                                     <label>Nome</label>
                                                     <input 
                                                         type="text" 
-                                                        defaultValue={user.name} 
-                                                        onChange={e => SetName(e.target.value)} 
+                                                        defaultValue={user.name.first} 
+                                                        onChange={e => setFirstName(e.target.value)} 
                                                         className="form-control" 
+                                                        name="first-name" 
                                                         required
                                                     />
                                                 </div>
@@ -115,9 +136,11 @@ export default function DashUser() {
                                                     <label>Sobrenome</label>
                                                     <input 
                                                         type="text" 
-                                                        defaultValue="Silva" 
+                                                        defaultValue={user.name.last} 
+                                                        onChange={e => setLastName(e.target.value)} 
                                                         className="form-control" 
-                                                        disabled
+                                                        name="last-name" 
+                                                        required
                                                     />
                                                 </div>
                                                 <div className="form-group">
@@ -125,8 +148,9 @@ export default function DashUser() {
                                                     <input 
                                                         type="email" 
                                                         defaultValue={user.email} 
-                                                        onChange={e => SetEmail(e.target.value)} 
+                                                        onChange={e => setEmail(e.target.value)} 
                                                         className="form-control" 
+                                                        name="email" 
                                                         required
                                                     />
                                                 </div>
@@ -135,7 +159,7 @@ export default function DashUser() {
                                                     <input 
                                                         type="number" 
                                                         defaultValue={user.cpf} 
-                                                        onChange={e => SetCpf(e.target.value)} 
+                                                        onChange={e => setCpf(e.target.value)} 
                                                         className="form-control" 
                                                         name="cpf" 
                                                         required
@@ -146,7 +170,7 @@ export default function DashUser() {
                                                     <input 
                                                         type="password" 
                                                         defaultValue={password} 
-                                                        onChange={e => SetPassword(e.target.value)} 
+                                                        onChange={e => setPassword(e.target.value)} 
                                                         className="form-control" 
                                                         required
                                                     />
@@ -169,9 +193,10 @@ export default function DashUser() {
                                                     <label>Telefone</label>
                                                     <input 
                                                         type="text" 
-                                                        defaultValue="(00) 0000-0000" 
+                                                        defaultValue={user.phone} 
+                                                        onChange={e => setPhone(e.target.value)} 
                                                         className="form-control" 
-                                                        disabled 
+                                                        required
                                                     />
                                                 </div>
                                                 <div className="form-group">
@@ -179,7 +204,7 @@ export default function DashUser() {
                                                     <input 
                                                         type="number" 
                                                         defaultValue={user.adress.cep} 
-                                                        onChange={e => SetCep(e.target.value)} 
+                                                        onChange={e => setCep(e.target.value)} 
                                                         className="form-control" 
                                                         required
                                                     />
@@ -189,7 +214,7 @@ export default function DashUser() {
                                                     <input 
                                                         type="text" 
                                                         defaultValue={user.adress.logradouro} 
-                                                        onChange={e => SetLogradouro(e.target.value)} 
+                                                        onChange={e => setLogradouro(e.target.value)} 
                                                         className="form-control" 
                                                         required
                                                     />
@@ -199,7 +224,7 @@ export default function DashUser() {
                                                     <input 
                                                         type="text" 
                                                         defaultValue={user.adress.complemento} 
-                                                        onChange={e => SetComplemento(e.target.value)} 
+                                                        onChange={e => setComplemento(e.target.value)} 
                                                         className="form-control" 
                                                         required
                                                     />
@@ -209,7 +234,7 @@ export default function DashUser() {
                                                     <input 
                                                         type="text" 
                                                         defaultValue={user.adress.bairro} 
-                                                        onChange={e => SetBairro(e.target.value)} 
+                                                        onChange={e => setBairro(e.target.value)} 
                                                         className="form-control" 
                                                         required
                                                     />
@@ -219,7 +244,7 @@ export default function DashUser() {
                                                     <input 
                                                         type="text" 
                                                         defaultValue={user.adress.localidade} 
-                                                        onChange={e => SetLocalidade(e.target.value)} 
+                                                        onChange={e => setLocalidade(e.target.value)} 
                                                         className="form-control" 
                                                         required
                                                     />
@@ -228,7 +253,7 @@ export default function DashUser() {
                                                     <label>UF</label>
                                                     <select 
                                                         value={uf ? uf : user.adress.uf}
-                                                        onChange={e => SetUf(e.target.value)} 
+                                                        onChange={e => setUf(e.target.value)} 
                                                         className="form-control" 
                                                         required
                                                     >

@@ -5,20 +5,23 @@ import api from '../../../services/api';
 import userImg from '../../../assets/img/user-circle-solid.svg';
 
 export default function HeaderTop() {
-    const [user, SetUser] = useState([]);
 
-    const user_id = localStorage.getItem('userID');
-    const token = localStorage.getItem('userToken');
+    const user_name = localStorage.getItem('userDisplayName')
+    const user_id = localStorage.getItem('userID')
+    const token = localStorage.getItem('userToken')
 
-    const history = useHistory();
+    const [user, setUser] = useState([])
+
+    const history = useHistory()
 
     const handleLogout = useCallback(() => {
-        localStorage.clear();
-        history.push('/login');
-    }, [history])
+        localStorage.clear()
+        history.push('/login')
+
+    }, [history]);
 
     useEffect(() => {
-        if (token === undefined) {
+        if (!token) {
             handleLogout();
         }
 
@@ -27,7 +30,7 @@ export default function HeaderTop() {
                 Authorization: token,
             }
         }).then(response => {
-            SetUser(response.data);
+            setUser(response.data)
         })
     }, [user_id, token, handleLogout]);
 
@@ -85,7 +88,7 @@ export default function HeaderTop() {
                                 <ul className="dropdown-menu">
                                     <li>
                                         <div className="navbar-content">
-                                            <span>{user.name ? user.name.first : null}</span>
+                                            <span>{user_name}</span>
                                             <p className="text-muted small">
                                                 {user.email}
                                             </p>

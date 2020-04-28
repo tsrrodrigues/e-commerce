@@ -13,10 +13,11 @@ import ModalAddAviso from '../content/ModalAddAviso';
 
 export default function DashOrders() {
 
+    const user_name = localStorage.getItem('userDisplayName')
     const token = localStorage.getItem('userToken')
-    const history = useHistory();
 
     const [orders, setOrders] = useState([])
+    const history = useHistory()
 
     useEffect(() => {
         api.get('/order', {
@@ -26,7 +27,8 @@ export default function DashOrders() {
         }).then(response => {
             setOrders(response.data)
         })
-    })
+
+    }, [token]);
 
     document.title = "Pedidos";
     
@@ -40,7 +42,7 @@ export default function DashOrders() {
                         <HeaderTop />
                         
                         <div className="user-dashboard">
-                            <h1>Olá, Person Silva</h1>
+                            <h1>Olá, {user_name}</h1>
                             <div className="row">
                                 <div className="col-lg-8 col-md-10 col-xs-12">
 

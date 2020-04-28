@@ -12,10 +12,12 @@ import ModalAddProduto from '../content/ModalAddProduto';
 import ModalAddAviso from '../content/ModalAddAviso';
 
 export default function DashCategories() {
-    const [categories, setCategories] = useState([]);
-    const [name, setName] = useState('');
     
-    const token = localStorage.getItem('userToken');
+    const user_name = localStorage.getItem('userDisplayName')
+    const token = localStorage.getItem('userToken')
+
+    const [categories, setCategories] = useState([])
+    const [name, setName] = useState('')
 
     useEffect(() => {
         api.get('tag', {
@@ -23,7 +25,7 @@ export default function DashCategories() {
                 Authorization: token,
             }
         }).then(response => {
-            setCategories(response.data);
+            setCategories(response.data)
         })
         
     }, [token, name]);
@@ -40,12 +42,13 @@ export default function DashCategories() {
                 headers: {
                     Authorization: token,
                 }
-            });
+            })
+
         } catch (err) {
             alert('Erro ao adicionar categoria.');
         }
 
-        setName('');
+        setName('')
     }
 
     async function handleDeleteCategory(id) {
@@ -54,12 +57,13 @@ export default function DashCategories() {
                 headers: {
                     Authorization: token,
                 }
-            });
+            })
+
         } catch (err) {
             alert('Erro ao deletar categoria, tente novamente.');
         }
 
-        setCategories(categories.filter(category => category._id !== id));
+        setCategories(categories.filter(category => category._id !== id))
     }
 
     document.title = "Categorias";
@@ -74,7 +78,7 @@ export default function DashCategories() {
                         <HeaderTop />
                         
                         <div className="user-dashboard">
-                            <h1>Olá, Person Silva</h1>
+                            <h1>Olá, {user_name}</h1>
                             <div className="row">
                                 <div className="col-lg-5 col-md-4 col-sm-4 col-xs-12">
 

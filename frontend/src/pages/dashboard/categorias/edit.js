@@ -12,13 +12,14 @@ import ModalAddProduto from '../content/ModalAddProduto';
 import ModalAddAviso from '../content/ModalAddAviso';
 
 export default function DashCategoryEdit (props) {
-    const cat_id = props.match.params.id;
+
+    const user_name = localStorage.getItem('userDisplayName')
+    const token = localStorage.getItem('userToken')
+    const cat_id = props.match.params.id
     
-    const [category, setCategory] = useState([]);
-    const [products, setProducts] = useState([]);
-    const [name, setName] = useState('');
-    
-    const token = localStorage.getItem('userToken');
+    const [category, setCategory] = useState([])
+    const [products, setProducts] = useState([])
+    const [name, setName] = useState('')
     
     useEffect(() => {
         api.get('tag', {
@@ -26,7 +27,7 @@ export default function DashCategoryEdit (props) {
                 Authorization: token,
             }
         }).then(response => {
-            setCategory(response.data.find(category => category._id === cat_id));
+            setCategory(response.data.find(category => category._id === cat_id))
 
             if (category.name !== undefined)  {
                 api.get(`product/admin?tag=${category.name}`, {
@@ -34,7 +35,7 @@ export default function DashCategoryEdit (props) {
                         Authorization: token,
                     }
                 }).then(response => {
-                    setProducts(response.data);
+                    setProducts(response.data)
                 })
             }      
         })
@@ -58,7 +59,7 @@ export default function DashCategoryEdit (props) {
             alert('Erro ao editar nome.');
         }
 
-        setName('');
+        setName('')
     }
 
     async function handleRemoveProduct (product) {
@@ -86,7 +87,7 @@ export default function DashCategoryEdit (props) {
             alert('Erro ao remover produto da categoria.')
         }
 
-        setProducts(products.filter(p =>  p._id !== product._id));
+        setProducts(products.filter(p =>  p._id !== product._id))
     }
 
     document.title = `Editar categoria: ${category.name}`;
@@ -101,7 +102,7 @@ export default function DashCategoryEdit (props) {
                         <HeaderTop />
                         
                         <div className="user-dashboard">
-                            <h1>Olá, Person Silva</h1>
+                            <h1>Olá, {user_name}</h1>
                             <div className="row">
                                 <div className="col-md-5 col-sm-4 col-xs-12">
 
