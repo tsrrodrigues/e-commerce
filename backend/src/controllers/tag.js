@@ -20,6 +20,8 @@ exports.create = async (req, res, next) => {
 
 exports.edit = async (req, res, next) => {
   const data = await repository.edit(req)
+  if (data.error)
+    return res.status(400).send(data)
   res.status(200).send(data)
 }
 
