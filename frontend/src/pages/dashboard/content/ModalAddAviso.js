@@ -14,8 +14,8 @@ export default function ModalAddAviso() {
                         <textarea placeholder="Mensagem"></textarea>
                     </div>
                     <div className="modal-footer">
-                        <button type="button" className="secondary" data-dismiss="modal">Cancelar</button>
-                        <button type="button" className="button btn-danger" data-dismiss="modal">Enviar</button>
+                        <button type="button" className="btn btn-black" data-dismiss="modal">Cancelar</button>
+                        <button type="button" className="btn btn-danger" data-dismiss="modal">Enviar</button>
                     </div>
                 </div>
             </div>

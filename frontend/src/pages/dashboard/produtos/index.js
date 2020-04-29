@@ -46,7 +46,7 @@ export default function DashProducts () {
                         <div className="user-dashboard">
                             <h1>Olá, {user_name}</h1>
                             <div className="row">
-                                <div className="col-lg-10 col-md-10 col-xs-12">
+                                <div className="col-lg-10 col-md-11 col-xs-12">
 
                                     <div className="card">
                                         <div className="card-header">
@@ -58,7 +58,7 @@ export default function DashProducts () {
                                             <table className="table">
                                                 <thead>
                                                     <tr>
-                                                        <th scope="col"></th>
+                                                        <th scope="col" className="hidden-xs"></th>
                                                         <th scope="col">Nome</th>
                                                         <th scope="col" className="hidden-xs">Preço</th>
                                                         <th scope="col">Categorias</th>
@@ -68,7 +68,7 @@ export default function DashProducts () {
                                                 <tbody>
                                                     {products.map(product => (
                                                         <tr key={product._id}>
-                                                            <th scope="row">
+                                                            <th scope="row" className="hidden-xs">
                                                                 <img src={productImg} height="100" width="100" alt="produto"/>
                                                             </th>
                                                             <th scope="col">{product.name}</th>

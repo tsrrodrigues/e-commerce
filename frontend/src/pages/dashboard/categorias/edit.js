@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import api from '../../../services/api';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -22,6 +22,7 @@ export default function DashCategoryEdit (props) {
     
     const [name, setName] = useState('')
     const [cat_edited, setCatEdited] = useState(0)
+    const history = useHistory();
     
     useEffect(() => {
         api.get(`tag/${cat_id}`, {
@@ -66,30 +67,6 @@ export default function DashCategoryEdit (props) {
             
         } catch (err) {
             alert('Erro ao editar nome. ' + err);
-        }
-    }
-
-    async function handleRemoveProduct (product) {
-
-        const data = {
-            name : product.name,
-            description : product.description,
-            price : product.price,
-            quantity : product.quantity,
-            tag: undefined,
-        };
-
-        try {
-            await api.put(`product/${product._id}`, data, {
-                headers: {
-                    Authorization: token
-                }
-            })
-
-            setProducts(products.filter(p =>  p._id !== product._id))
-
-        } catch (err) {
-            alert('Erro ao remover produto da categoria.');
         }
     }
 
@@ -141,7 +118,7 @@ export default function DashCategoryEdit (props) {
                                                 <thead>
                                                     <tr>
                                                         <th scope="col">Produto</th>
-                                                        <th scope="col" className="hidden-xs">Outras Cat.</th>
+                                                        <th scope="col" className="hidden-xs">Valor</th>
                                                         <th scope="col"></th>
                                                     </tr>
                                                 </thead>
@@ -149,13 +126,18 @@ export default function DashCategoryEdit (props) {
                                                 {products.map(product => (
                                                     <tr key={product._id}>
                                                         <th scope="row">{product.name}</th>
-                                                        <td className="hidden-xs">0</td>
+                                                        <td className="hidden-xs">R$ {product.price}</td>
                                                         <td>
-                                                            <button onClick={() => handleRemoveProduct(product)} className="btn btn-danger" type="button">
-                                                                <i id="icon" className="fa fa-trash-alt"></i>
-                                                                <span id="details">Remover</span>
+                                                            <button
+                                                                onClick={() => {               
+                                                                    history.push(`/produtos/${product._id}`)
+                                                                }}
+                                                                className="btn btn-danger"
+                                                            >
+                                                                <i id="icon" className="fa fa-pencil-alt"></i>
+                                                                <span id="details">Editar</span>
                                                             </button>
-                                                        </td>
+                                                    </td>
                                                     </tr>
                                                 ))}
                                                 </tbody>

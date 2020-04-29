@@ -31,7 +31,13 @@ export default function HeaderTop() {
             }
         }).then(response => {
             setUser(response.data)
+
+        }).catch(error => {
+            if (error.response) {
+                handleLogout();
+            }
         })
+
     }, [user_id, token, handleLogout]);
 
     return (

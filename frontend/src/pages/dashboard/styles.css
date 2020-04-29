@@ -78,6 +78,9 @@ h5 {
 .table > thead > tr > th {
     vertical-align: middle;
 }
+.table .btn {
+    padding: 10px 15px;
+}
 
 .form-inline label {
     display: block;
@@ -224,6 +227,7 @@ header {
 }
 .navbar-toggle {
     border: none;
+    margin-right: 5px;
 }
 .navbar-default .navbar-toggle:focus,
 .navbar-default .navbar-toggle:hover {
@@ -263,8 +267,7 @@ header {
 }
 .header-top img {
     border-radius: 50%;
-    max-width: 48px !important;
-    width: 100%;
+    width: 48px;
 }
 .header-top .btn {
     padding: 10px 27px 10px 45px;
@@ -335,6 +338,7 @@ header {
 }
 
 .user-dashboard {
+    overflow: hidden;
     padding: 0 20px;
 }
 .user-dashboard h1 {
@@ -513,6 +517,9 @@ header {
     }
     .card-body .form-inline .form-control {
         max-width: 70%;
+    }
+    .table .btn {
+        padding: 10px 25px;
     }
 }
 
