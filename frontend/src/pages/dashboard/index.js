@@ -21,7 +21,7 @@ export default function DashBoard () {
     const history = useHistory()
 
     useEffect(() => {
-        api.get('/order?s=waitdeliver', {
+        api.get('/order?s=waitdeliver?p=1', {
             headers: {
                 Authorization: token,
             }
@@ -37,7 +37,7 @@ export default function DashBoard () {
             setForDeliverOrders(response.data)
         })
 
-    }, [token]);
+    }, [token, forDeliverOrders, waitDeliverOrders]);
 
     document.title = "Painel";
     

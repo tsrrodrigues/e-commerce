@@ -11,12 +11,18 @@ exports.getAll = async (data) => {
     // Actives
     let params = {}
     if (data.query.s === "waitdeliver") {
-      params = { status: "Aguardando Entrega" }
+      params.status = "Aguardando Entrega"
     }
     else if (data.query.s === "fordeliver") {
-      params = { status: "Para Entrega" }
+      params.status = "Para Entrega"
     }
-    const orders = await Order.find(params, 'adress status id user payment cart date')
+    const page = data.query.p? data.query.p : 1
+    const limit = 5
+    const skip = limit * (page-1)
+    const orders =
+      await Order
+        .find(params, 'adress status id user payment cart date')
+        .skip(skip).limit(limit)
     for (let index = 0; index < orders.length; index++) {
       orders[index].user = await User.findById(orders[index].user, 'name id cpf email phone')
       orders[index].cart = await Cart.findById(orders[index].cart, 'total items')
