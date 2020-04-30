@@ -16,7 +16,7 @@ exports.getAll = async (data) => {
     else if (data.query.s === "fordeliver") {
       params.status = "Para Entrega"
     }
-    const page = data.query.p? data.query.p : 1
+    const page = data.query.p? parseInt(data.query.p) : 1
     const limit = 5
     const skip = limit * (page-1)
     const orders =

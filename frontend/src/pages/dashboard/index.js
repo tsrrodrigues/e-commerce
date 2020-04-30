@@ -21,7 +21,7 @@ export default function DashBoard () {
     const history = useHistory()
 
     useEffect(() => {
-        api.get('/order?s=waitdeliver?p=1', {
+        api.get('/order?s=waitdeliver', {
             headers: {
                 Authorization: token,
             }

@@ -30,7 +30,7 @@ export default function DashProducts () {
             setProducts(response.data);
         })
 
-    }, [token]);
+    }, [token, products]);
 
     document.title = "Produtos";
 

@@ -47,10 +47,17 @@ exports.getAll = async (data) => {
     let sort = ''
     if (data.query.sort) sort = data.query.sort
 
-    let products = await Product.find(
-      params,
-      '_id name description quantity price createdAt tag'
-    ).sort(sort)
+    const page = data.query.p? parseInt(data.query.p) : 1
+    const limit = 5
+    const skip = limit * (page-1)
+
+    let products =
+      await Product.find(
+        params,
+        '_id name description quantity price createdAt tag'
+      )
+      .skip(skip).limit(limit)
+      .sort(sort)
 
     for (let index = 0; index < products.length; index++) {
       products[index].price /= 100
@@ -114,15 +121,17 @@ exports.edit = async (data) => {
   if (data.userAccessLevel < 2) return { error: 'Unauthorized' }
 
   try {
-    const product = await Product.findByIdAndUpdate(data.params.id, {
+    const tag = await Tag.findOne({name: data.body.tag})
+
+    let product = await Product.findByIdAndUpdate(data.params.id, {
       $set: {
         name: data.body.name,
         description: data.body.description,
         price: data.body.price * 100,
-        tag: data.body.tag,
+        tag: tag.id
       },
     })
-
+    product.tag = tag
     return product
   } catch (err) {
     return { error: 'Edit failed' }
