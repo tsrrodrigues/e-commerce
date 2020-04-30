@@ -5,6 +5,7 @@
 body {
     font-family: 'Baloo Thambi 2', cursive;
     background: #f6f7fa;
+    -webkit-font-smoothing: antialiased;
 }
 
 a:focus, a:hover, a {
@@ -68,6 +69,16 @@ h5 {
 
 .shadow {
     box-shadow: 0 .15rem 1.75rem 0 rgba(0,0,0,.10);
+}
+
+.alert {
+    border-radius: 0;
+    opacity: 0.9;
+    position: fixed;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
 }
 
 .table > tbody > tr > td,
@@ -455,10 +466,15 @@ header {
 .modal-header .close {
     margin-top: 2px;
 }
-.close, .close:focus, .close:hover {
-    color: #fff;;
+.close {
+    background-color: transparent;
+    color: #fff;
     opacity: 1;
     text-shadow: none;
+}
+.close:focus, .close:hover {
+    background-color: transparent;
+    opacity: 1;
 }
 .modal-body input {
     border: 1px solid #d4d9e3;
