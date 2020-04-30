@@ -22,10 +22,17 @@ exports.getAll = async (data) => {
       params = { active: true }
     }
 
-    const users = await User.find(
-      params,
-      '_id name email cpf adress active access_level phone'
-    )
+    const page = data.query.p? parseInt(data.query.p) : 1
+    const limit = 5
+    const skip = limit * (page-1)
+
+    const users =
+      await User.find(
+        params,
+        '_id name email cpf adress active access_level phone'
+      )
+      .skip(skip).limit(limit)
+
     return users
   } catch (err) {
     return { error: 'List All Users failed' }

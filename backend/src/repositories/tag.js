@@ -5,7 +5,16 @@ const Tag = mongoose.model('Tag')
 exports.getAll = async (data) => {
   try {
     if (data.userAccessLevel < 2) return { error: 'Unauthorized' }
-    const tags = await Tag.find().sort('name')
+
+    const page = data.query.p? parseInt(data.query.p) : 1
+    const limit = 5
+    const skip = limit * (page-1)
+
+    const tags =
+      await Tag.find()
+        .skip(skip).limit(limit)
+        .sort('name')
+
     return tags
   } catch (err) {
     return { error: 'List Tags failed' }

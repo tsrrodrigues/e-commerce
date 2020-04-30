@@ -37,7 +37,7 @@ export default function DashBoard () {
             setForDeliverOrders(response.data)
         })
 
-    }, [token, forDeliverOrders, waitDeliverOrders]);
+    }, [token]);
 
     document.title = "Painel";
     

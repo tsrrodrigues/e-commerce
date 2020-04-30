@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --exec babel-node ./bin/server.js"
+    "start": "sudo systemctl start mongod && nodemon --exec babel-node ./bin/server.js"
   },
   "keywords": [],
   "author": "",
