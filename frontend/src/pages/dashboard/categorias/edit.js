@@ -28,7 +28,9 @@ export default function DashCategoryEdit (props) {
         api.get(`tag/${cat_id}`, {
             headers: {
                 Authorization: token,
-            }
+            },
+            errorHandler: true,
+
         }).then(response => {
             setCategory(response.data)
         })
@@ -40,7 +42,9 @@ export default function DashCategoryEdit (props) {
             api.get(`product/admin?tag=${category.name}`, {
                 headers: {
                     Authorization: token,
-                }
+                },
+                errorHandler: true,
+
             }).then(response => {
                 setProducts(response.data)
             })
@@ -55,19 +59,18 @@ export default function DashCategoryEdit (props) {
             name,
         };
 
-        try {
-            await api.put(`tag/${cat_id}`, data, {
-                headers: {
-                    Authorization: token,
-                }
-            })
+        await api.put(`tag/${cat_id}`, data, {
+            headers: {
+                Authorization: token,
+            },
+            successHandler: true,
+            errorHandler: true,
 
+        }).then(response => {
             setName('')
             setCatEdited(cat_edited + 1)
-            
-        } catch (err) {
-            alert('Erro ao editar nome. ' + err);
-        }
+        })
+        
     }
 
     document.title = `Editar categoria: ${category.name}`;
@@ -83,6 +86,8 @@ export default function DashCategoryEdit (props) {
                         
                         <div className="user-dashboard">
                             <h1>Olá, {user_name}</h1>
+                            <div id="info-div"></div>
+
                             <div className="row">
                                 <div className="col-md-5 col-sm-4 col-xs-12">
 
@@ -137,7 +142,7 @@ export default function DashCategoryEdit (props) {
                                                                 <i id="icon" className="fa fa-pencil-alt"></i>
                                                                 <span id="details">Editar</span>
                                                             </button>
-                                                    </td>
+                                                        </td>
                                                     </tr>
                                                 ))}
                                                 </tbody>

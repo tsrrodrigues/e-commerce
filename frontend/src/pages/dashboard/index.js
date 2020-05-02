@@ -24,7 +24,9 @@ export default function DashBoard () {
         api.get('/order?s=waitdeliver', {
             headers: {
                 Authorization: token,
-            }
+            },
+            errorHandler: true,
+
         }).then(response => {
             setWaitDeliverOrders(response.data)
         })
@@ -32,7 +34,9 @@ export default function DashBoard () {
         api.get('/order?s=fordeliver', {
             headers: {
                 Authorization: token
-            }
+            },
+            errorHandler: true,
+
         }).then(response => {
             setForDeliverOrders(response.data)
         })
@@ -52,6 +56,8 @@ export default function DashBoard () {
                         
                         <div className="user-dashboard">
                             <h1>Olá, {user_name}</h1>
+                            <div id="info-div"></div>
+                            
                             <div className="row">
                                 <div className="col-md-6 col-sm-10 col-xs-12">
 

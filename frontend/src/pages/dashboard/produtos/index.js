@@ -25,7 +25,9 @@ export default function DashProducts () {
         api.get('/product/admin', {
             headers: {
                 Authorization: token
-            }
+            },
+            errorHandler: true,
+
         }).then(response => {
             setProducts(response.data);
         })
@@ -45,6 +47,8 @@ export default function DashProducts () {
                         
                         <div className="user-dashboard">
                             <h1>Olá, {user_name}</h1>
+                            <div id="info-div"></div>
+
                             <div className="row">
                                 <div className="col-lg-10 col-md-11 col-xs-12">
 

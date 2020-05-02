@@ -16,25 +16,22 @@ export default function LoginForm () {
             email,
             password,
         };
-
-        try {
-            await api.post('user/authenticate', 
-                data,
-            ).then(response => {
-                const firstname = response.data.user.name.first
-                const lastfull = response.data.user.name.last.split(' ')
-                const lastname = lastfull[lastfull.length - 1]
-
-                localStorage.setItem('userDisplayName', `${firstname} ${lastname}`)
-                localStorage.setItem('userID', response.data.user._id)
-                localStorage.setItem('userToken', `Bearer ${response.data.token}`)
-
-                history.push('/');
-            })
+        
+        await api.post('user/authenticate', data, { 
+            errorHandler: true,
             
-        } catch (err) {
-            alert('Não foi possível logar, tente novamente.');
-        }
+        }).then(response => {
+            const firstname = response.data.user.name.first
+            const lastfull = response.data.user.name.last.split(' ')
+            const lastname = lastfull[lastfull.length - 1]
+
+            localStorage.setItem('userDisplayName', `${firstname} ${lastname}`)
+            localStorage.setItem('userID', response.data.user._id)
+            localStorage.setItem('userToken', `Bearer ${response.data.token}`)
+
+            history.push('/');
+        })
+        
     }
 
     return (

@@ -21,10 +21,12 @@ export default function DashProductEdit (props) {
     const history = useHistory()
     
     useEffect(() =>{
-        api.get(`/product/${productId}`)
-            .then(response => {
-                setProduct(response.data)
-            })
+        api.get(`/product/${productId}`, {
+            errorHandler: true,
+
+        }).then(response => {
+            setProduct(response.data)
+        })
 
     }, [productId]);
     
@@ -59,17 +61,17 @@ export default function DashProductEdit (props) {
             tag: tag? tag : product.tag
         };
 
-        try {
-            await api.put(`product/${productId}`, data, {
-                headers: {
-                    Authorization: token,
-                }
-            })
+        api.put(`product/${productId}`, data, {
+            headers: {
+                Authorization: token,
+            },
+            successHandler: true,
+            errorHandler: true,
 
+        }).then(response => {
             history.push('/produtos')
-        } catch (err) {
-            alert("Erro ao editar produto, tente novamente. "+err);
-        }
+        })
+
     }
 
     document.title = `Editar Produto: ${product.name}`;
@@ -85,6 +87,8 @@ export default function DashProductEdit (props) {
                         
                         <div className="user-dashboard">
                             <h1>Olá, {user_name}</h1>
+                            <div id="info-div"></div>
+
                             <div className="row">
                                 <div className="col-md-8 col-sm-10 col-xs-12">
 

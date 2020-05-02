@@ -34,17 +34,17 @@ export default function ModalAddProduto () {
             quantity: quantity
         };
         
-        try {
-            await api.post('product', data, {
-                headers: {
-                    Authorization: token,
-                }
-            });
+        await api.post('product', data, {
+            headers: {
+                Authorization: token,
+            },
+            successHandler: true,
+            errorHandler: true,
 
+        }).then(response => {
             closeProductModal();
-        } catch (err) {
-            alert("Erro ao Adicionar produto, tente novamente. " + err);
-        }
+        })
+            
     }
 
     return (

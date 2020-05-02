@@ -22,10 +22,13 @@ export default function DashOrderDetail (props) {
         api.get(`/order/${orderId}`, {
             headers: {
                 Authorization: token
-            }
+            },
+            errorHandler: true,
+            
         }).then(response => {
             setOrder(response.data)
         })
+
     }, [token, orderId]);
 
     document.title = `Detalhes do pedido: ${orderId}`;
@@ -41,6 +44,8 @@ export default function DashOrderDetail (props) {
                         
                         <div className="user-dashboard">
                             <h1>Olá, {user_name}</h1>
+                            <div id="info-div"></div>
+
                             <div className="row">
                                 <div className="col-md-10 col-xs-12">
 

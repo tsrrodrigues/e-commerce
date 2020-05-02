@@ -24,7 +24,9 @@ export default function DashUser () {
         api.get(`user/${user_id}`, {
             headers: {
                 Authorization: token,
-            }
+            },
+            errorHandler: true,
+
         }).then(response => {
             setUser(response.data)
         })
@@ -70,23 +72,22 @@ export default function DashUser () {
             password,
         };
 
-        try {
-            await api.put(`user/${user_id}`, data, {
-                headers: {
-                    Authorization: token,
-                }
-            })
+        await api.put(`user/${user_id}`, data, {
+            headers: {
+                Authorization: token,
+            },
+            successHandler: true,
+            errorHandler: true,
 
+        }).then(response => {
             const firstname = data.name.first
             const lastfull = data.name.last.split(' ')
             const lastname = lastfull[lastfull.length - 1]
 
             localStorage.setItem('userDisplayName', `${firstname} ${lastname}`)
             setUserName(localStorage.getItem('userDisplayName'))
+        })
 
-        } catch (err) {
-            alert('Não foi possível atualizar o usuário. ' + err);
-        }
     }
 
     document.title = `Perfil de Usuário: ${user_name}`;
@@ -102,6 +103,8 @@ export default function DashUser () {
                         
                         <div className="user-dashboard">
                             <h1>Olá, {user_name}</h1>
+                            <div id="info-div"></div>
+                            
                             <div className="row">
                                 <div className="col-md-8 col-sm-10 col-xs-12">
 
@@ -155,7 +158,7 @@ export default function DashUser () {
                                                 <div className="form-group">
                                                     <label>CPF</label>
                                                     <input 
-                                                        type="number" 
+                                                        type="text" 
                                                         defaultValue={user.cpf} 
                                                         onChange={e => setCpf(e.target.value)} 
                                                         className="form-control" 
