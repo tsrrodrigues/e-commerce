@@ -103,7 +103,7 @@ exports.register = async (data) => {
 
   const { name } = data.body
   if (await Product.findOne({ name }))
-    return { error: 'Product already exists' }
+    return { error: 'Product already exists', status: 409}
   try {
 
     let product = new Product()
@@ -128,7 +128,7 @@ exports.register = async (data) => {
 
     return product
   } catch (err) {
-    return { error: 'Registration failed' }
+    return { error: 'Registration failed ', status: err}
   }
 }
 
