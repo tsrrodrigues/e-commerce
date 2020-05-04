@@ -27,7 +27,7 @@ export default function DashOrders() {
             errorHandler: true,
             
         }).then(response => {
-            setOrders(response.data)
+            setOrders(response.data.orders)
         })
 
     }, [token]);

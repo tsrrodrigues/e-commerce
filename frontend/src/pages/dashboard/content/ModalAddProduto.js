@@ -44,7 +44,7 @@ export default function ModalAddProduto () {
         }).then(response => {
             closeProductModal();
         })
-            
+        
     }
 
     return (

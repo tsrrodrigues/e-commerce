@@ -17,17 +17,28 @@ exports.getAvailables = async (data) => {
     let sort = ''
     if (data.query.sort) sort = data.query.sort
 
+    const page = data.query.p? parseInt(data.query.p) : 1
+    const limit = 5
+    const skip = limit * (page-1)
+
     let products = (
       await Product.find(
         params,
         '_id name description quantity price createdAt tag'
-      ).sort(sort)
+      )
+      .skip(skip).limit(limit)
+      .sort(sort)
     ).filter((product) => product.quantity > 0)
+
+    let pages = (await Product.find(params)).length
+    pages = pages % limit == 0? pages/limit : parseInt(pages/limit)+1
+
     for (let index = 0; index < products.length; index++) {
       products[index].price /= 100
       products[index].tag = await Tag.findById(products[index].tag)
     }
-    return products
+
+    return {pages, products}
   } catch (err) {
     return { error: 'List Availables Products failed' }
   }
@@ -47,16 +58,27 @@ exports.getAll = async (data) => {
     let sort = ''
     if (data.query.sort) sort = data.query.sort
 
-    let products = await Product.find(
-      params,
-      '_id name description quantity price createdAt tag'
-    ).sort(sort)
+    const page = data.query.p? parseInt(data.query.p) : 1
+    const limit = 5
+    const skip = limit * (page-1)
+
+    let products =
+      await Product.find(
+        params,
+        '_id name description quantity price createdAt tag'
+      )
+      .skip(skip).limit(limit)
+      .sort(sort)
+
+    let pages = (await Product.find(params)).length
+    pages = pages % limit == 0? pages/limit : parseInt(pages/limit)+1
 
     for (let index = 0; index < products.length; index++) {
       products[index].price /= 100
       products[index].tag = await Tag.findById(products[index].tag)
     }
-    return products
+
+    return {pages, products}
   } catch (err) {
     return { error: 'List All Products failed' }
   }
@@ -81,7 +103,7 @@ exports.register = async (data) => {
 
   const { name } = data.body
   if (await Product.findOne({ name }))
-    return { error: 'Product already exists' }
+    return { error: 'Product already exists', status: 409}
   try {
 
     let product = new Product()
@@ -106,7 +128,7 @@ exports.register = async (data) => {
 
     return product
   } catch (err) {
-    return { error: 'Registration failed' }
+    return { error: 'Registration failed ', status: err}
   }
 }
 
@@ -114,15 +136,17 @@ exports.edit = async (data) => {
   if (data.userAccessLevel < 2) return { error: 'Unauthorized' }
 
   try {
-    const product = await Product.findByIdAndUpdate(data.params.id, {
+    const tag = await Tag.findOne({name: data.body.tag})
+
+    let product = await Product.findByIdAndUpdate(data.params.id, {
       $set: {
         name: data.body.name,
         description: data.body.description,
         price: data.body.price * 100,
-        tag: data.body.tag,
+        tag: tag.id
       },
     })
-
+    product.tag = tag
     return product
   } catch (err) {
     return { error: 'Edit failed' }

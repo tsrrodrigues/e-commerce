@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import api from '../../../services/api';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -11,6 +12,8 @@ import ModalAddProduto from '../content/ModalAddProduto';
 import ModalAddAviso from '../content/ModalAddAviso';
 
 export default function DashOrderDetail (props) {
+
+    const history = useHistory()
 
     const user_name = localStorage.getItem('userDisplayName')
     const token = localStorage.getItem('userToken')
@@ -30,6 +33,14 @@ export default function DashOrderDetail (props) {
         })
 
     }, [token, orderId]);
+
+    async function handleChangeStatus(message) {
+        if (message === "Para Entrega")
+            await api.patch(`/order/${orderId}?s=Para Entrega`)
+        else if (message === "Finalizado")
+            await api.patch(`/order/${orderId}?s=Finalizado`)
+        history.push('/')
+    }
 
     document.title = `Detalhes do pedido: ${orderId}`;
     
@@ -55,8 +66,8 @@ export default function DashOrderDetail (props) {
                                         </div>
 
                                         <div className="card-body">
-                                            <button type="button" className="btn btn-danger">Saiu para Entrega</button>
-                                            <button type="button" className="btn btn-danger">Confirmar Entrega</button>
+                                            <button type="button" onClick={() => handleChangeStatus("Para Entrega")} className="btn btn-danger">Para Entrega</button>
+                                            <button type="button" onClick={() => handleChangeStatus("Finalizado")} className="btn btn-danger">Confirmar Entrega</button>
                                         </div>
                                     </div>
 

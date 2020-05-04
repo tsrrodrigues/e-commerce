@@ -30,7 +30,7 @@ export default function DashCategories() {
             errorHandler: true,
 
         }).then(response => {
-            setCategories(response.data)
+            setCategories(response.data.tags)
         })
         
     }, [token, cat_edited]);
@@ -43,7 +43,7 @@ export default function DashCategories() {
             errorHandler: true,
 
         }).then(response => {
-            setProducts(response.data)
+            setProducts(response.data.products)
         })
         
     }, [token]);

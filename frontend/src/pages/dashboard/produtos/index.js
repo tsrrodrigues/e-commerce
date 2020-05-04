@@ -29,7 +29,7 @@ export default function DashProducts () {
             errorHandler: true,
 
         }).then(response => {
-            setProducts(response.data);
+            setProducts(response.data.products);
         })
 
     }, [token]);

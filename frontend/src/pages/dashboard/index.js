@@ -28,7 +28,7 @@ export default function DashBoard () {
             errorHandler: true,
 
         }).then(response => {
-            setWaitDeliverOrders(response.data)
+            setWaitDeliverOrders(response.data.orders)
         })
 
         api.get('/order?s=fordeliver', {
@@ -38,7 +38,7 @@ export default function DashBoard () {
             errorHandler: true,
 
         }).then(response => {
-            setForDeliverOrders(response.data)
+            setForDeliverOrders(response.data.orders)
         })
 
     }, [token]);
