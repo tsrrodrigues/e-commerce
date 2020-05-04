@@ -26,7 +26,9 @@ export default function DashCategories() {
         api.get('tag', {
             headers: {
                 Authorization: token,
-            }
+            },
+            errorHandler: true,
+
         }).then(response => {
             setCategories(response.data.tags)
         })
@@ -37,7 +39,9 @@ export default function DashCategories() {
         api.get('/product/admin', {
             headers: {
                 Authorization: token,
-            }
+            },
+            errorHandler: true,
+
         }).then(response => {
             setProducts(response.data.products)
         })
@@ -58,34 +62,32 @@ export default function DashCategories() {
            name, 
         };
 
-        try {
-            await api.post("tag", data, {
-                headers: {
-                    Authorization: token,
-                }
-            })
+        await api.post("tag", data, {
+            headers: {
+                Authorization: token,
+            },
+            successHandler: true,
+            errorHandler: true,
 
+        }).then(response => {
             setName('')
             setCatEdited(cat_edited + 1)
+        })
 
-        } catch (err) {
-            alert('Erro ao adicionar categoria. ' + err);
-        }
     }
 
     async function handleDeleteCategory (id) {
-        try {
-            await api.delete(`tag/${id}`, {
-                headers: {
-                    Authorization: token,
-                }
-            })
-
+        await api.delete(`tag/${id}`, {
+            headers: {
+                Authorization: token,
+            },
+            successHandler: true,
+            errorHandler: true,
+            
+        }).then(response => {
             setCategories(categories.filter(category => category._id !== id))
+        })
 
-        } catch (err) {
-            alert('Erro ao deletar categoria, tente novamente. ' + err);
-        }
     }
 
     document.title = "Categorias";
@@ -101,6 +103,8 @@ export default function DashCategories() {
                         
                         <div className="user-dashboard">
                             <h1>Olá, {user_name}</h1>
+                            <div id="info-div"></div>
+
                             <div className="row">
                                 <div className="col-lg-5 col-md-4 col-sm-4 col-xs-12">
 

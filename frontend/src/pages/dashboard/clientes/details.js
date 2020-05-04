@@ -24,7 +24,9 @@ export default function DashClientDetail (props) {
         api.get(`user/${client_id}`, {
             headers: {
                 Authorization: token,
-            }
+            },
+            errorHandler: true,
+            
         }).then(response => {
             setClient(response.data)
         })
@@ -44,6 +46,8 @@ export default function DashClientDetail (props) {
                         
                         <div className="user-dashboard">
                             <h1>Olá, {user_name}</h1>
+                            <div id="info-div"></div>
+
                             <div className="row">
                                 <div className="col-md-8 col-sm-10 col-xs-12">
 

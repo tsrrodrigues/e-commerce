@@ -23,7 +23,9 @@ export default function DashOrders() {
         api.get('/order', {
             headers: {
                 Authorization: token
-            }
+            },
+            errorHandler: true,
+            
         }).then(response => {
             setOrders(response.data.orders)
         })
@@ -43,6 +45,8 @@ export default function DashOrders() {
                         
                         <div className="user-dashboard">
                             <h1>Olá, {user_name}</h1>
+                            <div id="info-div"></div>
+
                             <div className="row">
                                 <div className="col-lg-8 col-md-10 col-xs-12">
 

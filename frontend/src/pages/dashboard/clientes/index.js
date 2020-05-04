@@ -23,7 +23,9 @@ export default function DashClients () {
         api.get('user', {
             headers: {
                 Authorization: token,
-            }
+            },
+            errorHandler: true,
+            
         }).then(response => {
             setClients(response.data.users.filter(client => client.access_level === level))
         })
@@ -43,6 +45,8 @@ export default function DashClients () {
                         
                         <div className="user-dashboard">
                             <h1>Olá, {user_name}</h1>
+                            <div id="info-div"></div>
+
                             <div className="row">
                                 <div className="col-md-10 col-xs-12">
 
