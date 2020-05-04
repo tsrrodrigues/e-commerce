@@ -90,6 +90,23 @@ export default function DashUser () {
 
     }
 
+    function handleImagePreview (e) {
+        const img = document.getElementById("user-avatar")
+
+        if (e.target.files && e.target.files[0]) {
+            let reader = new FileReader();
+            
+            reader.onload = function (e) {
+                img.src = e.target.result;
+            }
+            
+            reader.readAsDataURL(e.target.files[0]);
+        }
+        else {
+            img.src = userImg;
+        }
+    }
+
     document.title = `Perfil de Usuário: ${user_name}`;
 
     return (
@@ -116,11 +133,15 @@ export default function DashUser () {
 
                                         <div className="card-body">
                                             <form onSubmit={handleUserEdit}>
-                                                <img src={userImg} className="user-img" alt="foto"/>
+                                                <img id="user-avatar" src={userImg} className="user-img" alt="foto"/>
 
                                                 <div className="form-group">
                                                     <label>Foto de perfil</label>
-                                                    <input type="file" className="form-control-file"/>
+                                                    <input 
+                                                        type="file" 
+                                                        className="form-control-file" 
+                                                        onChange={e => handleImagePreview(e)}
+                                                    />
                                                 </div>
                                                 <div className="form-group">
                                                     <label>Nome</label>
