@@ -22,10 +22,14 @@ exports.getAll = async (data) => {
     const limit = 5
     const skip = limit * (page-1)
     
+    let pages = (await Order.find(params)).length
+    pages = pages % limit == 0? pages/limit : parseInt(pages/limit)+1
+    
     const orders =
       await Order
         .find(params, 'adress status id user payment cart date')
         .skip(skip).limit(limit)
+
     for (let index = 0; index < orders.length; index++) {
       orders[index].user = await User.findById(orders[index].user, 'name id cpf email phone')
       orders[index].cart = await Cart.findById(orders[index].cart, 'total items')
@@ -34,7 +38,8 @@ exports.getAll = async (data) => {
       }
       orders[index].cart.total /= 100
     }
-    return orders
+    
+    return {pages, orders}
   } catch (err) {
     return { error: 'List Orders failed' }
   }

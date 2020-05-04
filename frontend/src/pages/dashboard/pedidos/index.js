@@ -25,7 +25,7 @@ export default function DashOrders() {
                 Authorization: token
             }
         }).then(response => {
-            setOrders(response.data)
+            setOrders(response.data.orders)
         })
 
     }, [token]);

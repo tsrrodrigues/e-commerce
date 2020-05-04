@@ -33,7 +33,10 @@ exports.getAll = async (data) => {
       )
       .skip(skip).limit(limit)
 
-    return users
+    let pages = (await User.find(params)).length
+    pages = pages % limit == 0? pages/limit : parseInt(pages/limit)+1
+
+    return {pages, users}
   } catch (err) {
     return { error: 'List All Users failed' }
   }

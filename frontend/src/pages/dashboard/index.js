@@ -26,7 +26,7 @@ export default function DashBoard () {
                 Authorization: token,
             }
         }).then(response => {
-            setWaitDeliverOrders(response.data)
+            setWaitDeliverOrders(response.data.orders)
         })
 
         api.get('/order?s=fordeliver', {
@@ -34,7 +34,7 @@ export default function DashBoard () {
                 Authorization: token
             }
         }).then(response => {
-            setForDeliverOrders(response.data)
+            setForDeliverOrders(response.data.orders)
         })
 
     }, [token]);

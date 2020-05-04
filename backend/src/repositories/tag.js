@@ -15,7 +15,10 @@ exports.getAll = async (data) => {
         .skip(skip).limit(limit)
         .sort('name')
 
-    return tags
+    let pages = (await Tag.find()).length
+    pages = pages % limit == 0? pages/limit : parseInt(pages/limit)+1
+
+    return {pages, tags}
   } catch (err) {
     return { error: 'List Tags failed' }
   }

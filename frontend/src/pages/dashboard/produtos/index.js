@@ -27,7 +27,7 @@ export default function DashProducts () {
                 Authorization: token
             }
         }).then(response => {
-            setProducts(response.data);
+            setProducts(response.data.products);
         })
 
     }, [token]);

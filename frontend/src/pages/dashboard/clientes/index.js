@@ -25,7 +25,7 @@ export default function DashClients () {
                 Authorization: token,
             }
         }).then(response => {
-            setClients(response.data.filter(client => client.access_level === level))
+            setClients(response.data.users.filter(client => client.access_level === level))
         })
 
     }, [token, level]);
