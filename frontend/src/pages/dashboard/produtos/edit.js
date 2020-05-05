@@ -73,11 +73,29 @@ export default function DashProductEdit (props) {
         })
 
     }
+    
+    const [fileboxes, setFileBoxes] = useState([0])
+    const [images, setImages] = useState([])
+
+    function editBoxState (input) {
+        const label = input.nextSibling
+        const icon = label.firstChild
+
+        label.setAttribute("for", "")
+        icon.className = "fa fa-trash"
+        icon.title = "Remover imagem"
+    }
 
     function handleImagePreview (input) {
         const container = input.parentElement
 
         if (input.files && input.files[0]) {
+
+            if (input.files[0].size > 2000000) {
+                alert("Arquivo maior que 2MB");
+                return
+            }
+
             let reader = new FileReader()
             
             reader.onload = function (e) {
@@ -85,23 +103,11 @@ export default function DashProductEdit (props) {
             }
             
             reader.readAsDataURL(input.files[0])
-        }
-    }
 
-    function addFileBox () {
-        const container = document.getElementById("image-upload")
-        const fileBoxes = container.childNodes
-        const lastFileBox = fileBoxes[fileBoxes.length - 2]
-
-        if (fileBoxes.length <= 6) {
-            const newFileBox = lastFileBox.cloneNode(true)
-            const inputFile = newFileBox.querySelector("input")
-            const inputLabel = newFileBox.querySelector("label")
-
-            inputFile.id = `file-input-${fileBoxes.length}`;
-            inputLabel.setAttribute("for", `file-input-${fileBoxes.length}`);
-
-            container.insertBefore(newFileBox, fileBoxes[fileBoxes.length - 1]);
+            setFileBoxes(prevFileBoxes => [...prevFileBoxes, fileboxes.length])
+            setImages(prevImages => [...prevImages, { file: input.files[0], id: images.length }])
+            
+            editBoxState(input);
         }
     }
 
@@ -154,41 +160,24 @@ export default function DashProductEdit (props) {
                                                     <label>Fotos do produto</label>
 
                                                     <div id="image-upload" className="row">
-                                                        <div className="file-box col-md-3 col-sm-6 col-xs-12">
-                                                            <div className="file-container">
-                                                                <input 
-                                                                    type="file" 
-                                                                    id="file-input-1" 
-                                                                    className="file-input" 
-                                                                    onChange={e => handleImagePreview(e.target)}
-                                                                />
-                                                                <label htmlFor="file-input-1">
-                                                                    <i className="fa fa-plus" title="Adicionar imagem"></i>
-                                                                </label>
+                                                        {fileboxes.map((filebox, id) => (
+                                                            <div key={id} className="file-box col-md-3 col-sm-6 col-xs-12">
+                                                                <div className="file-container">
+                                                                    <input 
+                                                                        type="file" 
+                                                                        id={`file-input-${id}`} 
+                                                                        className="file-input" 
+                                                                        onChange={e => handleImagePreview(e.target)}
+                                                                    />
+                                                                    <label htmlFor={`file-input-${id}`} >
+                                                                        <i 
+                                                                            className="fa fa-plus" 
+                                                                            title="Adicionar imagem"
+                                                                        />
+                                                                    </label>
+                                                                </div>
                                                             </div>
-                                                        </div>
-
-                                                        <div className="file-box col-md-3 col-sm-6 col-xs-12">
-                                                            <div className="file-container">
-                                                                <input 
-                                                                    type="file" 
-                                                                    id="file-input-2" 
-                                                                    className="file-input" 
-                                                                    onChange={e => handleImagePreview(e.target)}
-                                                                />
-                                                                <label htmlFor="file-input-2">
-                                                                    <i className="fa fa-plus" title="Adicionar imagem"></i>
-                                                                </label>
-                                                            </div>
-                                                        </div>
-
-                                                        <div className="file-box col-md-3 col-sm-6 col-xs-12">
-                                                            <div className="file-container">
-                                                                <label onClick={addFileBox}>
-                                                                    <i className="fa fa-plus-circle" title="Adicionar mais imagens"></i>
-                                                                </label>
-                                                            </div>
-                                                        </div>
+                                                        ))}
 
                                                     </div>
                                                     

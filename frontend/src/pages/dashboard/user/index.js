@@ -90,17 +90,17 @@ export default function DashUser () {
 
     }
 
-    function handleImagePreview (e) {
+    function handleImagePreview (input) {
         const img = document.getElementById("user-avatar")
 
-        if (e.target.files && e.target.files[0]) {
+        if (input.files && input.files[0]) {
             let reader = new FileReader();
             
             reader.onload = function (e) {
                 img.src = e.target.result;
             }
             
-            reader.readAsDataURL(e.target.files[0]);
+            reader.readAsDataURL(input.files[0]);
         }
         else {
             img.src = userImg;
@@ -140,7 +140,7 @@ export default function DashUser () {
                                                     <input 
                                                         type="file" 
                                                         className="form-control-file" 
-                                                        onChange={e => handleImagePreview(e)}
+                                                        onChange={e => handleImagePreview(e.target)}
                                                     />
                                                 </div>
                                                 <div className="form-group">
