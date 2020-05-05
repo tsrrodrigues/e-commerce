@@ -82,6 +82,39 @@ h5 {
     z-index: 9999;
 }
 
+.file-box {
+    text-align: center;
+    padding-bottom: 15px;
+}
+.file-container {
+    background-color: #f6f7fa;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    -webkit-background-size: cover;
+    border-radius: 4px;
+}
+.file-container .file-input {
+    opacity: 0;
+    overflow: hidden;
+    width: 0.1px;
+    height: 0.1px;
+    position: absolute;
+    z-index: -1;
+}
+.file-container label {
+    margin: 50px 0;
+    opacity: 0.6;
+}
+.file-container label:hover {
+    cursor: pointer;
+    opacity: 1;
+}
+.file-container i {
+    color: #ef5350;
+    font-size: 6vw;
+}
+
 .table > tbody > tr > td,
 .table > tbody > tr > th,
 .table > tfoot > tr > td,
@@ -535,6 +568,9 @@ header {
     .card-body .form-inline .form-control {
         max-width: 70%;
     }
+    .file-container i {
+        font-size: 5vw;
+    }
     .table .btn {
         padding: 10px 25px;
     }
@@ -556,6 +592,9 @@ header {
     }
     .admin-bar span {
         display: inline;
+    }
+    .file-container i {
+        font-size: 3vw;
     }
 }
 

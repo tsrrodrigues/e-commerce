@@ -12,7 +12,7 @@ import ModalAddProduto from '../content/ModalAddProduto';
 import ModalAddAviso from '../content/ModalAddAviso';
 
 export default function DashProductEdit (props) {
-    
+
     const user_name = localStorage.getItem('userDisplayName')
     const token = localStorage.getItem('userToken')
 
@@ -74,6 +74,37 @@ export default function DashProductEdit (props) {
 
     }
 
+    function handleImagePreview (input) {
+        const container = input.parentElement
+
+        if (input.files && input.files[0]) {
+            let reader = new FileReader()
+            
+            reader.onload = function (e) {
+                container.style.backgroundImage = `url(${e.target.result})`;
+            }
+            
+            reader.readAsDataURL(input.files[0])
+        }
+    }
+
+    function addFileBox () {
+        const container = document.getElementById("image-upload")
+        const fileBoxes = container.childNodes
+        const lastFileBox = fileBoxes[fileBoxes.length - 2]
+
+        if (fileBoxes.length <= 6) {
+            const newFileBox = lastFileBox.cloneNode(true)
+            const inputFile = newFileBox.querySelector("input")
+            const inputLabel = newFileBox.querySelector("label")
+
+            inputFile.id = `file-input-${fileBoxes.length}`;
+            inputLabel.setAttribute("for", `file-input-${fileBoxes.length}`);
+
+            container.insertBefore(newFileBox, fileBoxes[fileBoxes.length - 1]);
+        }
+    }
+
     document.title = `Editar Produto: ${product.name}`;
     
     return (
@@ -106,7 +137,7 @@ export default function DashProductEdit (props) {
                                                         defaultValue={product.name}
                                                         type="text"
                                                         className="form-control"
-                                                        onChange={ e => setName(e.target.value)}
+                                                        onChange={e => setName(e.target.value)}
                                                         required
                                                     />
                                                 </div>
@@ -121,10 +152,46 @@ export default function DashProductEdit (props) {
                                                 </div>
                                                 <div className="form-group">
                                                     <label>Fotos do produto</label>
-                                                    <input
-                                                        type="file"
-                                                        className="form-control-file"
-                                                    />
+
+                                                    <div id="image-upload" className="row">
+                                                        <div className="file-box col-md-3 col-sm-6 col-xs-12">
+                                                            <div className="file-container">
+                                                                <input 
+                                                                    type="file" 
+                                                                    id="file-input-1" 
+                                                                    className="file-input" 
+                                                                    onChange={e => handleImagePreview(e.target)}
+                                                                />
+                                                                <label htmlFor="file-input-1">
+                                                                    <i className="fa fa-plus" title="Adicionar imagem"></i>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="file-box col-md-3 col-sm-6 col-xs-12">
+                                                            <div className="file-container">
+                                                                <input 
+                                                                    type="file" 
+                                                                    id="file-input-2" 
+                                                                    className="file-input" 
+                                                                    onChange={e => handleImagePreview(e.target)}
+                                                                />
+                                                                <label htmlFor="file-input-2">
+                                                                    <i className="fa fa-plus" title="Adicionar imagem"></i>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="file-box col-md-3 col-sm-6 col-xs-12">
+                                                            <div className="file-container">
+                                                                <label onClick={addFileBox}>
+                                                                    <i className="fa fa-plus-circle" title="Adicionar mais imagens"></i>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    
                                                 </div>
                                                 <div className="form-group row">
                                                     <div className="col-lg-8 col-md-6 col-xs-12">
