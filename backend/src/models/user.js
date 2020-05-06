@@ -84,6 +84,12 @@ const UserSchema = new Schema(
       min: 1,
       max: 3,
     },
+    image: {
+      type: String,
+      trim: true,
+      required: true,
+      unique: true
+    }
   },
   { timestamps: true }
 )

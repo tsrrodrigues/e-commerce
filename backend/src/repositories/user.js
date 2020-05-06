@@ -1,6 +1,8 @@
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const authConfig = require('../config/auth')
+const fs = require('fs')
+const path = require('path')
 
 const mongoose = require('../database')
 
@@ -36,7 +38,7 @@ exports.getAll = async (data) => {
     const users =
       await User.find(
         params,
-        '_id name email cpf adress active access_level phone'
+        '_id name email cpf adress active access_level phone image'
       )
       .skip(skip).limit(limit)
 
@@ -54,7 +56,7 @@ exports.getOne = async (data) => {
     if (data.userAccessLevel < 2) return { error: 'Unauthorized' }
     const user = await User.findById(
       data.params.id,
-      '_id name email cpf adress active access_level phone'
+      '_id name email cpf adress active access_level phone image'
     )
     return user
   } catch (err) {
@@ -64,14 +66,15 @@ exports.getOne = async (data) => {
 
 exports.register = async (data) => {
   const { email, cpf } = data.body
+
   try {
     if (await User.findOne({ email }))
-      return { error: 'E-mail is already registred' }
+    return { error: 'E-mail is already registred' }
     if (await User.findOne({ cpf }))
-      return { error: 'CPF is already registred' }
-
+    return { error: 'CPF is already registred' }
+    
     let user = new User()
-
+    
     user.name.first = data.body.name.first
     user.name.last = data.body.name.last
     user.cpf = data.body.cpf
@@ -85,7 +88,16 @@ exports.register = async (data) => {
     user.adress.localidade = data.body.adress.localidade
     user.adress.uf = data.body.adress.uf
     user.access_level = data.body.access_level
-
+    
+    const image = data.body.image
+    const filename = user.id+'.png'
+    fs.writeFile('../images/' + filename, image, 'base64', function(err) {
+      if (err) {
+        return {message: "Save Image Failed", error: err}
+      }
+    });
+    user.image = './images/' + filename
+    
     user = await user.save()
 
     user.password = undefined
