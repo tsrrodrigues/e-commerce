@@ -162,21 +162,24 @@ button:hover, .btn:hover {
     margin-left: 10px;
 }
 
-.pagination > li > a,
-.pagination > li > span {
+.pagination > li > a {
     border: 1px solid #dadee7;
     padding: 10px 15px;
     font-weight: 600;
     color: #000;
     text-decoration: none;
 }
-
 .pagination > li > a:focus,
-.pagination > li > a:hover,
-.pagination > li > span:focus,
-.pagination > li > span:hover {
+.pagination > li > a:hover {
     color: #000;
     background-color: #dadee7;
+}
+.pagination > .active > a,
+.pagination > .active > a:focus,
+.pagination > .active > a:hover {
+    color: #000;
+    background-color: #dadee7;
+    border-color: #dadee7;
 }
 
 #navigation {

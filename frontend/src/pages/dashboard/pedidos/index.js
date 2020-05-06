@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
+import queryString from 'query-string';
 import api from '../../../services/api';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -10,6 +11,7 @@ import SideBar from '../content/SideBar';
 import HeaderTop from '../content/HeaderTop';
 import ModalAddProduto from '../content/ModalAddProduto';
 import ModalAddAviso from '../content/ModalAddAviso';
+import Pagination from '../content/Pagination';
 
 export default function DashOrders() {
 
@@ -19,8 +21,12 @@ export default function DashOrders() {
     const [orders, setOrders] = useState([])
     const history = useHistory()
 
+    const query = queryString.parse(window.location.search)
+    const [currentPage, setCurrentPage] = useState(query.page)
+    const [maxPages, setMaxPages] = useState(1)
+
     useEffect(() => {
-        api.get('/order', {
+        api.get(`/order?p=${currentPage}`, {
             headers: {
                 Authorization: token
             },
@@ -28,9 +34,15 @@ export default function DashOrders() {
             
         }).then(response => {
             setOrders(response.data.orders)
+            setMaxPages(response.data.pages)
         })
 
-    }, [token]);
+    }, [token, currentPage]);
+
+    useEffect(() => {
+        setCurrentPage(query.page)
+
+    }, [query.page]);
 
     document.title = "Pedidos";
     
@@ -107,28 +119,9 @@ export default function DashOrders() {
                                             </table>
                                         </div>
 
-                                        <div className="card-pagination">
-                                            <nav aria-label="Page navigation example">
-                                                <ul className="pagination">
-                                                    <li className="page-item">
-                                                        <Link className="page-link" to="#" aria-label="Previous">
-                                                            <span aria-hidden="true">«</span>
-                                                            <span className="sr-only">Previous</span>
-                                                        </Link>
-                                                    </li>
-                                                    <li className="page-item"><Link className="page-link" to="#">1</Link></li>
-                                                    <li className="page-item"><Link className="page-link" to="#">2</Link></li>
-                                                    <li className="page-item"><Link className="page-link" to="#">3</Link></li>
-                                                    <li className="page-item">
-                                                        <Link className="page-link" to="#" aria-label="Next">
-                                                            <span aria-hidden="true">»</span>
-                                                            <span className="sr-only">Next</span>
-                                                        </Link>
-                                                    </li>
-                                                </ul>
-                                            </nav>
-                                        </div>
-
+                                        {maxPages > 1 &&
+                                            <Pagination currentPage={currentPage ? currentPage : 1} maxPages={maxPages} />
+                                        }
                                     </div>
 
                                 </div>

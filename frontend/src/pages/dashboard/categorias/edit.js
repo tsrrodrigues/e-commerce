@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import api from '../../../services/api';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -46,7 +46,7 @@ export default function DashCategoryEdit (props) {
                 errorHandler: true,
 
             }).then(response => {
-                setProducts(response.data)
+                setProducts(response.data.products)
             })
         }
         
@@ -149,27 +149,6 @@ export default function DashCategoryEdit (props) {
                                             </table>
                                         </div>
 
-                                        <div className="card-pagination">
-                                            <nav aria-label="Page navigation example">
-                                                <ul className="pagination">
-                                                    <li className="page-item">
-                                                        <Link className="page-link" to="#" aria-label="Previous">
-                                                            <span aria-hidden="true">«</span>
-                                                            <span className="sr-only">Previous</span>
-                                                        </Link>
-                                                    </li>
-                                                    <li className="page-item"><Link className="page-link" to="#">1</Link></li>
-                                                    <li className="page-item"><Link className="page-link" to="#">2</Link></li>
-                                                    <li className="page-item"><Link className="page-link" to="#">3</Link></li>
-                                                    <li className="page-item">
-                                                        <Link className="page-link" to="#" aria-label="Next">
-                                                            <span aria-hidden="true">»</span>
-                                                            <span className="sr-only">Next</span>
-                                                        </Link>
-                                                    </li>
-                                                </ul>
-                                            </nav>
-                                        </div>
                                     </div>
 
                                 </div>
