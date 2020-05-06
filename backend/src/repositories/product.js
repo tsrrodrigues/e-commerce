@@ -16,22 +16,29 @@ exports.getAvailables = async (data) => {
     // SORT
     let sort = ''
     if (data.query.sort) sort = data.query.sort
+    
+    // PAGE
+    let page = 0
+    let limit = Number.MAX_SAFE_INTEGER
+    let skip = 0
 
-    const page = data.query.p? parseInt(data.query.p) : 1
-    const limit = 5
-    const skip = limit * (page-1)
+    if(data.query.p) {
+      page = parseInt(data.query.p)
+      limit = 5
+      skip = limit * (page-1)
+    }
 
     let products = (
       await Product.find(
         params,
         '_id name description quantity price createdAt tag'
       )
-      .skip(skip).limit(limit)
       .sort(sort)
-    ).filter((product) => product.quantity > 0)
+      .skip(skip).limit(limit)
+      ).filter((product) => product.quantity > 0)
 
     let pages = (await Product.find(params)).length
-    pages = pages % limit == 0? pages/limit : parseInt(pages/limit)+1
+    pages = pages % 5 == 0? pages/5 : parseInt(pages/5)+1
 
     for (let index = 0; index < products.length; index++) {
       products[index].price /= 100
@@ -58,20 +65,27 @@ exports.getAll = async (data) => {
     let sort = ''
     if (data.query.sort) sort = data.query.sort
 
-    const page = data.query.p? parseInt(data.query.p) : 1
-    const limit = 5
-    const skip = limit * (page-1)
+    // PAGE
+    let page = 0
+    let limit = Number.MAX_SAFE_INTEGER
+    let skip = 0
+
+    if(data.query.p) {
+      page = parseInt(data.query.p)
+      limit = 5
+      skip = limit * (page-1)
+    }
 
     let products =
       await Product.find(
         params,
         '_id name description quantity price createdAt tag'
       )
-      .skip(skip).limit(limit)
       .sort(sort)
+      .skip(skip).limit(limit)
 
     let pages = (await Product.find(params)).length
-    pages = pages % limit == 0? pages/limit : parseInt(pages/limit)+1
+    pages = pages % 5 == 0? pages/5 : parseInt(pages/5)+1
 
     for (let index = 0; index < products.length; index++) {
       products[index].price /= 100

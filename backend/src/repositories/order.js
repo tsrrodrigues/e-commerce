@@ -18,12 +18,19 @@ exports.getAll = async (data) => {
       params.status = "Finalizado"
     }
 
-    const page = data.query.p? parseInt(data.query.p) : 1
-    const limit = 5
-    const skip = limit * (page-1)
+    // PAGE
+    let page = 0
+    let limit = Number.MAX_SAFE_INTEGER
+    let skip = 0
+
+    if(data.query.p) {
+      page = parseInt(data.query.p)
+      limit = 5
+      skip = limit * (page-1)
+    }
     
     let pages = (await Order.find(params)).length
-    pages = pages % limit == 0? pages/limit : parseInt(pages/limit)+1
+    pages = pages % 5 == 0? pages/5 : parseInt(pages/5)+1
     
     const orders =
       await Order
