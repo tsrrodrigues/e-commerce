@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 export default function Pagination (props) {
     const [currentPage, setCurrentPage] = useState(props.currentPage)
     const [maxPages, setMaxPages] = useState(props.maxPages)
+    const query = props.query ? props.query : "page"
 
     const [pages, setPages] = useState([])
 
@@ -25,7 +26,7 @@ export default function Pagination (props) {
                 <ul className="pagination">
                     <li className="page-item">
                         {currentPage > 1 &&
-                            <Link className="page-link" to={`?page=${parseInt(currentPage) - 1}`} aria-label="Anterior">
+                            <Link className="page-link" to={`?${query}=${parseInt(currentPage) - 1}`} aria-label="Anterior">
                                 <span aria-hidden="true">«</span>
                                 <span className="sr-only">Anterior</span>
                             </Link>
@@ -34,13 +35,13 @@ export default function Pagination (props) {
 
                     {pages.map((page, key) => (
                         <li key={key} className={currentPage === page ? "page-item active" : "page-item"}>
-                            <Link className="page-link" to={`?page=${page}`}>{page}</Link>
+                            <Link className="page-link" to={`?${query}=${page}`}>{page}</Link>
                         </li>
                     ))}
 
                     <li className="page-item">
                         {currentPage < maxPages &&
-                            <Link className="page-link" to={`?page=${parseInt(currentPage) + 1}`} aria-label="Próxima">
+                            <Link className="page-link" to={`?${query}=${parseInt(currentPage) + 1}`} aria-label="Próxima">
                                 <span aria-hidden="true">»</span>
                                 <span className="sr-only">Próxima</span>
                             </Link>

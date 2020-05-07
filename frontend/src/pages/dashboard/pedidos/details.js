@@ -34,15 +34,21 @@ export default function DashOrderDetail (props) {
 
     }, [token, orderId]);
 
-    async function handleChangeStatus(message) {
+    async function handleChangeStatus (message) {
         if (message === "Para Entrega")
-            await api.patch(`/order/${orderId}?s=Para Entrega`)
+            await api.patch(`/order/${orderId}?s=Para Entrega`, {
+                errorHandler: true,
+            })
+
         else if (message === "Finalizado")
-            await api.patch(`/order/${orderId}?s=Finalizado`)
+            await api.patch(`/order/${orderId}?s=Finalizado`, {
+                errorHandler: true,
+            })
+            
         history.push('/')
     }
 
-    document.title = `Detalhes do pedido: ${orderId}`;
+    document.title = `Detalhes do pedido: #${orderId}`;
     
     return (
         <section className="dashboard">

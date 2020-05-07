@@ -26,7 +26,7 @@ export default function DashClients () {
     const [maxPages, setMaxPages] = useState(1)
 
     useEffect(() => {
-        api.get(`user?p=${currentPage}`, {
+        api.get(`user?p=${currentPage ? currentPage : "1"}`, {
             headers: {
                 Authorization: token,
             },
@@ -109,7 +109,7 @@ export default function DashClients () {
                                         </div>
 
                                         {maxPages > 1 &&
-                                            <Pagination currentPage={currentPage ? currentPage : 1} maxPages={maxPages} />
+                                            <Pagination currentPage={currentPage ? currentPage : "1"} maxPages={maxPages} />
                                         }
                                     </div>
 

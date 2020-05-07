@@ -28,7 +28,7 @@ export default function DashProducts () {
     const [maxPages, setMaxPages] = useState(1)
 
     useEffect(() => {
-        api.get(`/product/admin?p=${currentPage}`, {
+        api.get(`/product/admin?p=${currentPage ? currentPage : "1"}`, {
             headers: {
                 Authorization: token
             },
@@ -108,7 +108,7 @@ export default function DashProducts () {
                                         </div>
                                         
                                         {maxPages > 1 &&
-                                            <Pagination currentPage={currentPage ? currentPage : 1} maxPages={maxPages} />
+                                            <Pagination currentPage={currentPage ? currentPage : "1"} maxPages={maxPages} />
                                         }
                                     </div>
 

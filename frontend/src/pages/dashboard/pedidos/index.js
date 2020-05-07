@@ -26,7 +26,7 @@ export default function DashOrders() {
     const [maxPages, setMaxPages] = useState(1)
 
     useEffect(() => {
-        api.get(`/order?p=${currentPage}`, {
+        api.get(`/order?p=${currentPage ? currentPage : "1"}`, {
             headers: {
                 Authorization: token
             },
@@ -120,7 +120,7 @@ export default function DashOrders() {
                                         </div>
 
                                         {maxPages > 1 &&
-                                            <Pagination currentPage={currentPage ? currentPage : 1} maxPages={maxPages} />
+                                            <Pagination currentPage={currentPage ? currentPage : "1"} maxPages={maxPages} />
                                         }
                                     </div>
 

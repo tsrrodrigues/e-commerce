@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
+import queryString from 'query-string';
 import api from '../../services/api';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -10,6 +11,7 @@ import SideBar from './content/SideBar';
 import HeaderTop from './content/HeaderTop';
 import ModalAddProduto from './content/ModalAddProduto';
 import ModalAddAviso from './content/ModalAddAviso';
+import Pagination from './content/Pagination';
 
 export default function DashBoard () {
 
@@ -20,8 +22,16 @@ export default function DashBoard () {
     const [forDeliverOrders, setForDeliverOrders] = useState([])
     const history = useHistory()
 
+    const query = queryString.parse(window.location.search)
+
+    const [currentPage, setCurrentPage] = useState(query.waitdeliver)
+    const [maxPages, setMaxPages] = useState(1)
+
+    const [currentPage2, setCurrentPage2] = useState(query.fordeliver)
+    const [maxPages2, setMaxPages2] = useState(1)
+
     useEffect(() => {
-        api.get('/order?s=waitdeliver', {
+        api.get(`order?s=waitdeliver&p=${currentPage ? currentPage : "1"}`, {
             headers: {
                 Authorization: token,
             },
@@ -29,9 +39,13 @@ export default function DashBoard () {
 
         }).then(response => {
             setWaitDeliverOrders(response.data.orders)
+            setMaxPages(response.data.pages)
         })
 
-        api.get('/order?s=fordeliver', {
+    }, [token, currentPage]);
+
+    useEffect(() => {
+        api.get(`order?s=fordeliver&p=${currentPage2 ? currentPage2 : "1"}`, {
             headers: {
                 Authorization: token
             },
@@ -39,9 +53,20 @@ export default function DashBoard () {
 
         }).then(response => {
             setForDeliverOrders(response.data.orders)
+            setMaxPages2(response.data.pages)
         })
 
-    }, [token]);
+    }, [token, currentPage2]);
+
+    useEffect(() => {
+        setCurrentPage(query.waitdeliver)
+
+    }, [query.waitdeliver]);
+
+    useEffect(() => {
+        setCurrentPage2(query.fordeliver)
+
+    }, [query.fordeliver]);
 
     document.title = "Painel";
     
@@ -112,6 +137,10 @@ export default function DashBoard () {
                                                 </tbody>
                                             </table>
                                         </div>
+
+                                        {maxPages > 1 &&
+                                            <Pagination currentPage={currentPage ? currentPage : "1"} maxPages={maxPages} query="waitdeliver" />
+                                        }
                                     </div>
 
                                 </div>
@@ -169,6 +198,10 @@ export default function DashBoard () {
                                                 </tbody>
                                             </table>
                                         </div>
+
+                                        {maxPages2 > 1 &&
+                                            <Pagination currentPage={currentPage2 ? currentPage2 : "1"} maxPages={maxPages2} query="fordeliver" />
+                                        }
                                     </div>
 
                                 </div>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import queryString from 'query-string';
 import api from '../../../services/api';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -10,6 +11,7 @@ import SideBar from '../content/SideBar';
 import HeaderTop from '../content/HeaderTop';
 import ModalAddProduto from '../content/ModalAddProduto';
 import ModalAddAviso from '../content/ModalAddAviso';
+import Pagination from '../content/Pagination';
 
 export default function DashCategoryEdit (props) {
 
@@ -23,6 +25,10 @@ export default function DashCategoryEdit (props) {
     const [name, setName] = useState('')
     const [cat_edited, setCatEdited] = useState(0)
     const history = useHistory();
+
+    const query = queryString.parse(window.location.search)
+    const [currentPage, setCurrentPage] = useState(query.page)
+    const [maxPages, setMaxPages] = useState(1)
     
     useEffect(() => {
         api.get(`tag/${cat_id}`, {
@@ -39,7 +45,7 @@ export default function DashCategoryEdit (props) {
 
     useEffect(() => {
         if (category.name) {
-            api.get(`product/admin?tag=${category.name}`, {
+            api.get(`product/admin?tag=${category.name}&p=${currentPage ? currentPage : "1"}`, {
                 headers: {
                     Authorization: token,
                 },
@@ -47,10 +53,16 @@ export default function DashCategoryEdit (props) {
 
             }).then(response => {
                 setProducts(response.data.products)
+                setMaxPages(response.data.pages)
             })
         }
         
-    }, [token, category.name]);
+    }, [token, category.name, currentPage]);
+
+    useEffect(() => {
+        setCurrentPage(query.page)
+
+    }, [query.page]);
 
     async function handleEditCategory (e) {
         e.preventDefault();
@@ -149,6 +161,9 @@ export default function DashCategoryEdit (props) {
                                             </table>
                                         </div>
 
+                                        {maxPages > 1 &&
+                                            <Pagination currentPage={currentPage ? currentPage : "1"} maxPages={maxPages} />
+                                        }
                                     </div>
 
                                 </div>

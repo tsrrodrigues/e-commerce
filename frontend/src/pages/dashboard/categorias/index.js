@@ -29,7 +29,7 @@ export default function DashCategories() {
     const [maxPages, setMaxPages] = useState(1)
 
     useEffect(() => {
-        api.get(`tag?p=${currentPage}`, {
+        api.get(`tag?p=${currentPage ? currentPage : "1"}`, {
             headers: {
                 Authorization: token,
             },
@@ -43,7 +43,7 @@ export default function DashCategories() {
     }, [token, cat_edited, currentPage]);
 
     useEffect(() => {
-        api.get(`/product/admin?p=${currentPage}`, {
+        api.get(`/product/admin`, {
             headers: {
                 Authorization: token,
             },
@@ -53,7 +53,7 @@ export default function DashCategories() {
             setProducts(response.data.products)
         })
         
-    }, [token, currentPage]);
+    }, [token]);
 
     useEffect(() => {
         setCurrentPage(query.page)
@@ -180,7 +180,7 @@ export default function DashCategories() {
                                         </div>
                                         
                                         {maxPages > 1 &&
-                                            <Pagination currentPage={currentPage ? currentPage : 1} maxPages={maxPages} />
+                                            <Pagination currentPage={currentPage ? currentPage : "1"} maxPages={maxPages} />
                                         }
                                     </div>
 
