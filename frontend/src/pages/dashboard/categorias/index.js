@@ -60,11 +60,11 @@ export default function DashCategories() {
 
     }, [query.page]);
 
-    function countProductsCategory (cat_id) {
+    function countProductsInCategory (cat_id) {
         const category = products.filter(product => product.tag._id === cat_id)
-        const count = category.length
+        const nProducts = category.length
         
-        return count;
+        return nProducts;
     }
 
     async function handleAddCategory (e) {
@@ -88,7 +88,12 @@ export default function DashCategories() {
 
     }
 
-    async function handleDeleteCategory (id) {
+    async function handleDeleteCategory (id, nProducts) {
+        if (nProducts > 0) {
+            alert('Não é possivel apagar pois há produtos na categoria')
+            return
+        }
+
         await api.delete(`tag/${id}`, {
             headers: {
                 Authorization: token,
@@ -129,7 +134,12 @@ export default function DashCategories() {
                                             <form onSubmit={handleAddCategory}>
                                                 <div className="form-group">
                                                     <label>Nome</label>
-                                                    <input value={name} onChange={e => setName(e.target.value)} type="text" className="form-control" placeholder="Exemplo: Casa"/>
+                                                    <input 
+                                                        value={name} 
+                                                        onChange={e => setName(e.target.value)} 
+                                                        type="text" className="form-control" 
+                                                        placeholder="Exemplo: Casa"
+                                                    />
                                                 </div>
 
                                                 <button className="btn btn-danger" type="submit">Adicionar</button>
@@ -158,23 +168,31 @@ export default function DashCategories() {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {categories.map(category => (
-                                                        <tr key={category._id}>
-                                                            <th scope="row">{category.name}</th>
-                                                            <td className="hidden-xs hidden-sm">{countProductsCategory(category._id)}</td>
-                                                            <td>
-                                                                <Link to={`/categorias/${category._id}`} className="btn btn-danger">
-                                                                    <i id="icon" className="fa fa-pencil-alt"></i>
-                                                                    <span id="details">Editar</span>
-                                                                </Link>
+                                                    {categories.map(category => {
+                                                        const catProducts = countProductsInCategory(category._id)
 
-                                                                <button onClick={() => handleDeleteCategory(category._id)} className="btn btn-danger" type="button">
-                                                                    <i id="icon" className="fa fa-trash-alt"></i>
-                                                                    <span id="details">Apagar</span>
-                                                                </button>
-                                                            </td>
-                                                        </tr>
-                                                    ))}
+                                                        return (
+                                                            <tr key={category._id}>
+                                                                <th scope="row">{category.name}</th>
+                                                                <td className="hidden-xs hidden-sm">{catProducts}</td>
+                                                                <td>
+                                                                    <Link to={`/categorias/${category._id}`} className="btn btn-danger">
+                                                                        <i id="icon" className="fa fa-pencil-alt"></i>
+                                                                        <span id="details">Editar</span>
+                                                                    </Link>
+
+                                                                    <button 
+                                                                        onClick={() => handleDeleteCategory(category._id, catProducts)} 
+                                                                        className="btn btn-danger" 
+                                                                        type="button"
+                                                                    >
+                                                                        <i id="icon" className="fa fa-trash-alt"></i>
+                                                                        <span id="details">Apagar</span>
+                                                                    </button>
+                                                                </td>
+                                                            </tr>
+                                                            );
+                                                        })}
                                                 </tbody>
                                             </table>
                                         </div>

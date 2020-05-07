@@ -17,6 +17,7 @@ export default function DashProductEdit (props) {
     const token = localStorage.getItem('userToken')
 
     const [product, setProduct] = useState({ tag: {} })
+    const [categories, setCategories] = useState([])
     const productId = props.match.params.id
     const history = useHistory()
     
@@ -29,6 +30,19 @@ export default function DashProductEdit (props) {
         })
 
     }, [productId]);
+
+    useEffect(() => {
+        api.get('tag', {
+            headers: {
+                Authorization: token,
+            },
+            errorHandler: true,
+
+        }).then(response => {
+            setCategories(response.data.tags)
+        })
+        
+    }, [token]);
     
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
@@ -37,28 +51,37 @@ export default function DashProductEdit (props) {
     const [price, setPrice] = useState('')
     const [quantity, setQuantity] = useState('')
 
-    function addNewTag () {
-        const select = document.getElementById("select-tag")
-        const option = document.createElement("option")
-        const tag = document.createTextNode(newTag)
+    async function handleAddNewTag () {
+        if (newTag === '') 
+            return
+        
+        const data = {
+            name: newTag, 
+        };
 
-        option.appendChild(tag)
-        option.value = newTag
-        select.appendChild(option)
+        await api.post("tag", data, {
+            headers: {
+                Authorization: token,
+            },
+            errorHandler: true,
 
-        setNewTag('')
-        setTag(newTag)
+        }).then(response => {
+            setCategories(prevTags => [...prevTags, response.data])
+            setTag(newTag)
+            setNewTag('')
+        })
+
     }
 
     async function handleEditProduct (e) {
         e.preventDefault();
 
         const data = {
-            name: name? name : product.name,
-            description: description? description : product.description,
-            price: price? price : product.price,
-            quantity: quantity? quantity : product.quantity,
-            tag: tag? tag : product.tag
+            name: name ? name : product.name,
+            description: description ? description : product.description,
+            price: price ? price : product.price,
+            quantity: quantity ? quantity : product.quantity,
+            tag: tag ? tag : product.tag.name
         };
 
         api.put(`product/${productId}`, data, {
@@ -192,8 +215,9 @@ export default function DashProductEdit (props) {
                                                             className="form-control" 
                                                             required
                                                         >
-                                                            <option value="id, nome, objeto">tag</option>
-                                                            <option value={product.tag.name}>{product.tag.name}</option>
+                                                            {categories.map(cat => (
+                                                                <option key={cat._id} value={cat.name}>{cat.name}</option>
+                                                            ))}
                                                         </select>
                                                     </div>
                                                     <div className="form-inline col-lg-4 col-md-6 col-xs-12">
@@ -204,7 +228,7 @@ export default function DashProductEdit (props) {
                                                             className="form-control" 
                                                             type="text"
                                                         />
-                                                        <button onClick={addNewTag} type="button" className="btn btn-danger">Add</button>
+                                                        <button onClick={handleAddNewTag} type="button" className="btn btn-danger">Add</button>
                                                     </div>
                                                 </div>
                                                 <div className="form-group">
