@@ -20,6 +20,7 @@ const orderRoute = require('./routes/order')
 const tagRoute = require('./routes/tag')
 
 app.use(cors())
+app.use(express.static('static'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 

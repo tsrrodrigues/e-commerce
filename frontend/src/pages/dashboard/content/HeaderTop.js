@@ -2,8 +2,6 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import api from '../../../services/api';
 
-import userImg from '../../../assets/img/user-circle-solid.svg';
-
 export default function HeaderTop() {
 
     const user_name = localStorage.getItem('userDisplayName')
@@ -11,8 +9,8 @@ export default function HeaderTop() {
     const token = localStorage.getItem('userToken')
 
     const [user, setUser] = useState([])
-
     const history = useHistory()
+    const apiURL = api.defaults.baseURL
 
     const handleLogout = useCallback(() => {
         localStorage.clear()
@@ -38,7 +36,7 @@ export default function HeaderTop() {
             }
         })
 
-    }, [user_id, token, handleLogout]);
+    }, [token, user_id, handleLogout]);
 
     return (
         <div className="row">
@@ -88,7 +86,7 @@ export default function HeaderTop() {
                             </li>
                             <li className="dropdown">
                                 <Link to="#" className="dropdown-toggle" data-toggle="dropdown">
-                                    <img src={userImg} alt="user"/>
+                                    <img src={apiURL + user.image} alt="foto do perfil"/>
                                     <b className="caret"></b>
                                 </Link>
                                 <ul className="dropdown-menu">

@@ -185,7 +185,7 @@ export default function DashProductEdit (props) {
                                                     <div id="image-upload" className="row">
                                                         {fileboxes.map((filebox, id) => (
                                                             <div key={id} className="file-box col-md-3 col-sm-6 col-xs-12">
-                                                                <div className="file-container">
+                                                                <div className="file-container background-fit">
                                                                     <input 
                                                                         type="file" 
                                                                         id={`file-input-${id}`} 

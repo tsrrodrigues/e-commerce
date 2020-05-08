@@ -10,8 +10,6 @@ import HeaderTop from '../content/HeaderTop';
 import ModalAddProduto from '../content/ModalAddProduto';
 import ModalAddAviso from '../content/ModalAddAviso';
 
-import userImg from '../../../assets/img/user-circle-solid.svg';
-
 export default function DashUser () {
 
     const [user_name, setUserName] = useState(localStorage.getItem('userDisplayName'))
@@ -19,6 +17,7 @@ export default function DashUser () {
     const token = localStorage.getItem('userToken')
 
     const [user, setUser] = useState({ name: {}, adress: {} })
+    const apiURL = api.defaults.baseURL
 
     useEffect(() => {
         api.get(`user/${user_id}`, {
@@ -33,6 +32,7 @@ export default function DashUser () {
         
     }, [user_id, token]);
 
+    const [image, setImage] = useState('')
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
     const [email, setEmail] = useState('')
@@ -51,6 +51,8 @@ export default function DashUser () {
         e.preventDefault();
         
         const data = {
+            image: image ? image : null,
+
             name: {
                 first: firstName? firstName : user.name.first,
                 last: lastName? lastName : user.name.last,
@@ -69,7 +71,7 @@ export default function DashUser () {
                 uf: uf? uf : user.adress.uf,
             },
 
-            password,
+            password: password ? password : null,
         };
 
         await api.put(`user/${user_id}`, data, {
@@ -90,20 +92,22 @@ export default function DashUser () {
 
     }
 
-    function handleImagePreview (input) {
-        const img = document.getElementById("user-avatar")
+    function handleImage (input) {
+        const avatar = document.getElementById("user-avatar")
 
         if (input.files && input.files[0]) {
             let reader = new FileReader();
             
             reader.onload = function (e) {
-                img.src = e.target.result;
+                setImage(e.target.result)
+                avatar.style.backgroundImage = `url(${blobURL})`;
             }
-            
-            reader.readAsDataURL(input.files[0]);
+
+            const blobURL = URL.createObjectURL(input.files[0])
+            reader.readAsDataURL(input.files[0])
         }
         else {
-            img.src = userImg;
+            avatar.style.backgroundImage = `url(${apiURL + user.image})`;
         }
     }
 
@@ -133,14 +137,18 @@ export default function DashUser () {
 
                                         <div className="card-body">
                                             <form onSubmit={handleUserEdit}>
-                                                <img id="user-avatar" src={userImg} className="user-img" alt="foto"/>
+                                                <div 
+                                                    id="user-avatar" 
+                                                    className="user-img background-fit" 
+                                                    style={{backgroundImage: `url(${apiURL + user.image})`}}
+                                                />
 
                                                 <div className="form-group">
                                                     <label>Foto de perfil</label>
                                                     <input 
                                                         type="file" 
                                                         className="form-control-file" 
-                                                        onChange={e => handleImagePreview(e.target)}
+                                                        onChange={e => handleImage(e.target)}
                                                     />
                                                 </div>
                                                 <div className="form-group">

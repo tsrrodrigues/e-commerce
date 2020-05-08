@@ -10,8 +10,6 @@ import HeaderTop from '../content/HeaderTop';
 import ModalAddProduto from '../content/ModalAddProduto';
 import ModalAddAviso from '../content/ModalAddAviso';
 
-import userImg from '../../../assets/img/user-circle-solid.svg';
-
 export default function DashClientDetail (props) {
 
     const user_name = localStorage.getItem('userDisplayName')
@@ -19,13 +17,14 @@ export default function DashClientDetail (props) {
 
     const [client, setClient] = useState({ name: {}, adress: {} })
     const client_id = props.match.params.id
+    const apiURL = api.defaults.baseURL
 
     useEffect(() => {
         api.get(`user/${client_id}`, {
             headers: {
                 Authorization: token,
             },
-            errorHandler: true,
+            //errorHandler: true,
             
         }).then(response => {
             setClient(response.data)
@@ -57,7 +56,7 @@ export default function DashClientDetail (props) {
                                         </div>
 
                                         <div className="card-body">
-                                            <img src={userImg} className="user-img" alt="foto"/>
+                                            <img src={apiURL + client.image} className="user-img" alt="foto do cliente"/>
 
                                             <h5><strong>Nome: </strong>{client.name.first} {client.name.last}</h5>
                                             <h5><strong>CPF: </strong>{client.cpf}</h5>

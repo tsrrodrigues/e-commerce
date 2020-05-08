@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Baloo+Thambi+2:400,600,700&display=swap');
 
-/* E-Commerce CSS */
-
+/* E-Commerce Dashboard CSS */
 body {
     font-family: 'Baloo Thambi 2', cursive;
     background: #f6f7fa;
@@ -44,7 +43,6 @@ h5 {
     font-size: 16px;
 }
 
-/* Dashboard */
 .display-table {
     display: table;
     padding: 0;
@@ -82,6 +80,12 @@ h5 {
     z-index: 9999;
 }
 
+.background-fit {
+    background-repeat: no-repeat;
+    background-size: cover;
+    -webkit-background-size: cover;
+}
+
 .file-box {
     text-align: center;
     padding-bottom: 15px;
@@ -89,9 +93,6 @@ h5 {
 .file-container {
     background-color: #f6f7fa;
     background-position: center center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    -webkit-background-size: cover;
     border-radius: 4px;
 }
 .file-container .file-input {
@@ -130,9 +131,6 @@ h5 {
 .form-inline label {
     display: block;
 }
-.form-group .btn {
-    padding: 6px 12px;
-}
 .form-control {
     background-color: #f6f7fa;
     border: none;
@@ -142,6 +140,12 @@ h5 {
     border-color: #e53935;
     outline: 0;
     box-shadow: none;
+}
+.form-group .btn {
+    padding: 6px 12px;
+}
+.form-group input[type=file] {
+    width: 100%;
 }
 
 button, .btn {
@@ -182,6 +186,7 @@ button:hover, .btn:hover {
     border-color: #dadee7;
 }
 
+/* Dashboard */
 #navigation {
     background: #e53935;
     background: linear-gradient(60deg,#ef5350,#e53935);
@@ -315,7 +320,7 @@ header {
 }
 .header-top img {
     border-radius: 50%;
-    width: 48px;
+    height: 48px;
 }
 .header-top .btn {
     padding: 10px 27px 10px 45px;
@@ -483,10 +488,12 @@ header {
     margin: 0;
 }
 .user-img {
+    background-color: #f6f7fa;
+    background-position: top center;
     border-radius: 50%;
-    max-width: 100px !important;
+    height: 100px;
+    width: 100px;
     margin-bottom: 15px;
-    width: 100%;
 }
 
 .modal-content {
@@ -549,6 +556,7 @@ header {
     color: #fff;
 }
 
+/* Media Queries */
 @media screen and (min-width: 768px) {
     #navigation {
         display: table-cell;

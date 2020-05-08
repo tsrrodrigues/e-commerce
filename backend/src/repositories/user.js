@@ -96,12 +96,12 @@ exports.register = async (data) => {
       type =".png";
     }
     const filename = user.id+type
-    fs.writeFile('../images/users/' + filename, image, 'base64', function(err) {
+    fs.writeFile('./static/images/users/' + filename, image, 'base64', function(err) {
       if (err) {
         return {message: "Save Image Failed", error: err}
       }
     });
-    user.image = 'images/users/' + filename
+    user.image = '/images/users/' + filename
     
     user = await user.save()
 
@@ -166,12 +166,12 @@ exports.edit = async (data) => {
       type =".png";
     }
     const filename = user.id + type
-    fs.writeFile('../images/users/' + filename, image, 'base64', function(err) {
+    fs.writeFile('./static/images/users/' + filename, image, 'base64', function(err) {
       if (err) {
         return {message: "Save Image Failed", error: err}
       }
     });
-    params.image = 'images/users/' + filename
+    params.image = '/images/users/' + filename
     
     if (data.body.name)
     params.name = data.body.name

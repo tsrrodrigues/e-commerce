@@ -140,12 +140,12 @@ exports.register = async (data) => {
       }
       const count = i + 1
       const filename = product.id + '_' + count + type
-      fs.writeFile('../images/products/' + filename, image, 'base64', function(err) {
+      fs.writeFile('./static/images/products/' + filename, image, 'base64', function(err) {
         if (err) {
           return {message: "Save Image Failed", error: err}
         }
       });
-      product.images[i] = 'images/products/' + filename
+      product.images[i] = '/images/products/' + filename
     }
 
     // TAG
@@ -195,12 +195,12 @@ exports.edit = async (data) => {
       }
       const count = i + 1
       const filename = product_id + '_' + count + type
-      fs.writeFile('../images/products/' + filename, image, 'base64', function(err) {
+      fs.writeFile('./static/images/products/' + filename, image, 'base64', function(err) {
         if (err) {
           return {message: "Save Image Failed", error: err}
         }
       });
-      images[i] = 'images/products/' + filename
+      images[i] = '/images/products/' + filename
     }
     params.images = images
     
