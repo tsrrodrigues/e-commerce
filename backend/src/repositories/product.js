@@ -1,4 +1,5 @@
 const mongoose = require('../database')
+const fs = require('fs')
 
 const tagController = require('../controllers/tag')
 
@@ -31,7 +32,7 @@ exports.getAvailables = async (data) => {
     let products = (
       await Product.find(
         params,
-        '_id name description quantity price createdAt tag'
+        '_id name description quantity price createdAt tag images'
       )
       .sort(sort)
       .skip(skip).limit(limit)
@@ -47,7 +48,7 @@ exports.getAvailables = async (data) => {
 
     return {pages, products}
   } catch (err) {
-    return { error: 'List Availables Products failed' }
+    return { error: 'List Availables Products failed images' }
   }
 }
 
@@ -79,7 +80,7 @@ exports.getAll = async (data) => {
     let products =
       await Product.find(
         params,
-        '_id name description quantity price createdAt tag'
+        '_id name description quantity price createdAt tag images'
       )
       .sort(sort)
       .skip(skip).limit(limit)
@@ -102,7 +103,7 @@ exports.getOne = async (data) => {
   try {
     let product = await Product.findById(
       data.params.id,
-      '_id name description quantity price createdAt tag'
+      '_id name description quantity price createdAt tag images'
     )
     product.price /= 100
     product.tag = await Tag.findById(product.tag)
@@ -126,8 +127,28 @@ exports.register = async (data) => {
     product.description = data.body.description
     product.price = parseInt(data.body.price * 100)
     product.quantity = data.body.quantity
+    product.images = []
 
-    
+    // IMAGE
+    for (let i = 0; i < data.body.images.length; i++) {
+      const image = data.body.images[i]
+      let type = ""
+      if(image.charAt(0)=='/'){
+        type = ".jpeg";
+      }else if(image.charAt(0)=='i'){
+        type =".png";
+      }
+      const count = i + 1
+      const filename = product.id + '_' + count + type
+      fs.writeFile('../images/products/' + filename, image, 'base64', function(err) {
+        if (err) {
+          return {message: "Save Image Failed", error: err}
+        }
+      });
+      product.images[i] = 'images/products/' + filename
+    }
+
+    // TAG
     const tag = await Tag.findOne({ name: data.body.tag })
     if (tag) {
       product.tag = tag.id
@@ -148,22 +169,53 @@ exports.register = async (data) => {
 
 exports.edit = async (data) => {
   if (data.userAccessLevel < 2) return { error: 'Unauthorized' }
-
+  
   try {
+    let params = {}
+    
     const tag = await Tag.findOne({name: data.body.tag})
+    params.tag = tag.id
+    
+    let product = await Product.findById(data.params.id)
+    for (let i = 0; i < product.images.length; i++) {
+      const count = i + 1
+      fs.unlinkSync('../' + product.images[i])
+    }
 
-    let product = await Product.findByIdAndUpdate(data.params.id, {
-      $set: {
-        name: data.body.name,
-        description: data.body.description,
-        price: data.body.price * 100,
-        tag: tag.id
-      },
-    })
+    //IMAGES
+    let images = []
+    let product_id = data.params.id
+    for (let i = 0; i < data.body.images.length; i++) {
+      const image = data.body.images[i]
+      let type = ""
+      if(image.charAt(0)=='/'){
+        type = ".jpeg";
+      }else if(image.charAt(0)=='i'){
+        type =".png";
+      }
+      const count = i + 1
+      const filename = product_id + '_' + count + type
+      fs.writeFile('../images/products/' + filename, image, 'base64', function(err) {
+        if (err) {
+          return {message: "Save Image Failed", error: err}
+        }
+      });
+      images[i] = 'images/products/' + filename
+    }
+    params.images = images
+    
+    if (data.body.name)
+    params.name = data.body.name
+    if (data.body.description)
+    params.description = data.body.description
+    if (data.body.price)
+    params.price = data.body.price * 100
+    
+    product = await Product.findByIdAndUpdate(data.params.id, params)
     product.tag = tag
     return product
   } catch (err) {
-    return { error: 'Edit failed' }
+    return { error: 'Edit failed. ' + err }
   }
 }
 
@@ -183,7 +235,11 @@ exports.editQuantity = async (data) => {
 exports.delete = async (data) => {
   try {
     if (data.userAccessLevel < 2) return { error: 'Unauthorized' }
-    const product = await Product.findByIdAndDelete(data.params.id)
+    let product = await Product.findByIdAndDelete(data.params.id)
+    for (let i = 0; i < product.images.length; i++) {
+      const count = i + 1
+      fs.unlinkSync('../' + product.images[i])
+    }
     product.price /= 100
     product.tag = await Tag.findById(product.tag)
     return product

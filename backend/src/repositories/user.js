@@ -2,7 +2,6 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const authConfig = require('../config/auth')
 const fs = require('fs')
-const path = require('path')
 
 const mongoose = require('../database')
 
@@ -88,15 +87,21 @@ exports.register = async (data) => {
     user.adress.localidade = data.body.adress.localidade
     user.adress.uf = data.body.adress.uf
     user.access_level = data.body.access_level
-    
+
     const image = data.body.image
-    const filename = user.id+'.png'
-    fs.writeFile('../images/' + filename, image, 'base64', function(err) {
+    let type = ""
+    if(image.charAt(0)=='/'){
+      type = ".jpeg";
+    }else if(image.charAt(0)=='i'){
+      type =".png";
+    }
+    const filename = user.id+type
+    fs.writeFile('../images/users/' + filename, image, 'base64', function(err) {
       if (err) {
         return {message: "Save Image Failed", error: err}
       }
     });
-    user.image = './images/' + filename
+    user.image = 'images/users/' + filename
     
     user = await user.save()
 
@@ -148,6 +153,25 @@ exports.edit = async (data) => {
     const { id } = data.params
     
     let params = {}
+
+    let user = await User.findById(data.params.id)
+    // fs.unlinkSync('../' + user.image)
+
+    //IMAGES
+    const image = data.body.image.split(',')[1]
+    let type = ""
+    if(image.charAt(0)=='/'){
+      type = ".jpeg";
+    }else if(image.charAt(0)=='i'){
+      type =".png";
+    }
+    const filename = user.id + type
+    fs.writeFile('../images/users/' + filename, image, 'base64', function(err) {
+      if (err) {
+        return {message: "Save Image Failed", error: err}
+      }
+    });
+    params.image = 'images/users/' + filename
     
     if (data.body.name)
     params.name = data.body.name
@@ -164,14 +188,14 @@ exports.edit = async (data) => {
       params.password = hash
     }
     
-    const user = await User.findByIdAndUpdate(id, params)
+    user = await User.findByIdAndUpdate(id, params)
 
     return {
       user,
       token: data.headers.authorization,
     }
   } catch (err) {
-    return { error: 'Edit failed', err: err }
+    return { error: 'Edit failed. ' + err }
   }
 }
 
@@ -189,6 +213,7 @@ exports.delete = async (data) => {
   try {
     if (data.userAccessLevel < 3) return { error: 'Unauthorized' }
     const user = await User.findByIdAndDelete(data.params.id)
+    fs.unlinkSync('../' + user.image)
     return user
   } catch (err) {
     return { error: 'Delete failed' }

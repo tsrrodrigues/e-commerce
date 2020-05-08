@@ -26,7 +26,13 @@ const ProductSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'Tag',
       required: [true, 'É necessário adicionar a categoria do produto'],
-    }
+    },
+    images: [{
+      type: String,
+      trim: true,
+      required: true,
+      unique: true
+    }]
   },
   { timestamps: true }
 )
