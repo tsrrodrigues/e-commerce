@@ -92,7 +92,7 @@ export default function DashOrders() {
                                                 <tbody>
                                                     {orders.map(order => (
                                                         <tr key={order._id}>
-                                                            <th scope="row">{order.user.name.first}</th>
+                                                            <th scope="row">{order.user? order.user.name.first : null}</th>
                                                             <td className="hidden-xs">R$ {order.cart.total}</td>
                                                             <td>{order.status}</td>
                                                             <td className="hidden-xs">

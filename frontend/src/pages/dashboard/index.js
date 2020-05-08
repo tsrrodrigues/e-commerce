@@ -114,7 +114,7 @@ export default function DashBoard () {
                                                 <tbody>
                                                     {waitDeliverOrders.map(order => (
                                                         <tr key={order._id}>
-                                                            <th scope="row">{order.user.name.first}</th>
+                                                            <th scope="row">{order.user? order.user.name.first : null}</th>
                                                             <td className="hidden-xs">R$ {order.cart.total}</td>
                                                             <td> {
                                                                 order.date.substring(11, 16) + " - " +
@@ -175,7 +175,7 @@ export default function DashBoard () {
                                                 <tbody>
                                                     {forDeliverOrders.map(order => (
                                                         <tr key={order._id}>
-                                                            <th scope="row">{order.user.name.first}</th>
+                                                            <th scope="row">{order.user? order.user.name.first : null}</th>
                                                             <td className="hidden-xs">R$ {order.cart.total}</td>
                                                             <td> {
                                                                 order.date.substring(11, 16) + " - " +
