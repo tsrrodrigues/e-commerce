@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import queryString from 'query-string';
 import api from '../../../services/api';
 
@@ -20,7 +20,6 @@ export default function DashProducts () {
 
     const [products, setProducts] = useState([])
     const apiURL = api.defaults.baseURL
-    const history = useHistory()
 
     const query = queryString.parse(window.location.search)
     const [currentPage, setCurrentPage] = useState(query.page)
@@ -84,21 +83,16 @@ export default function DashProducts () {
                                                     {products.map(product => (
                                                         <tr key={product._id}>
                                                             <th scope="row" className="hidden-xs">
-                                                                <img src={apiURL + product.images[0]} height="100" alt="foto do produto"/>
+                                                                <img src={apiURL + product.images[0]} width="100" alt="produto"/>
                                                             </th>
-                                                            <th scope="col">{product.name}</th>
+                                                            <th>{product.name}</th>
                                                             <td className="hidden-xs">R${product.price}</td>
                                                             <td>{product.tag.name}</td>
                                                             <td>
-                                                                <button
-                                                                    onClick={() => {               
-                                                                        history.push(`/produtos/${product._id}`)
-                                                                    }}
-                                                                    className="btn btn-danger"
-                                                                >
+                                                                <Link to={`/produtos/${product._id}`} className="btn btn-danger">
                                                                     <i id="icon" className="fa fa-pencil-alt"></i>
                                                                     <span id="details">Editar</span>
-                                                                </button>
+                                                                </Link>
                                                             </td>
                                                         </tr>
                                                     ))}

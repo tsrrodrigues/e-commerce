@@ -57,33 +57,36 @@ export default function DashProductEdit (props) {
     const [quantity, setQuantity] = useState('')
 
     function imageFilter (image) {
-        if (image.charAt(0) === '/') {
+        if (image.charAt(0) === '/')
             return apiURL + image
-        }
 
         return image
     }
 
     function handleImage (input) {
         if (input.files && input.files[0]) {
-            if (images.length === 7) return
+            if (images.length === 7) {
+                alert("Não é possível adicionar mais nenhuma imagem");
+                return
+            }
 
             if (input.files[0].size > 2000000) {
-                alert("Arquivo maior que 2MB");
+                alert("Imagem maior que 2MB");
                 return
             }
 
             let reader = new FileReader()
             
             reader.onload = function (e) {
-                setImages([...images.slice(0, images.length-1), e.target.result, ""]);
+                setImages([...images.slice(0, images.length - 1), e.target.result, ""]);
             }
 
             reader.readAsDataURL(input.files[0])
         }
     }
 
-    function handleDeleteImg (id) {    
+    function handleDeleteImg (e, id) {
+        e.preventDefault();
         setImages(images.filter((image, key) => key !== id))
     }
 
@@ -111,6 +114,11 @@ export default function DashProductEdit (props) {
 
     async function handleEditProduct (e) {
         e.preventDefault();
+
+        if (images.length === 1) {
+            alert("Adicione pelo menos 1 foto do produto");
+            return
+        }
 
         const data = {
             images,
@@ -202,7 +210,7 @@ export default function DashProductEdit (props) {
                                                                             <i 
                                                                                 className={image ? "fa fa-trash" : "fa fa-plus"} 
                                                                                 title={image ? "Remover imagem" : "Adicionar imagem"} 
-                                                                                onClick={image ? e => handleDeleteImg(id) : null}
+                                                                                onClick={image ? e => handleDeleteImg(e, id) : null}
                                                                             />
                                                                         </label>
                                                                     </div>

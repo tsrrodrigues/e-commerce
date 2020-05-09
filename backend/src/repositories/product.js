@@ -180,22 +180,31 @@ exports.edit = async (data) => {
 
     //IMAGES
     let images = []
+    let temp_images = []
+
     const imgs_length = data.body.images.length
     let product_id = data.params.id
 
     for (let i = 0; i < imgs_length; i++) {
       const url = data.body.images[i] ? data.body.images[i] : "url"
 
+      // if image already exists, rename with a temp name
       if (url.charAt(0) === '/') {
-        fs.rename('./static' + url, './static' + url + i, function(err) {
+        const temp_path = url + i
+
+        fs.rename('./static' + url, './static' + temp_path, function(err) {
           if (err) {
             return {message: "Rename temp images failed", error: err}
           }
         })
 
-      } 
-      else if (url.charAt(0) === 'd') {
+        temp_images[i] = temp_path
+      }
+
+      // if image doesn't exists, save with a temp name
+      if (url.charAt(0) === 'd') {
         const image = data.body.images[i].split(',')[1]
+        
         let type = ""
         
         if (image.charAt(0) === '/') {
@@ -205,37 +214,46 @@ exports.edit = async (data) => {
           type = ".png";
         }
 
-        const count = i + 1
-        const filename = product_id + '_' + count + type
+        const count = i + 10
+        const filename = product_id + '_' + count + type + i
 
         fs.writeFile('./static/images/products/' + filename, image, 'base64', function(err) {
           if (err) {
-            return {message: "Save images failed", error: err}
+            return {message: "Save temp images failed", error: err}
           }
         })
 
-        images[i] = '/images/products/' + filename
+        temp_images[i] = '/images/products/' + filename
       }
     }
-    
-    for (let i = 0; i < imgs_length; i++) {
-      const url = data.body.images[i] ? data.body.images[i] : "url"
 
-      if (url.charAt(0) === '/') {
-        const name = url.split('_')[0]
-        const count = i + 1
-        const type = url.split('.')[1]
+    for (let i = 0; i < product.images.length; i++) {
+      const old_image = "./static" + product.images[i]
 
-        const path = name + '_' + count + '.' + type
-
-        fs.rename('./static' + url + i, './static' + path, function(err) {
-          if (err) {
-            return {message: "Rename images failed", error: err}
-          }
-        })
-
-        images[i] = path
+      // remove any old image from product
+      if (fs.existsSync(old_image)) {
+        fs.unlinkSync(old_image)
       }
+    }
+
+    for (let i = 0; i < temp_images.length; i++) {
+      const temp_path = temp_images[i]
+
+      const name = temp_path.split('_')[0]
+      const extension = temp_path.split('.')[1]
+      const type = extension.slice(0, -1)
+      
+      const count = i + 1
+      const path = name + '_' + count + '.' + type
+
+      // rename new images
+      fs.rename('./static' + temp_path, './static' + path, function(err) {
+        if (err) {
+          return {message: "Rename images failed", error: err}
+        }
+      })
+
+      images[i] = path
     }
 
     params.images = images
