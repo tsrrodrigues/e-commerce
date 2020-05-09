@@ -155,7 +155,7 @@ exports.edit = async (data) => {
     let params = {}
 
     let user = await User.findById(data.params.id)
-    // fs.unlinkSync('../' + user.image)
+    fs.unlinkSync('./static' + user.image)
 
     //IMAGES
     const image = data.body.image.split(',')[1]
