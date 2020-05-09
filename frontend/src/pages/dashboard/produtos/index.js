@@ -13,14 +13,13 @@ import ModalAddProduto from '../content/ModalAddProduto';
 import ModalAddAviso from '../content/ModalAddAviso';
 import Pagination from '../content/Pagination';
 
-import productImg from '../../../assets/img/cube-solid.svg';
-
 export default function DashProducts () {
 
     const user_name = localStorage.getItem('userDisplayName')
     const token = localStorage.getItem('userToken')
 
     const [products, setProducts] = useState([])
+    const apiURL = api.defaults.baseURL
     const history = useHistory()
 
     const query = queryString.parse(window.location.search)
@@ -85,7 +84,7 @@ export default function DashProducts () {
                                                     {products.map(product => (
                                                         <tr key={product._id}>
                                                             <th scope="row" className="hidden-xs">
-                                                                <img src={productImg} height="100" width="100" alt="produto"/>
+                                                                <img src={apiURL + product.images[0]} height="100" alt="foto do produto"/>
                                                             </th>
                                                             <th scope="col">{product.name}</th>
                                                             <td className="hidden-xs">R${product.price}</td>

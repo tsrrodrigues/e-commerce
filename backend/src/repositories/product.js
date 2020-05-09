@@ -177,31 +177,67 @@ exports.edit = async (data) => {
     params.tag = tag.id
     
     let product = await Product.findById(data.params.id)
-    for (let i = 0; i < product.images.length; i++) {
-      const count = i + 1
-      fs.unlinkSync('../' + product.images[i])
-    }
 
     //IMAGES
     let images = []
+    const imgs_length = data.body.images.length
     let product_id = data.params.id
-    for (let i = 0; i < data.body.images.length; i++) {
-      const image = data.body.images[i]
-      let type = ""
-      if(image.charAt(0)=='/'){
-        type = ".jpeg";
-      }else if(image.charAt(0)=='i'){
-        type =".png";
-      }
-      const count = i + 1
-      const filename = product_id + '_' + count + type
-      fs.writeFile('./static/images/products/' + filename, image, 'base64', function(err) {
-        if (err) {
-          return {message: "Save Image Failed", error: err}
+
+    for (let i = 0; i < imgs_length; i++) {
+      const url = data.body.images[i] ? data.body.images[i] : "url"
+
+      if (url.charAt(0) === '/') {
+        fs.rename('./static' + url, './static' + url + i, function(err) {
+          if (err) {
+            return {message: "Rename temp images failed", error: err}
+          }
+        })
+
+      } 
+      else if (url.charAt(0) === 'd') {
+        const image = data.body.images[i].split(',')[1]
+        let type = ""
+        
+        if (image.charAt(0) === '/') {
+          type = ".jpeg";
+        } 
+        else if (image.charAt(0) === 'i') {
+          type = ".png";
         }
-      });
-      images[i] = '/images/products/' + filename
+
+        const count = i + 1
+        const filename = product_id + '_' + count + type
+
+        fs.writeFile('./static/images/products/' + filename, image, 'base64', function(err) {
+          if (err) {
+            return {message: "Save images failed", error: err}
+          }
+        })
+
+        images[i] = '/images/products/' + filename
+      }
     }
+    
+    for (let i = 0; i < imgs_length; i++) {
+      const url = data.body.images[i] ? data.body.images[i] : "url"
+
+      if (url.charAt(0) === '/') {
+        const name = url.split('_')[0]
+        const count = i + 1
+        const type = url.split('.')[1]
+
+        const path = name + '_' + count + '.' + type
+
+        fs.rename('./static' + url + i, './static' + path, function(err) {
+          if (err) {
+            return {message: "Rename images failed", error: err}
+          }
+        })
+
+        images[i] = path
+      }
+    }
+
     params.images = images
     
     if (data.body.name)

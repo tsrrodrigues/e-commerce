@@ -1,2 +1,5 @@
 node_modules/
-static/*.svg
+
+# Static images
+static/**/*.jpeg
+static/**/*.png

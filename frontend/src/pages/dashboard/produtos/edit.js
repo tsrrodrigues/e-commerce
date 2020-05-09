@@ -16,9 +16,11 @@ export default function DashProductEdit (props) {
     const user_name = localStorage.getItem('userDisplayName')
     const token = localStorage.getItem('userToken')
 
-    const [product, setProduct] = useState({ tag: {} })
-    const [categories, setCategories] = useState([])
+    const [product, setProduct] = useState({ images: [], tag: {} })
     const productId = props.match.params.id
+    const apiURL = api.defaults.baseURL
+
+    const [categories, setCategories] = useState([])
     const history = useHistory()
     
     useEffect(() =>{
@@ -27,6 +29,8 @@ export default function DashProductEdit (props) {
 
         }).then(response => {
             setProduct(response.data)
+            setImages(response.data.images)
+            setImages(prevImages => [...prevImages, ""])
         })
 
     }, [productId]);
@@ -44,12 +48,44 @@ export default function DashProductEdit (props) {
         
     }, [token]);
     
+    const [images, setImages] = useState([])
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
     const [tag, setTag] = useState('')
     const [newTag, setNewTag] = useState('')
     const [price, setPrice] = useState('')
     const [quantity, setQuantity] = useState('')
+
+    function imageFilter (image) {
+        if (image.charAt(0) === '/') {
+            return apiURL + image
+        }
+
+        return image
+    }
+
+    function handleImage (input) {
+        if (input.files && input.files[0]) {
+            if (images.length === 7) return
+
+            if (input.files[0].size > 2000000) {
+                alert("Arquivo maior que 2MB");
+                return
+            }
+
+            let reader = new FileReader()
+            
+            reader.onload = function (e) {
+                setImages([...images.slice(0, images.length-1), e.target.result, ""]);
+            }
+
+            reader.readAsDataURL(input.files[0])
+        }
+    }
+
+    function handleDeleteImg (id) {    
+        setImages(images.filter((image, key) => key !== id))
+    }
 
     async function handleAddNewTag () {
         if (newTag === '') 
@@ -77,6 +113,7 @@ export default function DashProductEdit (props) {
         e.preventDefault();
 
         const data = {
+            images,
             name: name ? name : product.name,
             description: description ? description : product.description,
             price: price ? price : product.price,
@@ -95,43 +132,6 @@ export default function DashProductEdit (props) {
             history.push('/produtos')
         })
 
-    }
-    
-    const [fileboxes, setFileBoxes] = useState([0])
-    const [images, setImages] = useState([])
-
-    function editBoxState (input) {
-        const label = input.nextSibling
-        const icon = label.firstChild
-
-        label.setAttribute("for", "")
-        icon.className = "fa fa-trash"
-        icon.title = "Remover imagem"
-    }
-
-    function handleImagePreview (input) {
-        const container = input.parentElement
-
-        if (input.files && input.files[0]) {
-
-            if (input.files[0].size > 2000000) {
-                alert("Arquivo maior que 2MB");
-                return
-            }
-
-            let reader = new FileReader()
-            
-            reader.onload = function (e) {
-                container.style.backgroundImage = `url(${e.target.result})`;
-            }
-            
-            reader.readAsDataURL(input.files[0])
-
-            setFileBoxes(prevFileBoxes => [...prevFileBoxes, fileboxes.length])
-            setImages(prevImages => [...prevImages, { file: input.files[0], id: images.length }])
-            
-            editBoxState(input);
-        }
     }
 
     document.title = `Editar Produto: ${product.name}`;
@@ -183,25 +183,32 @@ export default function DashProductEdit (props) {
                                                     <label>Fotos do produto</label>
 
                                                     <div id="image-upload" className="row">
-                                                        {fileboxes.map((filebox, id) => (
-                                                            <div key={id} className="file-box col-md-3 col-sm-6 col-xs-12">
-                                                                <div className="file-container background-fit">
-                                                                    <input 
-                                                                        type="file" 
-                                                                        id={`file-input-${id}`} 
-                                                                        className="file-input" 
-                                                                        onChange={e => handleImagePreview(e.target)}
-                                                                    />
-                                                                    <label htmlFor={`file-input-${id}`} >
-                                                                        <i 
-                                                                            className="fa fa-plus" 
-                                                                            title="Adicionar imagem"
-                                                                        />
-                                                                    </label>
-                                                                </div>
-                                                            </div>
-                                                        ))}
+                                                        {images.map((image, id) => {
+                                                            const imagedone = imageFilter(image);
 
+                                                            return (
+                                                                <div key={id} className="file-box col-md-3 col-sm-6 col-xs-12">
+                                                                    <div 
+                                                                        className="file-container background-fit" 
+                                                                        style={image ? {backgroundImage: `url(${imagedone})`} : null}
+                                                                    >
+                                                                        <input 
+                                                                            type="file" 
+                                                                            id={`file-input-${id}`} 
+                                                                            className="file-input" 
+                                                                            onChange={e => handleImage(e.target)}
+                                                                        />
+                                                                        <label htmlFor={image ? "has-file" : `file-input-${id}`}>
+                                                                            <i 
+                                                                                className={image ? "fa fa-trash" : "fa fa-plus"} 
+                                                                                title={image ? "Remover imagem" : "Adicionar imagem"} 
+                                                                                onClick={image ? e => handleDeleteImg(id) : null}
+                                                                            />
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            );
+                                                        })}
                                                     </div>
                                                     
                                                 </div>
@@ -228,7 +235,9 @@ export default function DashProductEdit (props) {
                                                             className="form-control" 
                                                             type="text"
                                                         />
-                                                        <button onClick={handleAddNewTag} type="button" className="btn btn-danger">Add</button>
+                                                        <button onClick={handleAddNewTag} type="button" className="btn btn-danger">
+                                                            Add
+                                                        </button>
                                                     </div>
                                                 </div>
                                                 <div className="form-group">
