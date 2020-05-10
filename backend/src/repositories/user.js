@@ -88,20 +88,26 @@ exports.register = async (data) => {
     user.adress.uf = data.body.adress.uf
     user.access_level = data.body.access_level
 
-    const image = data.body.image
-    let type = ""
-    if(image.charAt(0)=='/'){
-      type = ".jpeg";
-    }else if(image.charAt(0)=='i'){
-      type =".png";
-    }
-    const filename = user.id+type
-    fs.writeFile('./static/images/users/' + filename, image, 'base64', function(err) {
-      if (err) {
-        return {message: "Save Image Failed", error: err}
+    if (data.body.image) {
+      const image = data.body.images[i].split(',')[1]
+      let type = ""
+      if (image.charAt(0) === '/') {
+        type = ".jpeg";
+      } 
+      else if (image.charAt(0) === 'i') {
+        type = ".png";
       }
-    });
-    user.image = '/images/users/' + filename
+      const filename = user.id + type
+      fs.writeFile('./static/images/products/' + filename, image, 'base64', (err) => {
+        if (err) {
+          return {message: "Save image failed", error: err}
+        }
+      })
+      user.image = '/images/users/' + filename
+    }
+    else {
+      user.image = '/images/users/default.svg'
+    }
     
     user = await user.save()
 
@@ -155,23 +161,26 @@ exports.edit = async (data) => {
     let params = {}
 
     let user = await User.findById(data.params.id)
-    fs.unlinkSync('./static' + user.image)
 
     //IMAGES
-    const image = data.body.image.split(',')[1]
-    let type = ""
-    if(image.charAt(0)=='/'){
-      type = ".jpeg";
-    }else if(image.charAt(0)=='i'){
-      type =".png";
-    }
-    const filename = user.id + type
-    fs.writeFile('./static/images/users/' + filename, image, 'base64', function(err) {
-      if (err) {
-        return {message: "Save Image Failed", error: err}
+    if (data.body.image) {
+      const image = data.body.image.split(',')[1]
+      
+      let type = ""
+      if(image.charAt(0)=='/'){
+        type = ".jpeg";
+      }else if(image.charAt(0)=='i'){
+        type =".png";
       }
-    });
-    params.image = '/images/users/' + filename
+      const filename = user.id + type
+
+      fs.writeFile('./static/images/users/' + filename, image, 'base64', (err) => {
+        if (err) {
+          return {message: "Save Image Failed", error: err}
+        }
+      })
+      params.image = '/images/users/' + filename
+    }
     
     if (data.body.name)
     params.name = data.body.name
@@ -213,7 +222,14 @@ exports.delete = async (data) => {
   try {
     if (data.userAccessLevel < 3) return { error: 'Unauthorized' }
     const user = await User.findByIdAndDelete(data.params.id)
-    fs.unlinkSync('../' + user.image)
+    const old_image = './static' + user.image
+    if (old_image !== '/images/users/default.svg') { 
+      try {
+        fs.unlinkSync(old_image)
+      } catch (err) {
+        console.log("No image with this path to delete: " + old_image)
+      }
+    }
     return user
   } catch (err) {
     return { error: 'Delete failed' }

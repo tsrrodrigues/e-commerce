@@ -26,6 +26,7 @@ export default function LoginForm () {
             const lastname = lastfull[lastfull.length - 1]
 
             localStorage.setItem('userDisplayName', `${firstname} ${lastname}`)
+            localStorage.setItem('userImage', response.data.user.image)
             localStorage.setItem('userID', response.data.user._id)
             localStorage.setItem('userToken', `Bearer ${response.data.token}`)
 

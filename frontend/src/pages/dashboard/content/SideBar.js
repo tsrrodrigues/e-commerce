@@ -3,7 +3,9 @@ import { Link } from 'react-router-dom';
 
 import logoImg from '../../../assets/img/logo.png';
 
-export default function SideBar() {
+export default function SideBar (props) {
+    const nav = props.nav
+    
     return (
         <div className="col-md-2 col-sm-1 col-xs-1 display-table-cell v-align box" id="navigation">
 
@@ -15,37 +17,37 @@ export default function SideBar() {
 
             <div className="admin-bar">
                 <ul>
-                    <li>
+                    <li className={nav === "dash" ? "active" : null}>
                         <Link to="/">
                             <i className="fa fa-tachometer-alt" aria-hidden="true"></i>
                             <span className="hidden-xs">Painel</span>
                         </Link>
                     </li>
-                    <li>
+                    <li className={nav === "orders" ? "active" : null}>
                         <Link to="/pedidos">
                             <i className="fa fa-cart-arrow-down" aria-hidden="true"></i>
                             <span className="hidden-xs">Pedidos</span>
                         </Link>
                     </li>
-                    <li>
+                    <li className={nav === "products" ? "active" : null}>
                         <Link to="/produtos">
                             <i className="fa fa-cubes" aria-hidden="true"></i>
                             <span className="hidden-xs">Produtos</span>
                         </Link>
                     </li>
-                    <li>
+                    <li className={nav === "categories" ? "active" : null}>
                         <Link to="/categorias">
                             <i className="fa fa-folder" aria-hidden="true"></i>
                             <span className="hidden-xs">Categorias</span>
                         </Link>
                     </li>
-                    <li>
+                    <li className={nav === "clients" ? "active" : null}>
                         <Link to="/clientes">
                             <i className="fa fa-users" aria-hidden="true"></i>
                             <span className="hidden-xs">Clientes</span>
                         </Link>
                     </li>
-                    <li>
+                    <li className={nav === "adjusts" ? "active" : null}>
                         <Link to="/ajustes">
                             <i className="fa fa-cog" aria-hidden="true"></i>
                             <span className="hidden-xs">Ajustes</span>

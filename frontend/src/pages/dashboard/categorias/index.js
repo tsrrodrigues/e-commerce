@@ -113,7 +113,7 @@ export default function DashCategories() {
         <section className="dashboard">
             <div className="container-fluid display-table">
                 <div className="row display-table-row">
-                    <SideBar />
+                    <SideBar nav="categories"/>
                    
                     <div className="col-md-10 col-sm-11 display-table-cell v-align">
                         <HeaderTop />

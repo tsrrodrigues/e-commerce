@@ -12,11 +12,13 @@ import ModalAddAviso from '../content/ModalAddAviso';
 
 export default function DashUser () {
 
-    const [user_name, setUserName] = useState(localStorage.getItem('userDisplayName'))
+    const user_name = localStorage.getItem('userDisplayName')
+    const user_image = localStorage.getItem('userImage')
     const user_id = localStorage.getItem('userID')
     const token = localStorage.getItem('userToken')
 
     const [user, setUser] = useState({ name: {}, adress: {} })
+    const [user_edited, setUserEdited] = useState(0)
     const apiURL = api.defaults.baseURL
 
     useEffect(() => {
@@ -30,7 +32,7 @@ export default function DashUser () {
             setUser(response.data)
         })
         
-    }, [user_id, token]);
+    }, [user_id, token, user_edited]);
 
     const [image, setImage] = useState('')
     const [firstName, setFirstName] = useState('')
@@ -86,8 +88,9 @@ export default function DashUser () {
             const lastfull = data.name.last.split(' ')
             const lastname = lastfull[lastfull.length - 1]
 
+            setUserEdited(user_edited + 1)
             localStorage.setItem('userDisplayName', `${firstname} ${lastname}`)
-            setUserName(localStorage.getItem('userDisplayName'))
+            localStorage.setItem('userImage', user.image)
         })
 
     }
@@ -96,6 +99,11 @@ export default function DashUser () {
         const avatar = document.getElementById("user-avatar")
 
         if (input.files && input.files[0]) {
+            if (input.files[0].size > 2000000) {
+                alert("Imagem maior que 2MB");
+                return
+            }
+
             let reader = new FileReader();
             
             reader.onload = function (e) {
@@ -107,7 +115,7 @@ export default function DashUser () {
             reader.readAsDataURL(input.files[0])
         }
         else {
-            avatar.style.backgroundImage = `url(${apiURL + user.image})`;
+            avatar.style.backgroundImage = `url(${apiURL + user_image})`;
         }
     }
 
@@ -140,7 +148,7 @@ export default function DashUser () {
                                                 <div 
                                                     id="user-avatar" 
                                                     className="user-img background-fit" 
-                                                    style={{backgroundImage: `url(${apiURL + user.image})`}}
+                                                    style={{backgroundImage: `url(${apiURL + user_image})`}}
                                                 />
 
                                                 <div className="form-group">

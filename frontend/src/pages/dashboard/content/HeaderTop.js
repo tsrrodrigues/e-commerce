@@ -5,6 +5,7 @@ import api from '../../../services/api';
 export default function HeaderTop() {
 
     const user_name = localStorage.getItem('userDisplayName')
+    const user_image = localStorage.getItem('userImage')
     const user_id = localStorage.getItem('userID')
     const token = localStorage.getItem('userToken')
 
@@ -86,7 +87,7 @@ export default function HeaderTop() {
                             </li>
                             <li className="dropdown">
                                 <Link to="#" className="dropdown-toggle" data-toggle="dropdown">
-                                    <img src={apiURL + user.image} alt="foto do perfil"/>
+                                    <img src={apiURL + user_image} alt="foto do perfil"/>
                                     <b className="caret"></b>
                                 </Link>
                                 <ul className="dropdown-menu">
