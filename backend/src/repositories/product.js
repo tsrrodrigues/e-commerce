@@ -135,7 +135,7 @@ exports.register = async (data) => {
       let image = ""
       let type = ""
       if (data.body.images) {
-        image = data.body.images[i]
+        image = data.body.images[i].split(',')[1]
         if(image.charAt(0)=='/'){
           type = ".jpeg";
         }else if(image.charAt(0)=='i'){

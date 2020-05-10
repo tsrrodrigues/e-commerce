@@ -88,20 +88,26 @@ exports.register = async (data) => {
     user.adress.uf = data.body.adress.uf
     user.access_level = data.body.access_level
 
-    const image = data.body.image
+    let image = ""
     let type = ""
-    if(image.charAt(0)=='/'){
-      type = ".jpeg";
-    }else if(image.charAt(0)=='i'){
-      type =".png";
-    }
-    const filename = user.id+type
-    fs.writeFile('./static/images/users/' + filename, image, 'base64', function(err) {
-      if (err) {
-        return {message: "Save Image Failed", error: err}
+    if (data.body.image) {
+      image = data.body.image.split(',')[1]
+      if(image.charAt(0)=='/'){
+        type = ".jpeg";
+      }else if(image.charAt(0)=='i'){
+        type =".png";
       }
-    });
-    user.image = '/images/users/' + filename
+      fs.writeFile('./static/images/users/' + user.id + type, image, 'base64', function(err) {
+        if (err) {
+          return {message: "Save Image Failed", error: err}
+        }
+      });
+      user.image = '/images/users/' + user.id + type
+    } else {
+      image = "default"
+      type = ".svg"
+      user.image = '/images/users/' + image + type
+    }
     
     user = await user.save()
 
@@ -113,7 +119,7 @@ exports.register = async (data) => {
       token: generateToken({ id: user.id, access_level: user.access_level }),
     }
   } catch (err) {
-    return { error: 'Registration failed' }
+    return { error: 'Registration failed. ' + err }
   }
 }
 
@@ -155,24 +161,28 @@ exports.edit = async (data) => {
     let params = {}
 
     let user = await User.findById(data.params.id)
-    fs.unlinkSync('./static' + user.image)
-
-    //IMAGES
-    const image = data.body.image.split(',')[1]
-    let type = ""
-    if(image.charAt(0)=='/'){
-      type = ".jpeg";
-    }else if(image.charAt(0)=='i'){
-      type =".png";
-    }
-    const filename = user.id + type
-    fs.writeFile('./static/images/users/' + filename, image, 'base64', function(err) {
-      if (err) {
-        return {message: "Save Image Failed", error: err}
-      }
-    });
-    params.image = '/images/users/' + filename
     
+    let image = ""
+    let type = ""
+    if (data.body.image) {
+      if (user.image !== "/images/users/default.svg") {
+        fs.unlinkSync('./static' + user.image)
+      }
+      
+      image = data.body.image.split(',')[1]
+      if(image.charAt(0)=='/'){
+        type = ".jpeg";
+      }else if(image.charAt(0)=='i'){
+        type =".png";
+      }
+      const filename = user.id + type
+      fs.writeFile('./static/images/users/' + filename, image, 'base64', function(err) {
+        if (err) {
+          return {message: "Save Image Failed", error: err}
+        }
+      });
+      params.image = '/images/users/' + filename
+    }   
     if (data.body.name)
     params.name = data.body.name
     if (data.body.email)
@@ -212,8 +222,12 @@ exports.editActive = async (data) => {
 exports.delete = async (data) => {
   try {
     if (data.userAccessLevel < 3) return { error: 'Unauthorized' }
-    const user = await User.findByIdAndDelete(data.params.id)
-    fs.unlinkSync('../' + user.image)
+    let user = await User.findByIdAndDelete(data.params.id)
+    if (user.image !== "/images/users/default.vsg") {
+      fs.unlinkSync('./static' + user.image)
+    }
+    user.password = undefined
+    user.cpf = undefined
     return user
   } catch (err) {
     return { error: 'Delete failed' }
