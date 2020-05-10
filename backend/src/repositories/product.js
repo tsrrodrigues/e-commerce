@@ -130,22 +130,30 @@ exports.register = async (data) => {
     product.images = []
 
     // IMAGE
-    for (let i = 0; i < data.body.images.length; i++) {
-      const image = data.body.images[i]
+    const imgs_length = data.body.images? data.body.images.length : 1
+    for (let i = 0; i < imgs_length; i++) {
+      let image = ""
       let type = ""
-      if(image.charAt(0)=='/'){
-        type = ".jpeg";
-      }else if(image.charAt(0)=='i'){
-        type =".png";
-      }
-      const count = i + 1
-      const filename = product.id + '_' + count + type
-      fs.writeFile('./static/images/products/' + filename, image, 'base64', function(err) {
-        if (err) {
-          return {message: "Save Image Failed", error: err}
+      if (data.body.images) {
+        image = data.body.images[i]
+        if(image.charAt(0)=='/'){
+          type = ".jpeg";
+        }else if(image.charAt(0)=='i'){
+          type =".png";
         }
-      });
-      product.images[i] = '/images/products/' + filename
+        fs.writeFile('./static/images/products/' + filename, image, 'base64', function(err) {
+          if (err) {
+            return {message: "Save Image Failed", error: err}
+          }
+        });
+        const count = i + 1
+        const filename = product.id + '_' + count + type
+        product.images[i] = '/images/products/' + filename
+      } else {
+        image = "default"
+        type = ".svg"
+        product.images[i] = '/images/products/' + image + type
+      }
     }
 
     // TAG
@@ -231,7 +239,7 @@ exports.edit = async (data) => {
       const old_image = "./static" + product.images[i]
 
       // remove any old image from product
-      if (fs.existsSync(old_image)) {
+      if (fs.existsSync(old_image && old_image !== "/images/products/default.svg")) {
         fs.unlinkSync(old_image)
       }
     }
@@ -290,14 +298,17 @@ exports.delete = async (data) => {
   try {
     if (data.userAccessLevel < 2) return { error: 'Unauthorized' }
     let product = await Product.findByIdAndDelete(data.params.id)
+    //let product = await Product.findById(data.params.id)
     for (let i = 0; i < product.images.length; i++) {
       const count = i + 1
-      fs.unlinkSync('../' + product.images[i])
+      if (product.images[i] !== "/images/products/default.svg") {
+        fs.unlinkSync('./static' + product.images[i])
+      }
     }
     product.price /= 100
     product.tag = await Tag.findById(product.tag)
     return product
   } catch (err) {
-    return { error: 'Delete failed' }
+    return { error: 'Delete failed. ' + err}
   }
 }
