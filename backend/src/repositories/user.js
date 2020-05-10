@@ -106,7 +106,9 @@ exports.register = async (data) => {
       user.image = '/images/users/' + filename
     }
     else {
-      user.image = '/images/users/default.svg'
+      const image = "default"
+      const type = ".svg"
+      user.image = '/images/users/' + image + type
     }
     
     user = await user.save()
@@ -119,7 +121,7 @@ exports.register = async (data) => {
       token: generateToken({ id: user.id, access_level: user.access_level }),
     }
   } catch (err) {
-    return { error: 'Registration failed' }
+    return { error: 'Registration failed. ' + err }
   }
 }
 
@@ -162,10 +164,8 @@ exports.edit = async (data) => {
 
     let user = await User.findById(data.params.id)
 
-    //IMAGES
     if (data.body.image) {
       const image = data.body.image.split(',')[1]
-      
       let type = ""
       if(image.charAt(0)=='/'){
         type = ".jpeg";
@@ -173,7 +173,6 @@ exports.edit = async (data) => {
         type =".png";
       }
       const filename = user.id + type
-
       fs.writeFile('./static/images/users/' + filename, image, 'base64', (err) => {
         if (err) {
           return {message: "Save Image Failed", error: err}
@@ -221,15 +220,17 @@ exports.editActive = async (data) => {
 exports.delete = async (data) => {
   try {
     if (data.userAccessLevel < 3) return { error: 'Unauthorized' }
-    const user = await User.findByIdAndDelete(data.params.id)
-    const old_image = './static' + user.image
-    if (old_image !== '/images/users/default.svg') { 
+    let user = await User.findByIdAndDelete(data.params.id)
+    if (user.image !== "/images/users/default.svg") {
+      old_image = './static' + user.image
       try {
         fs.unlinkSync(old_image)
       } catch (err) {
         console.log("No image with this path to delete: " + old_image)
       }
     }
+    user.password = undefined
+    user.cpf = undefined
     return user
   } catch (err) {
     return { error: 'Delete failed' }
