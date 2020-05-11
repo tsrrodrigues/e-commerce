@@ -42,7 +42,7 @@ export default function HeaderTop() {
     return (
         <div className="row">
                             
-            <header className="shadow">
+            <header>
                 <div className="col-md-5">
                     <nav className="navbar-default pull-left">
                         <div className="navbar-header">

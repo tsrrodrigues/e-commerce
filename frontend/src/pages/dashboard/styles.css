@@ -65,10 +65,6 @@ h5 {
     vertical-align: top;
 }
 
-.shadow {
-    box-shadow: 0 .15rem 1.75rem 0 rgba(0,0,0,.10);
-}
-
 .alert {
     border-radius: 0;
     margin: 0;
@@ -84,6 +80,17 @@ h5 {
     background-repeat: no-repeat;
     background-size: cover;
     -webkit-background-size: cover;
+}
+
+.close {
+    background-color: transparent;
+    color: #fff;
+    opacity: 1;
+    text-shadow: none;
+}
+.close:focus, .close:hover {
+    background-color: transparent;
+    opacity: 1;
 }
 
 .file-box {
@@ -113,7 +120,7 @@ h5 {
 }
 .file-container i {
     color: #ef5350;
-    font-size: 6vw;
+    font-size: 8vw;
     text-shadow: 2px 2px 4px rgba(0,0,0,.80);
 }
 
@@ -264,6 +271,7 @@ button:hover, .btn:hover {
 
 header {
     background-color: #fff;
+    box-shadow: 0 .15rem 1.75rem 0 rgba(0,0,0,.10);
     display: inline-block !important;
     line-height: 23px;
     padding: 15px;
@@ -404,7 +412,8 @@ header {
 }
 .card {
     background-color: #fff;
-    border: 1px solid #d4d9e3;
+    box-shadow: 0 10px 20px rgba(0,0,0,.10);
+    border-radius: 5px;
     display: inline-block;
     margin-bottom: 30px;
     padding: 15px;
@@ -499,50 +508,32 @@ header {
 
 .modal-content {
     border: 0;
+    border-radius: 16px;
 }
-.modal-header.login-header {
+.modal-header {
     background-color: #e53935;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
+    border: 0;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    padding: 20px;
 }
-.modal-header.login-header h4 {
+.modal-header h4 {
+    font-weight: 600;
     color: #fff;
+    text-align: center;
 }
 .modal-header .close {
     margin-top: 2px;
 }
-.close {
-    background-color: transparent;
-    color: #fff;
-    opacity: 1;
-    text-shadow: none;
-}
-.close:focus, .close:hover {
-    background-color: transparent;
-    opacity: 1;
-}
-.modal-body input {
-    border: 1px solid #d4d9e3;
-    font-size: 14px;
-    font-weight: 300;
-    margin: 5px 0;
-    padding: 14px 10px;
-    width: 100%;
-    color: #333;
+.modal-body {
+    padding: 20px;
 }
 .modal-body textarea {
-    border: 1px solid #d4d9e3;
-    font-size: 14px;
-    font-weight: 300;
-    height: 200px;
-    margin-top: 5px;
-    padding: 9px 10px;
-    width: 100%;
-    color: #333;
+    height: 80px;
 }
 .modal-footer {
     border: 0 none;
-    padding: 10px 15px 26px;
+    padding: 10px 15px 20px;
     text-align: right;
 }
 .btn-black {
