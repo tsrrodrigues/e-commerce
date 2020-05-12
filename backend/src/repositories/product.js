@@ -139,7 +139,7 @@ exports.register = async (data) => {
         type =".png";
       }
       const id = Math.floor((Math.random() * 10000))
-      const filename = product_id + '_' + id + type
+      const filename = product.id + '_' + id + type
       fs.writeFile('./static/images/products/' + filename, image, 'base64', (err) => {
         if (err) {
           return {message: "Save image failed", error: err}
