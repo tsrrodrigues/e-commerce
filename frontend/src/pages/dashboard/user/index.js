@@ -90,7 +90,7 @@ export default function DashUser () {
 
             setUserEdited(user_edited + 1)
             localStorage.setItem('userDisplayName', `${firstname} ${lastname}`)
-            localStorage.setItem('userImage', user.image)
+            localStorage.setItem('userImage', `${user.image}?${(Math.random() * 10).toFixed(4)}`)
         })
 
     }
