@@ -17,6 +17,35 @@ exports.getAll = async (data) => {
     } else if (data.query.s === "finished") {
       params.status = "Finalizado"
     }
+    
+    // SORT
+    if (data.query.o) {
+      const sort = data.query.o
+      let startDate = new Date()
+      let endDate = new Date()
+      if (sort === 'day') {
+        // Nothing needed
+      } else if (sort === 'month') {
+        let aux = startDate.getMonth() + 1
+        let month = aux < 10? '0'+aux : ''+aux
+        startDate =
+          startDate.getFullYear() + '-' +
+          month + '-' +
+          '01' + 'T' +
+          '00:00:00.000Z'
+      } else if (sort === 'year') {
+        startDate =
+        startDate.getFullYear() + '-' +
+        '01' + '-' +
+        '01' + 'T' +
+        '00:00:00.000Z'
+      }
+      
+      params.createdAt = {
+        $gte: new Date(new Date(startDate).setHours(0, 0, 0)),
+        $lt: new Date(new Date(endDate).setHours(23, 59, 59))
+      }
+    }
 
     // PAGE
     let page = 0
@@ -31,6 +60,7 @@ exports.getAll = async (data) => {
     
     let pages = (await Order.find(params)).length
     pages = pages % 5 == 0? pages/5 : parseInt(pages/5)+1
+
     
     const orders =
       await Order
@@ -48,7 +78,7 @@ exports.getAll = async (data) => {
     
     return {pages, orders}
   } catch (err) {
-    return { error: 'List Orders failed' }
+    return { error: 'List Orders failed. ' + err }
   }
 }
 
@@ -63,7 +93,7 @@ exports.getOne = async (data) => {
     order.cart.total /= 100
     return order
   } catch (err) {
-    return { error: 'List Order failed' }
+    return { error: 'List Order failed. ' + err }
   }
 }
 
@@ -86,7 +116,7 @@ exports.create = async (data) => {
     
     return order
   } catch (err) {
-    return { error: 'Create Order failed' }
+    return { error: 'Create Order failed. ' + err }
   }
 }
 
@@ -99,7 +129,7 @@ exports.editStatus = async (data) => {
     }
     return {error: 'No status message found'}
   } catch (err) {
-    return { error: 'Edit Status Order failed' }
+    return { error: 'Edit Status Order failed. ' + err }
   }
 }
 
@@ -108,6 +138,6 @@ exports.delete = async (data) => {
     const order = await Order.findByIdAndDelete(data.params.id)
     return order
   } catch (err) {
-    return { error: 'Delete Order failed' }
+    return { error: 'Delete Order failed. ' + err }
   }
 }

@@ -17,7 +17,7 @@ exports.getAll = async (data) => {
   try {
     if (data.userAccessLevel < 2) return { error: 'Unauthorized' }
 
-    // TAG
+    // ACTIVE
     let params = {}
     if (data.query.active) {
       params = { active: true }
@@ -46,7 +46,7 @@ exports.getAll = async (data) => {
 
     return {pages, users}
   } catch (err) {
-    return { error: 'List All Users failed' }
+    return { error: 'List All Users failed. ' + err }
   }
 }
 
@@ -59,7 +59,7 @@ exports.getOne = async (data) => {
     )
     return user
   } catch (err) {
-    return { error: 'List One User failed' }
+    return { error: 'List One User failed. ' + err }
   }
 }
 
@@ -151,7 +151,7 @@ exports.auth = async (data) => {
       token: generateToken({ id: user.id, access_level: user.access_level }),
     }
   } catch (err) {
-    return { error: 'Login failed' }
+    return { error: 'Login failed. ' + err }
   }
 }
 
@@ -213,7 +213,7 @@ exports.editActive = async (data) => {
     await User.findByIdAndUpdate(data.params.id, { active: data.query.active })
     return { message: 'Active atualizado com sucesso' }
   } catch (err) {
-    return { error: 'Edit failed' }
+    return { error: 'Edit failed. ' + err }
   }
 }
 
@@ -233,6 +233,6 @@ exports.delete = async (data) => {
     user.cpf = undefined
     return user
   } catch (err) {
-    return { error: 'Delete failed' }
+    return { error: 'Delete failed. ' + err }
   }
 }
