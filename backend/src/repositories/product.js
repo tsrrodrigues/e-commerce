@@ -142,7 +142,7 @@ exports.register = async (data) => {
       const filename = product.id + '_' + id + type
       fs.writeFile('./static/images/products/' + filename, image, 'base64', (err) => {
         if (err) {
-          return {message: "Save image failed", error: err}
+          return {error: "Save image failed. " + err}
         }
       })
       product.images[i] = '/images/products/' + filename
@@ -199,7 +199,7 @@ exports.edit = async (data) => {
 
         fs.renameSync(old_path, './static' + new_path, (err) => {
           if (err) {
-            return {message: "Rename image failed", error: err}
+            return {error: "Rename image failed. " + err}
           }
         })
 
@@ -224,7 +224,7 @@ exports.edit = async (data) => {
 
         fs.writeFile('./static/images/products/' + filename, image, 'base64', (err) => {
           if (err) {
-            return {message: "Save image failed", error: err}
+            return {error: "Save image failed. " + err}
           }
         })
 
