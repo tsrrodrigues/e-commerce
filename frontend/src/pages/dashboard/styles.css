@@ -515,7 +515,7 @@ header {
     border: 0;
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
-    padding: 20px;
+    padding: 15px;
 }
 .modal-header h4 {
     font-weight: 600;
@@ -526,7 +526,7 @@ header {
     margin-top: 2px;
 }
 .modal-body {
-    padding: 20px;
+    padding: 15px;
 }
 .modal-body textarea {
     height: 80px;
