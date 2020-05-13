@@ -277,7 +277,6 @@ exports.delete = async (data) => {
   try {
     if (data.userAccessLevel < 2) return { error: 'Unauthorized' }
     let product = await Product.findByIdAndDelete(data.params.id)
-    //let product = await Product.findById(data.params.id)
     for (let i = 0; i < product.images.length; i++) {
       const old_image = './static' + product.images[i]
       

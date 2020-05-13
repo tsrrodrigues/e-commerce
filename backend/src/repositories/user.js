@@ -17,7 +17,7 @@ exports.getAll = async (data) => {
   try {
     if (data.userAccessLevel < 2) return { error: 'Unauthorized' }
 
-    // TAG
+    // ACTIVE
     let params = {}
     if (data.query.active) {
       params = { active: true }
