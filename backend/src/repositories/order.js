@@ -18,6 +18,39 @@ exports.getAll = async (data) => {
       params.status = "Finalizado"
     }
 
+    // let startDate = new Date()
+    // let day = startDate.getDate()
+    // return {day}
+    
+    // SORT
+    if (data.query.o) {
+      const sort = data.query.o
+      let startDate = new Date()
+      let endDate = new Date()
+      if (sort === 'day') {
+        // Nothing needed
+      } else if (sort === 'month') {
+        let aux = startDate.getMonth() + 1
+        let month = aux < 10? '0'+aux : ''+aux
+        startDate =
+          startDate.getFullYear() + '-' +
+          month + '-' +
+          '01' + 'T' +
+          '00:00:00.000Z'
+      } else if (sort === 'year') {
+        startDate =
+        startDate.getFullYear() + '-' +
+        '01' + '-' +
+        '01' + 'T' +
+        '00:00:00.000Z'
+      }
+      
+      params.createdAt = {
+        $gte: new Date(new Date(startDate).setHours(0, 0, 0)),
+        $lt: new Date(new Date(endDate).setHours(23, 59, 59))
+      }
+    }
+
     // PAGE
     let page = 0
     let limit = Number.MAX_SAFE_INTEGER
@@ -31,6 +64,7 @@ exports.getAll = async (data) => {
     
     let pages = (await Order.find(params)).length
     pages = pages % 5 == 0? pages/5 : parseInt(pages/5)+1
+
     
     const orders =
       await Order
@@ -48,7 +82,7 @@ exports.getAll = async (data) => {
     
     return {pages, orders}
   } catch (err) {
-    return { error: 'List Orders failed' }
+    return { error: 'List Orders failed. ' + err }
   }
 }
 
