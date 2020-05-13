@@ -17,10 +17,6 @@ exports.getAll = async (data) => {
     } else if (data.query.s === "finished") {
       params.status = "Finalizado"
     }
-
-    // let startDate = new Date()
-    // let day = startDate.getDate()
-    // return {day}
     
     // SORT
     if (data.query.o) {
@@ -97,7 +93,7 @@ exports.getOne = async (data) => {
     order.cart.total /= 100
     return order
   } catch (err) {
-    return { error: 'List Order failed' }
+    return { error: 'List Order failed. ' + err }
   }
 }
 
@@ -120,7 +116,7 @@ exports.create = async (data) => {
     
     return order
   } catch (err) {
-    return { error: 'Create Order failed' }
+    return { error: 'Create Order failed. ' + err }
   }
 }
 
@@ -133,7 +129,7 @@ exports.editStatus = async (data) => {
     }
     return {error: 'No status message found'}
   } catch (err) {
-    return { error: 'Edit Status Order failed' }
+    return { error: 'Edit Status Order failed. ' + err }
   }
 }
 
@@ -142,6 +138,6 @@ exports.delete = async (data) => {
     const order = await Order.findByIdAndDelete(data.params.id)
     return order
   } catch (err) {
-    return { error: 'Delete Order failed' }
+    return { error: 'Delete Order failed. ' + err }
   }
 }

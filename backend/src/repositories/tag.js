@@ -27,7 +27,7 @@ exports.getAll = async (data) => {
 
     return {pages, tags}
   } catch (err) {
-    return { error: 'List Tags failed' }
+    return { error: 'List Tags failed. ' + err }
   }
 }
 
@@ -37,7 +37,7 @@ exports.getOne = async (data) => {
     const tag = await Tag.findById(data.params.id)
     return tag
   } catch (err) {
-    return { error: 'List Tag failed' }
+    return { error: 'List Tag failed. ' + err }
   }
 }
 
@@ -49,7 +49,7 @@ exports.create = async (data) => {
     tag = await tag.save()
     return tag
   } catch (err) {
-    return { error: 'Create new Tag failed' }
+    return { error: 'Create new Tag failed. ' + err }
   }
 }
 
@@ -61,7 +61,7 @@ exports.edit = async (data) => {
     tag = await tag.save()
     return tag
   } catch (err) {
-    return { error: 'Edit Tag failed' }
+    return { error: 'Edit Tag failed. ' + err }
   }
 }
 
@@ -71,6 +71,6 @@ exports.delete = async (data) => {
     const tag = await Tag.findByIdAndDelete(data.params.id)
     return tag
   } catch (err) {
-    return { error: 'Delete Tag failed' }
+    return { error: 'Delete Tag failed. ' + err }
   }
 }

@@ -15,7 +15,7 @@ exports.getAll = async (data) => {
     })
     return carts
   } catch (err) {
-    return { error: 'List Carts failed' }
+    return { error: 'List Carts failed. ' + err }
   }
 }
 
@@ -28,7 +28,7 @@ exports.getOne = async (data) => {
     })
     return cart
   } catch (err) {
-    return { error: 'List Cart failed' }
+    return { error: 'List Cart failed. ' + err }
   }
 }
 
@@ -39,7 +39,7 @@ exports.create = async () => {
     cart = await cart.save()
     return cart
   } catch (err) {
-    return { error: 'Create new Cart failed', err }
+    return { error: 'Create new Cart failed. ' + err }
   }
 }
 
@@ -82,7 +82,7 @@ exports.edit = async (data) => {
     cart.total /= 100
     return cart
   } catch (err) {
-    return { error: 'Edit Cart failed' }
+    return { error: 'Edit Cart failed. ' + err }
   }
 }
 
@@ -91,6 +91,6 @@ exports.delete = async (data) => {
     const cart = await Cart.findByIdAndDelete(data.params.id)
     return cart
   } catch (err) {
-    return { error: 'Delete Cart failed' }
+    return { error: 'Delete Cart failed. ' + err }
   }
 }

@@ -48,7 +48,7 @@ exports.getAvailables = async (data) => {
 
     return {pages, products}
   } catch (err) {
-    return { error: 'List Availables Products failed images' }
+    return { error: 'List Availables Products failed images. ' + err }
   }
 }
 
@@ -95,7 +95,7 @@ exports.getAll = async (data) => {
 
     return {pages, products}
   } catch (err) {
-    return { error: 'List All Products failed' }
+    return { error: 'List All Products failed. ' + err }
   }
 }
 
@@ -109,7 +109,7 @@ exports.getOne = async (data) => {
     product.tag = await Tag.findById(product.tag)
     return product
   } catch (err) {
-    return { error: 'List One Products failed' }
+    return { error: 'List One Products failed. ' + err }
   }
 }
 
@@ -163,7 +163,7 @@ exports.register = async (data) => {
 
     return product
   } catch (err) {
-    return { error: 'Registration failed ', status: err}
+    return { error: 'Registration failed. ' + err}
   }
 }
 
@@ -269,7 +269,7 @@ exports.editQuantity = async (data) => {
     await Product.findByIdAndUpdate(id, { quantity })
     return { message: 'Quantidade atualizada com sucesso' }
   } catch (err) {
-    return { error: 'Edit failed' }
+    return { error: 'Edit failed. ' + err }
   }
 }
 
