@@ -22,7 +22,7 @@ exports.getOne = async (req, res, next) => {
 exports.register = async (req, res, next) => {
   const { errors } = validationResult(req)
   if (errors.length > 0) {
-    return res.status(400).send({ message: errors })
+    return res.status(400).send({ error: errors })
   }
 
   const data = await repository.register(req)
@@ -43,7 +43,7 @@ exports.auth = async (req, res, next) => {
 exports.edit = async (req, res, next) => {
   const { errors } = validationResult(req)
   if (errors.length > 0) {
-    return res.status(400).send({ message: errors })
+    return res.status(400).send({ error: errors })
   }
 
   const data = await repository.edit(req)

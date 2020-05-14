@@ -131,9 +131,9 @@ exports.auth = async (data) => {
 
     const user = await User.findOne({ email }).select('+password')
 
-    if (!user) return { error: 'Usuario não encontrado' }
+    if (!user) return { error: 'Usuario não encontrado.' }
 
-    if (!(await bcrypt.compare(password, user.password)))
+    if (!(await bcrypt.compare(password, user.password)) || !data.body.password)
       return { error: 'Senha Inválida.' }
 
     user.password = undefined
