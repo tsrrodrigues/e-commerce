@@ -86,7 +86,7 @@ exports.register = async (data) => {
     user.adress.bairro = data.body.adress.bairro
     user.adress.localidade = data.body.adress.localidade
     user.adress.uf = data.body.adress.uf
-    user.access_level = data.body.access_level
+    user.access_level = data.body.access_level? data.body.access_level : 1
 
     if (data.body.image) {
       const image = data.body.images[i].split(',')[1]
@@ -100,7 +100,7 @@ exports.register = async (data) => {
       const filename = user.id + type
       fs.writeFile('./static/images/products/' + filename, image, 'base64', (err) => {
         if (err) {
-          return {message: "Save image failed", error: err}
+          return {error: "Save image failed. " + err}
         }
       })
       user.image = '/images/users/' + filename
@@ -131,10 +131,10 @@ exports.auth = async (data) => {
 
     const user = await User.findOne({ email }).select('+password')
 
-    if (!user) return { error: 'Usuario não encontrado' }
+    if (!user) return { error: 'Usuario não encontrado.' }
 
-    if (!(await bcrypt.compare(password, user.password)))
-      return { error: 'Senha Inválida' }
+    if (!(await bcrypt.compare(password, user.password)) || !data.body.password)
+      return { error: 'Senha Inválida.' }
 
     user.password = undefined
 
@@ -175,7 +175,7 @@ exports.edit = async (data) => {
       const filename = user.id + type
       fs.writeFile('./static/images/users/' + filename, image, 'base64', (err) => {
         if (err) {
-          return {message: "Save Image Failed", error: err}
+          return {error: "Save Image Failed. " + err}
         }
       })
       params.image = '/images/users/' + filename
