@@ -47,6 +47,11 @@ exports.getAll = async (data) => {
       }
     }
 
+    // USER
+    if (data.query.u) {
+      params.user = data.userId
+    }
+
     // PAGE
     let page = 0
     let limit = Number.MAX_SAFE_INTEGER
