@@ -14,12 +14,10 @@ import DashProductEdit from './pages/dashboard/produtos/edit';
 import DashCategories from './pages/dashboard/categorias';
 import DashCategoryEdit from './pages/dashboard/categorias/edit'
 
-import DashClients from './pages/dashboard/clientes';
-import DashClientDetail from './pages/dashboard/clientes/details';
+import DashUsers from './pages/dashboard/usuarios';
+import DashUserEdit from './pages/dashboard/usuarios/edit';
 
 import DashConfig from './pages/dashboard/ajustes';
-
-import DashUser from './pages/dashboard/user';
 
 export default function Routes() {
     return (
@@ -38,12 +36,12 @@ export default function Routes() {
                 <Route path="/categorias" exact component={DashCategories} />
                 <Route path="/categorias/:id" component={DashCategoryEdit} />
 
-                <Route path="/clientes" exact component={DashClients} />
-                <Route path="/clientes/:id" component={DashClientDetail} />
+                <Route path="/usuarios" exact component={DashUsers} />
+                <Route path="/usuarios/:id" component={DashUserEdit} />
+                <Route path="/perfil" component={DashUserEdit} />
 
                 <Route path="/ajustes" component={DashConfig} />
                 
-                <Route path="/user/:id" component={DashUser} />
             </Switch>
         </BrowserRouter>
     );

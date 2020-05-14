@@ -28,6 +28,7 @@ export default function HeaderTop() {
             headers: {
                 Authorization: token,
             }
+            
         }).then(response => {
             setUser(response.data)
 
@@ -56,11 +57,13 @@ export default function HeaderTop() {
                     </nav>
                     <div className="search hidden-xs hidden-sm">
                         <form className="form-inline">
-                            <div className="form-group mb-2">
-                            <label className="sr-only">Pesquisa</label>
-                            <input type="text" className="form-control" name="search" placeholder="Pesquisa"/>
+                            <div className="form-group">
+                                <label className="sr-only">Pesquisa</label>
+                                <input type="text" className="form-control" name="search" placeholder="Pesquisa"/>
                             </div>
-                            <button type="submit" className="btn btn-danger mb-2"><i className="fa fa-search" aria-hidden="true"></i></button>
+                            <button type="submit" className="btn btn-danger">
+                                <i className="fa fa-search" aria-hidden="false"></i>
+                            </button>
                         </form>
                     </div>
                 </div>
@@ -69,19 +72,19 @@ export default function HeaderTop() {
 
                         <ul className="list-inline pull-right">
                             <li className="dropdown">
-                                <Link to="#" className="btn btn-danger dropdown-toggle" data-toggle="dropdown">Novo</Link>
+                                <button className="btn btn-danger dropdown-toggle" data-toggle="dropdown">Novo</button>
                                 <ul className="dropdown-menu drop-link">
                                     <li>
                                         <div className="navbar-content">
-                                            <Link to="#add_product" data-toggle="modal" data-target="#add_product">Adicionar Produto</Link>
-                                            <Link to="#add_mens" data-toggle="modal" data-target="#add_mens">Adicionar Mensagem</Link>
+                                            <Link to="#add_product" data-toggle="modal" data-target="#add_product">Novo Produto</Link>
+                                            <Link to="#add_mens" data-toggle="modal" data-target="#add_mens">Nova Mensagem</Link>
                                         </div>
                                     </li>
                                 </ul>
                             </li>
                             <li>
                                 <Link to="#" className="icon-info">
-                                    <i className="fa fa-bell" aria-hidden="true"></i>
+                                    <i className="fa fa-bell" aria-hidden="false"></i>
                                     <span className="label label-primary">3</span>
                                 </Link>
                             </li>
@@ -100,10 +103,9 @@ export default function HeaderTop() {
                                             <p className="text-muted small">
                                                 <Link to="#" onClick={handleLogout}>Sair</Link>
                                             </p>
-                                            <div className="divider">
-                                            </div>
+                                            <div className="divider"></div>
 
-                                            <Link to={`/user/${user._id}`} className="btn btn-sm btn-danger btn-profile">Ver Perfil</Link>
+                                            <Link to={`/perfil`} className="btn btn-sm btn-danger btn-profile">Ver Perfil</Link>
                                         </div>
                                     </li>
                                 </ul>

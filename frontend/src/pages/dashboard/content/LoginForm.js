@@ -4,8 +4,8 @@ import api from '../../../services/api';
 
 export default function LoginForm () {
 
-    const [email, SetEmail] = useState('')
-    const [password, SetPassword] = useState('')
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
 
     const history = useHistory()
 
@@ -21,27 +21,35 @@ export default function LoginForm () {
             errorHandler: true,
             
         }).then(response => {
-            const firstname = response.data.user.name.first
-            const lastfull = response.data.user.name.last.split(' ')
-            const lastname = lastfull[lastfull.length - 1]
+            if (response.data.user.access_level === 1) {
+                alert("Clientes não podem acessar o painel")
+            }
+            else if (response.data.user) {
+                const firstname = response.data.user.name.first
+                const lastfull = response.data.user.name.last.split(' ')
+                const lastname = lastfull[lastfull.length - 1]
 
-            localStorage.setItem('userDisplayName', `${firstname} ${lastname}`)
-            localStorage.setItem('userImage', response.data.user.image)
-            localStorage.setItem('userID', response.data.user._id)
-            localStorage.setItem('userToken', `Bearer ${response.data.token}`)
+                localStorage.setItem('userDisplayName', `${firstname} ${lastname}`)
+                localStorage.setItem('userImage', response.data.user.image)
+                localStorage.setItem('userID', response.data.user._id)
+                localStorage.setItem('userToken', `Bearer ${response.data.token}`)
+                localStorage.setItem('userLevel', response.data.user.access_level)
 
-            history.push('/');
+                history.push('/');
+            }
         })
         
     }
 
     return (
         <form onSubmit={handleLogin}>
+            <div id="info-div"></div>
+
             <div className="form-group">
                 <label>Email</label>
                 <input 
                     value={email} 
-                    onChange={e => SetEmail(e.target.value)} 
+                    onChange={e => setEmail(e.target.value)} 
                     name="email" 
                     className="form-control" 
                     type="text" 
@@ -51,7 +59,7 @@ export default function LoginForm () {
                 <label>Senha</label>
                 <input 
                     value={password} 
-                    onChange={e => SetPassword(e.target.value)} 
+                    onChange={e => setPassword(e.target.value)} 
                     name="senha" 
                     className="form-control" 
                     type="password" 

@@ -10,19 +10,25 @@ import HeaderTop from '../content/HeaderTop';
 import ModalAddProduto from '../content/ModalAddProduto';
 import ModalAddAviso from '../content/ModalAddAviso';
 
-export default function DashUser () {
+export default function DashUserEdit (props) {
 
     const user_name = localStorage.getItem('userDisplayName')
-    const user_image = localStorage.getItem('userImage')
     const user_id = localStorage.getItem('userID')
     const token = localStorage.getItem('userToken')
+    const user_access = localStorage.getItem('userLevel')
 
     const [user, setUser] = useState({ name: {}, adress: {} })
+    const currentID = props.match.params.id ? props.match.params.id : user_id
+    
     const [user_edited, setUserEdited] = useState(0)
     const apiURL = api.defaults.baseURL
 
+    const UFs = ["AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", 
+                 "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", 
+                 "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO"]
+
     useEffect(() => {
-        api.get(`user/${user_id}`, {
+        api.get(`user/${currentID}`, {
             headers: {
                 Authorization: token,
             },
@@ -32,14 +38,24 @@ export default function DashUser () {
             setUser(response.data)
         })
         
-    }, [user_id, token, user_edited]);
+    }, [currentID, token, user_edited]);
+
+    const isUser = () => {
+        return user_id === user._id
+    }
+
+    const hasPermission = () => {
+        return user_access === "3"
+    }
 
     const [image, setImage] = useState('')
+    const [access_level, setAccess] = useState('')
+    const [password, setPassword] = useState('')
+
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
     const [email, setEmail] = useState('')
     const [cpf, setCpf] = useState('')
-    const [password, setPassword] = useState('')
     const [phone, setPhone] = useState('')
 
     const [cep, setCep] = useState('')
@@ -73,10 +89,11 @@ export default function DashUser () {
                 uf: uf? uf : user.adress.uf,
             },
 
+            access_level: access_level ? access_level : user.access_level, 
             password: password ? password : null,
         };
 
-        await api.put(`user/${user_id}`, data, {
+        await api.put(`user/${currentID}`, data, {
             headers: {
                 Authorization: token,
             },
@@ -84,13 +101,16 @@ export default function DashUser () {
             errorHandler: true,
 
         }).then(response => {
-            const firstname = data.name.first
-            const lastfull = data.name.last.split(' ')
-            const lastname = lastfull[lastfull.length - 1]
-
             setUserEdited(user_edited + 1)
-            localStorage.setItem('userDisplayName', `${firstname} ${lastname}`)
-            localStorage.setItem('userImage', `${user.image}?${(Math.random() * 10).toFixed(4)}`)
+
+            if (isUser()) {
+                const firstname = data.name.first
+                const lastfull = data.name.last.split(' ')
+                const lastname = lastfull[lastfull.length - 1]
+                
+                localStorage.setItem('userDisplayName', `${firstname} ${lastname}`)
+                localStorage.setItem('userImage', `${user.image}?${(Math.random() * 10).toFixed(4)}`)
+            }
         })
 
     }
@@ -115,17 +135,17 @@ export default function DashUser () {
             reader.readAsDataURL(input.files[0])
         }
         else {
-            avatar.style.backgroundImage = `url(${apiURL + user_image})`;
+            avatar.style.backgroundImage = `url(${apiURL + user.image})`;
         }
     }
 
-    document.title = `Perfil de Usuário: ${user_name}`;
+    document.title = isUser() ? `Perfil: ${user_name}` : `Detalhes do Usuário: ${user.name.first} ${user.name.last}`;
 
     return (
         <section className="dashboard">
             <div className="container-fluid display-table">
                 <div className="row display-table-row">
-                    <SideBar />
+                    <SideBar nav="users"/>
                    
                     <div className="col-md-10 col-sm-11 display-table-cell v-align">
                         <HeaderTop />
@@ -139,26 +159,28 @@ export default function DashUser () {
 
                                     <div className="card">
                                         <div className="card-header">
-                                            <h2>Seu perfil</h2>
+                                            <h2>{isUser() ? "Seu perfil" : `${user.name.first} ${user.name.last}`}</h2>
 
                                         </div>
 
                                         <div className="card-body">
-                                            <form onSubmit={handleUserEdit}>
+                                            <form onSubmit={(isUser() || hasPermission()) ? handleUserEdit : null}>
                                                 <div 
                                                     id="user-avatar" 
                                                     className="user-img background-fit" 
-                                                    style={{backgroundImage: `url(${apiURL + user_image})`}}
+                                                    style={{backgroundImage: `url(${apiURL + user.image})`}}
                                                 />
 
-                                                <div className="form-group">
-                                                    <label>Foto de perfil</label>
-                                                    <input 
-                                                        type="file" 
-                                                        className="form-control-file" 
-                                                        onChange={e => handleImage(e.target)}
-                                                    />
-                                                </div>
+                                                {(isUser() || hasPermission()) &&
+                                                    <div className="form-group">
+                                                        <label>Foto de perfil</label>
+                                                        <input 
+                                                            type="file" 
+                                                            className="form-control-file" 
+                                                            onChange={e => handleImage(e.target)}
+                                                        />
+                                                    </div>
+                                                }
                                                 <div className="form-group">
                                                     <label>Nome</label>
                                                     <input 
@@ -168,6 +190,7 @@ export default function DashUser () {
                                                         className="form-control" 
                                                         name="first-name" 
                                                         required
+                                                        readOnly={!(isUser() || hasPermission())}
                                                     />
                                                 </div>
                                                 <div className="form-group">
@@ -179,6 +202,7 @@ export default function DashUser () {
                                                         className="form-control" 
                                                         name="last-name" 
                                                         required
+                                                        readOnly={!(isUser() || hasPermission())}
                                                     />
                                                 </div>
                                                 <div className="form-group">
@@ -190,6 +214,7 @@ export default function DashUser () {
                                                         className="form-control" 
                                                         name="email" 
                                                         required
+                                                        readOnly={!(isUser() || hasPermission())}
                                                     />
                                                 </div>
                                                 <div className="form-group">
@@ -201,19 +226,38 @@ export default function DashUser () {
                                                         className="form-control" 
                                                         name="cpf" 
                                                         required
+                                                        readOnly={!(isUser() || hasPermission())}
                                                     />
                                                 </div>
-                                                <div className="form-group">
-                                                    <label>Senha</label>
-                                                    <input 
-                                                        type="password" 
-                                                        defaultValue={password} 
-                                                        onChange={e => setPassword(e.target.value)} 
-                                                        className="form-control"
-                                                    />
-                                                </div>
-
-                                                <button type="submit" className="btn btn-danger">Salvar</button>
+                                                
+                                                {(isUser() || hasPermission()) &&
+                                                    <div className="form-group">
+                                                        <label>Senha</label>
+                                                        <input 
+                                                            type="password" 
+                                                            defaultValue={password} 
+                                                            onChange={e => setPassword(e.target.value)} 
+                                                            className="form-control"
+                                                        />
+                                                    </div>
+                                                }
+                                                {hasPermission() &&
+                                                    <div className="form-group">
+                                                        <label>Nível</label>
+                                                        <select 
+                                                            value={access_level ? access_level : user.access_level}
+                                                            onChange={e => setAccess(e.target.value)} 
+                                                            className="form-control"
+                                                        >
+                                                            <option value="1">1</option>
+                                                            <option value="2">2</option>
+                                                            <option value="3">3</option>
+                                                        </select>
+                                                    </div>
+                                                }
+                                                {(isUser() || hasPermission()) &&
+                                                    <button type="submit" className="btn btn-danger">Salvar</button>
+                                                }
                                             </form>
                                         </div>
                                     </div>
@@ -234,6 +278,7 @@ export default function DashUser () {
                                                         onChange={e => setPhone(e.target.value)} 
                                                         className="form-control" 
                                                         required
+                                                        readOnly={!(isUser() || hasPermission())}
                                                     />
                                                 </div>
                                                 <div className="form-group">
@@ -244,6 +289,7 @@ export default function DashUser () {
                                                         onChange={e => setCep(e.target.value)} 
                                                         className="form-control" 
                                                         required
+                                                        readOnly={!(isUser() || hasPermission())}
                                                     />
                                                 </div>
                                                 <div className="form-group">
@@ -254,6 +300,7 @@ export default function DashUser () {
                                                         onChange={e => setLogradouro(e.target.value)} 
                                                         className="form-control" 
                                                         required
+                                                        readOnly={!(isUser() || hasPermission())}
                                                     />
                                                 </div>
                                                 <div className="form-group">
@@ -264,6 +311,7 @@ export default function DashUser () {
                                                         onChange={e => setComplemento(e.target.value)} 
                                                         className="form-control" 
                                                         required
+                                                        readOnly={!(isUser() || hasPermission())}
                                                     />
                                                 </div>
                                                 <div className="form-group">
@@ -274,6 +322,7 @@ export default function DashUser () {
                                                         onChange={e => setBairro(e.target.value)} 
                                                         className="form-control" 
                                                         required
+                                                        readOnly={!(isUser() || hasPermission())}
                                                     />
                                                 </div>
                                                 <div className="form-group">
@@ -284,6 +333,7 @@ export default function DashUser () {
                                                         onChange={e => setLocalidade(e.target.value)} 
                                                         className="form-control" 
                                                         required
+                                                        readOnly={!(isUser() || hasPermission())}
                                                     />
                                                 </div>
                                                 <div className="form-group">
@@ -293,38 +343,17 @@ export default function DashUser () {
                                                         onChange={e => setUf(e.target.value)} 
                                                         className="form-control" 
                                                         required
+                                                        disabled={!(isUser() || hasPermission())}
                                                     >
-                                                        <option value="AC">AC</option>
-                                                        <option value="AL">AL</option>
-                                                        <option value="AP">AP</option>
-                                                        <option value="AM">AM</option>
-                                                        <option value="BA">BA</option>
-                                                        <option value="CE">CE</option>
-                                                        <option value="DF">DF</option>
-                                                        <option value="ES">ES</option>
-                                                        <option value="GO">GO</option>
-                                                        <option value="MA">MA</option>
-                                                        <option value="MT">MT</option>
-                                                        <option value="MS">MS</option>
-                                                        <option value="MG">MG</option>
-                                                        <option value="PA">PA</option>
-                                                        <option value="PB">PB</option>
-                                                        <option value="PR">PR</option>
-                                                        <option value="PE">PE</option>
-                                                        <option value="PI">PI</option>
-                                                        <option value="RJ">RJ</option>
-                                                        <option value="RN">RN</option>
-                                                        <option value="RS">RS</option>
-                                                        <option value="RO">RO</option>
-                                                        <option value="RR">RR</option>
-                                                        <option value="SC">SC</option>
-                                                        <option value="SP">SP</option>
-                                                        <option value="SE">SE</option>
-                                                        <option value="TO">TO</option>
+                                                        {UFs.map((uf, key) => (
+                                                            <option key={key} value={uf}>{uf}</option>
+                                                        ))}
                                                     </select>
                                                 </div>
 
-                                                <button type="submit" className="btn btn-danger">Salvar</button>
+                                                {(isUser() || hasPermission()) &&
+                                                    <button type="submit" className="btn btn-danger">Salvar</button>
+                                                }
                                             </form>
                                         </div>
                                     </div>
