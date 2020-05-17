@@ -17,6 +17,7 @@ export default function DashOrders() {
 
     const user_name = localStorage.getItem('userDisplayName')
     const token = localStorage.getItem('userToken')
+    const user_access = localStorage.getItem('userLevel')
 
     const [orders, setOrders] = useState([])
     const history = useHistory()
@@ -25,8 +26,10 @@ export default function DashOrders() {
     const [currentPage, setCurrentPage] = useState(query.page)
     const [maxPages, setMaxPages] = useState(1)
 
+    const client = parseInt(user_access) === 1 ? true : null
+
     useEffect(() => {
-        api.get(`/order?p=${currentPage ? currentPage : "1"}`, {
+        api.get(`/order?p=${currentPage ? currentPage : "1"}&u=${client}`, {
             headers: {
                 Authorization: token
             },
@@ -37,7 +40,7 @@ export default function DashOrders() {
             setMaxPages(response.data.pages)
         })
 
-    }, [token, currentPage]);
+    }, [token, currentPage, client]);
 
     useEffect(() => {
         setCurrentPage(query.page)

@@ -8,9 +8,7 @@ export default function SideBar (props) {
     const nav = props.nav
     const user_access = localStorage.getItem('userLevel')
 
-    const hasPermission = () => {
-        return user_access === "3"
-    }
+    const userLevel = parseInt(user_access)
     
     return (
         <div className="col-md-2 col-sm-1 col-xs-1 display-table-cell v-align box" id="navigation">
@@ -35,25 +33,31 @@ export default function SideBar (props) {
                             <span className="hidden-xs">Pedidos</span>
                         </Link>
                     </li>
-                    <li className={nav === "products" ? "active" : null}>
-                        <Link to="/produtos">
-                            <i className="fa fa-cubes" aria-hidden="true"></i>
-                            <span className="hidden-xs">Produtos</span>
-                        </Link>
-                    </li>
-                    <li className={nav === "categories" ? "active" : null}>
-                        <Link to="/categorias">
-                            <i className="fa fa-folder" aria-hidden="true"></i>
-                            <span className="hidden-xs">Categorias</span>
-                        </Link>
-                    </li>
-                    <li className={nav === "users" ? "active" : null}>
-                        <Link to="/usuarios">
-                            <i className="fa fa-users" aria-hidden="true"></i>
-                            <span className="hidden-xs">Usuários</span>
-                        </Link>
-                    </li>
-                    {hasPermission() &&
+                    {userLevel >= 2 &&
+                        <li className={nav === "products" ? "active" : null}>
+                            <Link to="/produtos">
+                                <i className="fa fa-cubes" aria-hidden="true"></i>
+                                <span className="hidden-xs">Produtos</span>
+                            </Link>
+                        </li>
+                    }
+                    {userLevel >= 2 &&
+                        <li className={nav === "tags" ? "active" : null}>
+                            <Link to="/categorias">
+                                <i className="fa fa-folder" aria-hidden="true"></i>
+                                <span className="hidden-xs">Categorias</span>
+                            </Link>
+                        </li>
+                    }
+                    {userLevel >= 2 &&
+                        <li className={nav === "users" ? "active" : null}>
+                            <Link to="/usuarios">
+                                <i className="fa fa-users" aria-hidden="true"></i>
+                                <span className="hidden-xs">Usuários</span>
+                            </Link>
+                        </li>
+                    }
+                    {userLevel === 3 &&
                         <li className={nav === "adjusts" ? "active" : null}>
                             <Link to="/ajustes">
                                 <i className="fa fa-cog" aria-hidden="true"></i>

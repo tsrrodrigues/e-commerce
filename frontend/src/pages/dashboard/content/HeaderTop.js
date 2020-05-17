@@ -34,7 +34,7 @@ export default function HeaderTop() {
 
         }).catch(error => {
             if (error.response) {
-                handleLogout();
+                //handleLogout();
             }
         })
 
@@ -71,17 +71,19 @@ export default function HeaderTop() {
                     <div className="header-top">
 
                         <ul className="list-inline pull-right">
-                            <li className="dropdown">
-                                <button className="btn btn-danger dropdown-toggle" data-toggle="dropdown">Novo</button>
-                                <ul className="dropdown-menu drop-link">
-                                    <li>
-                                        <div className="navbar-content">
-                                            <Link to="#add_product" data-toggle="modal" data-target="#add_product">Novo Produto</Link>
-                                            <Link to="#add_mens" data-toggle="modal" data-target="#add_mens">Nova Mensagem</Link>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </li>
+                            {user.access_level >= 2 &&
+                                <li className="dropdown">
+                                    <button className="btn btn-danger dropdown-toggle" data-toggle="dropdown">Novo</button>
+                                    <ul className="dropdown-menu drop-link">
+                                        <li>
+                                            <div className="navbar-content">
+                                                <Link to="#add_product" data-toggle="modal" data-target="#add_product">Novo Produto</Link>
+                                                <Link to="#add_mens" data-toggle="modal" data-target="#add_mens">Nova Mensagem</Link>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </li>
+                            }
                             <li>
                                 <Link to="#" className="icon-info">
                                     <i className="fa fa-bell" aria-hidden="false"></i>

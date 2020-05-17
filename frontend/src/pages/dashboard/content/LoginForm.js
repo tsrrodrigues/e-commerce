@@ -21,10 +21,7 @@ export default function LoginForm () {
             errorHandler: true,
             
         }).then(response => {
-            if (response.data.user.access_level === 1) {
-                alert("Clientes não podem acessar o painel")
-            }
-            else if (response.data.user) {
+            if (response.data.user) {
                 const firstname = response.data.user.name.first
                 const lastfull = response.data.user.name.last.split(' ')
                 const lastname = lastfull[lastfull.length - 1]

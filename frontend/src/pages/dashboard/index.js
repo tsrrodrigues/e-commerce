@@ -17,12 +17,14 @@ export default function DashBoard () {
 
     const user_name = localStorage.getItem('userDisplayName')
     const token = localStorage.getItem('userToken')
+    const user_access = localStorage.getItem('userLevel')
 
     const [waitDeliverOrders, setWaitDeliverOrders] = useState([])
     const [forDeliverOrders, setForDeliverOrders] = useState([])
     const history = useHistory()
 
     const query = queryString.parse(window.location.search)
+    const client = parseInt(user_access) === 1 ? true : null
 
     const [currentPage, setCurrentPage] = useState(query.waitdeliver)
     const [maxPages, setMaxPages] = useState(1)
@@ -31,7 +33,7 @@ export default function DashBoard () {
     const [maxPages2, setMaxPages2] = useState(1)
 
     useEffect(() => {
-        api.get(`order?s=waitdeliver&p=${currentPage ? currentPage : "1"}`, {
+        api.get(`order?s=waitdeliver&p=${currentPage ? currentPage : "1"}&u=${client}`, {
             headers: {
                 Authorization: token,
             },
@@ -42,7 +44,7 @@ export default function DashBoard () {
             setMaxPages(response.data.pages)
         })
 
-    }, [token, currentPage]);
+    }, [token, currentPage, client]);
 
     useEffect(() => {
         api.get(`order?s=fordeliver&p=${currentPage2 ? currentPage2 : "1"}`, {
