@@ -52,7 +52,7 @@ exports.getAll = async (data) => {
 
 exports.getOne = async (data) => {
   try {
-    if (data.userAccessLevel < 2) return { error: 'Unauthorized' }
+    if (data.userAccessLevel < 2 && data.userId !== data.params.id) return { error: 'Unauthorized' }
     const user = await User.findById(
       data.params.id,
       '_id name email cpf adress active access_level phone image'

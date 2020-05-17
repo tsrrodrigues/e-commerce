@@ -7,7 +7,7 @@ const Cart = mongoose.model('Cart')
 
 exports.getAll = async (data) => {
   try {
-    if (data.userAccessLevel < 2) return { error: 'Unauthorized' }
+    if (data.userAccessLevel < 2 && !data.query.u) return { error: 'Unauthorized' }
     // Actives
     let params = {}
     if (data.query.s === "waitdeliver") {

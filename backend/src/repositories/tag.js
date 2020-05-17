@@ -4,8 +4,6 @@ const Tag = mongoose.model('Tag')
 
 exports.getAll = async (data) => {
   try {
-    if (data.userAccessLevel < 2) return { error: 'Unauthorized' }
-
     // PAGE
     let page = 0
     let limit = Number.MAX_SAFE_INTEGER
@@ -35,6 +33,7 @@ exports.getOne = async (data) => {
   try {
     if (data.userAccessLevel < 2) return { error: 'Unauthorized' }
     const tag = await Tag.findById(data.params.id)
+    if (!tag) return {error: 'Tag not found'}
     return tag
   } catch (err) {
     return { error: 'List Tag failed. ' + err }

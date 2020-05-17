@@ -6,16 +6,14 @@ const tagController = require('../controllers/tag')
 // Importando Middlewares
 const authMiddleware = require('../middlewares/auth')
 
-router.use(authMiddleware)
-
 router.get('/', tagController.getAll)
 
 router.get('/:id', tagController.getOne)
 
-router.post('/', tagController.create)
+router.post('/', authMiddleware, tagController.create)
 
-router.put('/:id', tagController.edit)
+router.put('/:id', authMiddleware, tagController.edit)
 
-router.delete('/:id', tagController.delete)
+router.delete('/:id', authMiddleware, tagController.delete)
 
 module.exports = router
