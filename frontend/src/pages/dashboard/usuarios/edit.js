@@ -23,6 +23,8 @@ export default function DashUserEdit (props) {
     const [user_edited, setUserEdited] = useState(0)
     const apiURL = api.defaults.baseURL
 
+    const isClient = parseInt(user_access) === 1 ? true : false
+
     const UFs = ["AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", 
                  "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", 
                  "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO"]
@@ -367,8 +369,12 @@ export default function DashUserEdit (props) {
 
             </div>
 
-            <ModalAddProduto />
-            <ModalAddAviso />
+            {!isClient &&
+                <div class="modals">
+                    <ModalAddProduto />
+                    <ModalAddAviso />
+                </div>
+            }
             
         </section>
     );

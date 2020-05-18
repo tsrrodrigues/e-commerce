@@ -14,6 +14,7 @@ export default function DashProductEdit (props) {
 
     const user_name = localStorage.getItem('userDisplayName')
     const token = localStorage.getItem('userToken')
+    const user_access = localStorage.getItem('userLevel')
 
     const [product, setProduct] = useState({ images: [], tag: {} })
     const productId = props.match.params.id
@@ -21,6 +22,8 @@ export default function DashProductEdit (props) {
 
     const [categories, setCategories] = useState([])
     const [user_edited, setUserEdited] = useState(0)
+
+    const isClient = parseInt(user_access) === 1 ? true : false
     
     useEffect(() =>{
         api.get(`/product/${productId}`, {
@@ -280,8 +283,12 @@ export default function DashProductEdit (props) {
 
             </div>
 
-            <ModalAddProduto />
-            <ModalAddAviso />
+            {!isClient &&
+                <div class="modals">
+                    <ModalAddProduto />
+                    <ModalAddAviso />
+                </div>
+            }
             
         </section>
     );

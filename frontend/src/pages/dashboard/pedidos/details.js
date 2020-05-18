@@ -17,9 +17,12 @@ export default function DashOrderDetail (props) {
 
     const user_name = localStorage.getItem('userDisplayName')
     const token = localStorage.getItem('userToken')
+    const user_access = localStorage.getItem('userLevel')
 
     const orderId = props.match.params.id
     const [order, setOrder] = useState({})
+
+    const isClient = parseInt(user_access) === 1 ? true : false
 
     useEffect(() => {
         api.get(`/order/${orderId}`, {
@@ -70,11 +73,13 @@ export default function DashOrderDetail (props) {
                                         <div className="card-header">
                                             <h2>Pedido #{orderId}</h2>
                                         </div>
-
-                                        <div className="card-body">
-                                            <button type="button" onClick={() => handleChangeStatus("Para Entrega")} className="btn btn-danger">Para Entrega</button>
-                                            <button type="button" onClick={() => handleChangeStatus("Finalizado")} className="btn btn-danger">Confirmar Entrega</button>
-                                        </div>
+                                        
+                                        {!isClient &&
+                                            <div className="card-body">
+                                                <button type="button" onClick={() => handleChangeStatus("Para Entrega")} className="btn btn-danger">Para Entrega</button>
+                                                <button type="button" onClick={() => handleChangeStatus("Finalizado")} className="btn btn-danger">Confirmar Entrega</button>
+                                            </div> 
+                                        }
                                     </div>
 
                                     <div className="card">
@@ -117,7 +122,7 @@ export default function DashOrderDetail (props) {
                                             </table>
 
                                             <h5><strong>Custo de Entrega: </strong>R$ 10,00</h5>
-                                            <h5><strong>Valor Total: </strong>R${order.cart ? order.cart.total : null}</h5>
+                                            <h5><strong>Valor Total: </strong>R$ {order.cart ? order.cart.total : null}</h5>
                                         </div>
                                     </div>
 
@@ -145,8 +150,12 @@ export default function DashOrderDetail (props) {
 
             </div>
 
-            <ModalAddProduto />
-            <ModalAddAviso />
+            {!isClient &&
+                <div class="modals">
+                    <ModalAddProduto />
+                    <ModalAddAviso />
+                </div>
+            }
             
         </section>
     );

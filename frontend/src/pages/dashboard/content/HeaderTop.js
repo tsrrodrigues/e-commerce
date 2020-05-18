@@ -34,7 +34,7 @@ export default function HeaderTop() {
 
         }).catch(error => {
             if (error.response) {
-                //handleLogout();
+                handleLogout();
             }
         })
 

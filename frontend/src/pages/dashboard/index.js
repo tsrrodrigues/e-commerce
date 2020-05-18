@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import queryString from 'query-string';
 import api from '../../services/api';
 
@@ -21,10 +21,8 @@ export default function DashBoard () {
 
     const [waitDeliverOrders, setWaitDeliverOrders] = useState([])
     const [forDeliverOrders, setForDeliverOrders] = useState([])
-    const history = useHistory()
 
     const query = queryString.parse(window.location.search)
-    const client = parseInt(user_access) === 1 ? true : null
 
     const [currentPage, setCurrentPage] = useState(query.waitdeliver)
     const [maxPages, setMaxPages] = useState(1)
@@ -32,8 +30,10 @@ export default function DashBoard () {
     const [currentPage2, setCurrentPage2] = useState(query.fordeliver)
     const [maxPages2, setMaxPages2] = useState(1)
 
+    const isClient = parseInt(user_access) === 1 ? true : false
+
     useEffect(() => {
-        api.get(`order?s=waitdeliver&p=${currentPage ? currentPage : "1"}&u=${client}`, {
+        api.get(`order?u=${isClient}&s=waitdeliver&p=${currentPage ? currentPage : "1"}`, {
             headers: {
                 Authorization: token,
             },
@@ -44,10 +44,10 @@ export default function DashBoard () {
             setMaxPages(response.data.pages)
         })
 
-    }, [token, currentPage, client]);
+    }, [token, currentPage, isClient]);
 
     useEffect(() => {
-        api.get(`order?s=fordeliver&p=${currentPage2 ? currentPage2 : "1"}`, {
+        api.get(`order?u=${isClient}&s=fordeliver&p=${currentPage2 ? currentPage2 : "1"}`, {
             headers: {
                 Authorization: token
             },
@@ -58,7 +58,7 @@ export default function DashBoard () {
             setMaxPages2(response.data.pages)
         })
 
-    }, [token, currentPage2]);
+    }, [token, currentPage2, isClient]);
 
     useEffect(() => {
         setCurrentPage(query.waitdeliver)
@@ -124,15 +124,10 @@ export default function DashBoard () {
                                                                 order.date.substring(5, 7)
                                                             } </td>
                                                             <td>
-                                                                <button 
-                                                                    onClick={() => {               
-                                                                        history.push(`/pedidos/${order._id}`)
-                                                                    }}
-                                                                    className="btn btn-danger"
-                                                                >
+                                                                <Link to={`/pedidos/${order._id}`} className="btn btn-danger">
                                                                     <i id="icon" className="fa fa-search"></i>
                                                                     <span id="details">Detalhes</span>
-                                                                </button>
+                                                                </Link>
                                                             </td>
                                                         </tr>
                                                     ))}
@@ -185,15 +180,10 @@ export default function DashBoard () {
                                                                 order.date.substring(5, 7)
                                                             } </td>
                                                             <td>
-                                                                <button 
-                                                                    onClick={() => {               
-                                                                        history.push(`/pedidos/${order._id}`)
-                                                                    }}
-                                                                    className="btn btn-danger"
-                                                                >
+                                                                <Link to={`/pedidos/${order._id}`} className="btn btn-danger">
                                                                     <i id="icon" className="fa fa-search"></i>
                                                                     <span id="details">Detalhes</span>
-                                                                </button>
+                                                                </Link>
                                                             </td>
                                                         </tr>
                                                     ))}
@@ -215,8 +205,12 @@ export default function DashBoard () {
 
             </div>
 
-            <ModalAddProduto />
-            <ModalAddAviso />
+            {!isClient &&
+                <div class="modals">
+                    <ModalAddProduto />
+                    <ModalAddAviso />
+                </div>
+            }
             
         </section>
     );

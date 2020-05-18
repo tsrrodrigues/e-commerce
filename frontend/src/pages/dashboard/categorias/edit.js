@@ -17,6 +17,7 @@ export default function DashCategoryEdit (props) {
 
     const user_name = localStorage.getItem('userDisplayName')
     const token = localStorage.getItem('userToken')
+    const user_access = localStorage.getItem('userLevel')
     
     const [category, setCategory] = useState({})
     const cat_id = props.match.params.id
@@ -29,6 +30,8 @@ export default function DashCategoryEdit (props) {
     const query = queryString.parse(window.location.search)
     const [currentPage, setCurrentPage] = useState(query.page)
     const [maxPages, setMaxPages] = useState(1)
+
+    const isClient = parseInt(user_access) === 1 ? true : false
     
     useEffect(() => {
         api.get(`tag/${cat_id}`, {
@@ -175,8 +178,12 @@ export default function DashCategoryEdit (props) {
 
             </div>
 
-            <ModalAddProduto />
-            <ModalAddAviso />
+            {!isClient &&
+                <div class="modals">
+                    <ModalAddProduto />
+                    <ModalAddAviso />
+                </div>
+            }
             
         </section>
     );

@@ -14,8 +14,11 @@ export default function DashConfig () {
 
     const user_name = localStorage.getItem('userDisplayName')
     const token = localStorage.getItem('userToken')
+    const user_access = localStorage.getItem('userLevel')
 
     const [market, setMarket] = useState({ adress: {} })
+
+    const isClient = parseInt(user_access) === 1 ? true : false
 
     const UFs = ["AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", 
                  "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", 
@@ -256,8 +259,12 @@ export default function DashConfig () {
 
             </div>
 
-            <ModalAddProduto />
-            <ModalAddAviso />
+            {!isClient &&
+                <div class="modals">
+                    <ModalAddProduto />
+                    <ModalAddAviso />
+                </div>
+            }
             
         </section>
     );

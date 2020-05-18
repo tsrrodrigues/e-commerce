@@ -17,6 +17,7 @@ export default function DashProducts () {
 
     const user_name = localStorage.getItem('userDisplayName')
     const token = localStorage.getItem('userToken')
+    const user_access = localStorage.getItem('userLevel')
 
     const [products, setProducts] = useState([])
     const apiURL = api.defaults.baseURL
@@ -24,6 +25,8 @@ export default function DashProducts () {
     const query = queryString.parse(window.location.search)
     const [currentPage, setCurrentPage] = useState(query.page)
     const [maxPages, setMaxPages] = useState(1)
+
+    const isClient = parseInt(user_access) === 1 ? true : false
 
     useEffect(() => {
         api.get(`/product/admin?p=${currentPage ? currentPage : "1"}`, {
@@ -86,7 +89,7 @@ export default function DashProducts () {
                                                                 <img src={apiURL + product.images[0]} width="100" alt="produto"/>
                                                             </th>
                                                             <th>{product.name}</th>
-                                                            <td className="hidden-xs">R${product.price}</td>
+                                                            <td className="hidden-xs">R$ {product.price}</td>
                                                             <td>{product.tag.name}</td>
                                                             <td>
                                                                 <Link to={`/produtos/${product._id}`} className="btn btn-danger">
@@ -114,8 +117,12 @@ export default function DashProducts () {
 
             </div>
 
-            <ModalAddProduto />
-            <ModalAddAviso />
+            {!isClient &&
+                <div class="modals">
+                    <ModalAddProduto />
+                    <ModalAddAviso />
+                </div>
+            }
             
         </section>
     );
