@@ -284,7 +284,7 @@ export default function DashProductEdit (props) {
             </div>
 
             {!isClient &&
-                <div class="modals">
+                <div className="modals">
                     <ModalAddProduto />
                     <ModalAddAviso />
                 </div>

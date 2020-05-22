@@ -126,7 +126,7 @@ export default function DashUsers () {
             </div>
 
             {!isClient &&
-                <div class="modals">
+                <div className="modals">
                     <ModalAddProduto />
                     <ModalAddAviso />
                 </div>

@@ -370,7 +370,7 @@ export default function DashUserEdit (props) {
             </div>
 
             {!isClient &&
-                <div class="modals">
+                <div className="modals">
                     <ModalAddProduto />
                     <ModalAddAviso />
                 </div>

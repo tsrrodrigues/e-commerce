@@ -215,7 +215,7 @@ export default function DashCategories() {
             </div>
 
             {!isClient &&
-                <div class="modals">
+                <div className="modals">
                     <ModalAddProduto />
                     <ModalAddAviso />
                 </div>

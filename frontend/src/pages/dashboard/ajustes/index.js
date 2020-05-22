@@ -260,7 +260,7 @@ export default function DashConfig () {
             </div>
 
             {!isClient &&
-                <div class="modals">
+                <div className="modals">
                     <ModalAddProduto />
                     <ModalAddAviso />
                 </div>

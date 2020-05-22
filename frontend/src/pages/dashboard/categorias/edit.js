@@ -179,7 +179,7 @@ export default function DashCategoryEdit (props) {
             </div>
 
             {!isClient &&
-                <div class="modals">
+                <div className="modals">
                     <ModalAddProduto />
                     <ModalAddAviso />
                 </div>
